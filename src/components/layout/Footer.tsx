@@ -21,7 +21,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4">
               <img
-                src="/images/branding/logo.png"
+                src="/images/branding/logo2bg.png"
                 alt="Andre Almeida - Shopify Expert"
                 className="h-10 w-10 rounded-xl object-contain"
               />
