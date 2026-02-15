@@ -1,0 +1,117 @@
+{
+  "meta":{
+    "title":"Andre Almeida | Desarrollador Shopify Expert",
+    "description":"Experto Shopify con 6+ años construyendo tiendas de alto rendimiento mundialmente."
+  },
+  "nav":{
+    "home":"Inicio",
+    "services":"Servicios",
+    "portfolio":"Portafolio",
+    "about":"Nosotros",
+    "contact":"Contacto",
+    "blog":"Blog",
+    "scheduleCall":"Agendar Llamada"
+  },
+  "hero":{
+    "badge":"Disponible para nuevos proyectos",
+    "h1":"Shopify Expert Developer",
+    "h2":"Headless, Growth &",
+    "h3":"Tiendas de Alta Conversión",
+    "sub":"6+ años construyendo tiendas Shopify, integraciones personalizadas y escalando marcas de e-commerce globalmente.",
+    "cta1":"Iniciar Tu Proyecto",
+    "cta2":"Contacto WhatsApp"
+  },
+  "stats":{
+    "years":"Años de Experiencia",
+    "stores":"Tiendas Entregadas",
+    "countries":"Países Atendidos",
+    "certified":"Shopify Certificado"
+  },
+  "services":{
+    "title":"Lo Que Hacemos",
+    "subtitle":"Soluciones Full-Stack para E-commerce",
+    "viewAll":"Ver Todos los Servicios",
+    "from":"Desde",
+    "timeline":"Plazo",
+    "dev":{"t":"Desarrollo Shopify","d":"Creación completa de tiendas, temas personalizados, soluciones Headless Hydrogen e integraciones avanzadas.","f":["Tienda Personalizada","Headless Hydrogen","Personalización de Tema","Apps Personalizadas"]},
+    "growth":{"t":"Growth & Marketing","d":"Facebook Ads, TikTok Ads, optimización de conversión y automatización de email marketing.","f":["Facebook & TikTok Ads","Optimización de Conversión","Automatización de Email","Estrategia de Funnel"]},
+    "design":{"t":"Diseño & Creativo","d":"Landing pages de alta conversión, rediseño UX/UI, identidad de marca y creativos para ads.","f":["Landing Pages","Rediseño UX/UI","Identidad de Marca","Creativos para Ads"]}
+  },
+  "portfolio":{
+    "title":"Proyectos Destacados",
+    "subtitle":"Diseños impresionantes y resultados comprobados.",
+    "viewAll":"Ver Todos los Proyectos",
+    "viewDetails":"Ver Detalles",
+    "all":"Todos","fashion":"Moda","beauty":"Belleza","electronics":"Electrónicos","supplements":"Suplementos","luxury":"Lujo","petshop":"Pet Shop","jewelry":"Joyería","homeDecor":"Hogar & Deco"
+  },
+  "testimonials":{
+    "title":"Lo Que Dicen Nuestros Clientes",
+    "subtitle":"Feedback real de negocios que ayudamos a crecer."
+  },
+  "about":{
+    "title":"Nosotros",
+    "headline":"Hola, soy Andre Almeida",
+    "role":"Desarrollador Shopify Expert & Especialista en Growth",
+    "bio1":"Mi camino en el e-commerce comenzó hace más de 6 años cuando construí mi primera tienda Shopify y descubrí el potencial transformador del comercio electrónico.",
+    "bio2":"Desde entonces, he entregado más de 100 proyectos en 15+ países, incluyendo Brasil, Estados Unidos, Canadá, Reino Unido y Australia.",
+    "bio3":"Lo que comenzó como un desarrollador solo evolucionó a un equipo especializado en rápida expansión con desarrolladores, diseñadores y especialistas en tráfico.",
+    "bio4":"Nuestra misión es construir sistemas completos de e-commerce que transformen visiones emprendedoras en negocios rentables y escalables.",
+    "philosophy":"Nuestro Enfoque",
+    "transparency":"Transparencia","transparencyD":"Siempre sabrás qué hacemos y por qué",
+    "results":"Enfoque en Resultados","resultsD":"Cada decisión basada en datos",
+    "partnership":"Asociación a Largo Plazo","partnershipD":"Invertimos en tu crecimiento sostenible",
+    "learning":"Aprendizaje Continuo","learningD":"Siempre a la vanguardia",
+    "journey":"Nuestro Camino",
+    "y2019":"Inicio del desarrollo Shopify","y2020":"25 tiendas entregadas","y2021":"Especialización en Headless","y2022":"Expansión a tráfico pago","y2023":"75+ proyectos mundiales","y2024":"Status Shopify Expert","y2025":"100+ tiendas, equipo intl"
+  },
+  "contact":{
+    "title":"Hablemos de Tu Proyecto",
+    "subtitle":"Contáctanos y construyamos algo increíble juntos.",
+    "name":"Nombre Completo","namePh":"Juan García",
+    "email":"Email","emailPh":"juan@ejemplo.com",
+    "phone":"Teléfono / WhatsApp","phonePh":"+34 600 000 000",
+    "company":"Empresa / Marca","companyPh":"Nombre de Tu Marca",
+    "service":"Tipo de Servicio","servicePh":"Selecciona un servicio...",
+    "budget":"Presupuesto Estimado","budgetPh":"Selecciona rango...",
+    "message":"Mensaje","messagePh":"Cuéntanos sobre tu proyecto...",
+    "privacy":"Acepto la Política de Privacidad",
+    "submit":"Enviar Mensaje","sending":"Enviando...",
+    "success":"¡Mensaje enviado! Responderemos en 24h.",
+    "error":"Error. Intenta por WhatsApp.",
+    "orSchedule":"O agenda una llamada",
+    "selectDate":"Selecciona una fecha",
+    "selectTime":"Selecciona una hora",
+    "booked":"Ocupado","available":"Disponible",
+    "scheduleCall":"Agendar Llamada",
+    "scheduleSuccess":"¡Llamada agendada! Enviaremos confirmación por WhatsApp.",
+    "info":"Contacto","responseTime":"Tiempo de Respuesta","responseValue":"En 24 horas",
+    "location":"Ubicación","locationValue":"São Paulo, Brasil","international":"Disponible mundialmente",
+    "faq":"Respuestas Rápidas",
+    "q1":"¿Cuánto tarda un proyecto?","a1":"2-8 semanas según complejidad.",
+    "q2":"¿Trabajan internacionalmente?","a2":"¡Sí! Clientes en 15+ países.",
+    "q3":"¿Ofrecen financiación?","a3":"Sí, condiciones flexibles."
+  },
+  "blog":{
+    "title":"Blog","subtitle":"Insights de Shopify y Tips de E-commerce","readMore":"Leer Artículo","backToBlog":"Volver al Blog","relatedService":"Servicio Relacionado","readTime":"de lectura"
+  },
+  "cta":{
+    "title":"¿Listo para Escalar Tu E-commerce?",
+    "subtitle":"Agenda una consulta gratuita y hablemos de tu proyecto.",
+    "primary":"Agendar Consulta Gratuita","secondary":"WhatsApp Ahora"
+  },
+  "footer":{
+    "description":"Desarrollador Shopify Expert construyendo soluciones escalables mundialmente. 6+ años de experiencia.",
+    "services":"Servicios","company":"Empresa","legal":"Legal",
+    "privacy":"Política de Privacidad","terms":"Términos de Servicio","cookies":"Política de Cookies",
+    "rights":"Todos los derechos reservados.","madeWith":"Hecho con"
+  },
+  "whatsapp":{
+    "msg":"¡Hola Andre! Me gustaría saber más sobre tus servicios Shopify.",
+    "status":"Responde en 1 hora","greeting":"¡Hola! 👋 ¿Cómo puedo ayudarte?","start":"Iniciar Chat"
+  },
+  "cookie":{
+    "title":"Usamos cookies","description":"Este sitio usa cookies para mejorar tu experiencia.","learn":"Saber Más","accept":"Aceptar Todo","reject":"Solo Esenciales"
+  },
+  "budgetOptions":{"u2":"Menos de €2.000","2_5":"€2K - €5K","5_10":"€5K - €10K","10_25":"€10K - €25K","25p":"€25K+","ns":"No estoy seguro"},
+  "serviceOptions":{"sd":"Desarrollo de Tienda Shopify","hh":"Headless Hydrogen","sm":"Migración de Tienda","ca":"Apps Personalizadas","po":"Optimización de Performance","sa":"Auditoría de Tienda","fa":"Facebook Ads","ta":"TikTok Ads","cro":"Optimización de Conversión","em":"Email Marketing","lp":"Landing Pages","ig":"Setup Instagram","ac":"Creativos para Ads","au":"Automatización","ai":"Integración de IA","ot":"Otro"}
+}

@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "title": "Andre Almeida | Desenvolvedor Shopify Expert | São Paulo",
+    "description": "Desenvolvedor Shopify especializado com 6+ anos de experiência. Desenvolvimento Headless, migração, tráfego pago e otimização de lojas. Atendimento em São Paulo e todo Brasil."
+  },
+  "nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "portfolio": "Portfolio",
+    "about": "Sobre",
+    "contact": "Contato",
+    "blog": "Blog",
+    "scheduleCall": "Agendar Call"
+  },
+  "hero": {
+    "badge": "Disponível para novos projetos",
+    "headline1": "Shopify Expert Developer",
+    "headline2": "Headless, Growth &",
+    "headline3": "Lojas de Alta Conversão",
+    "subheadline": "6+ anos construindo lojas Shopify, integrações customizadas e escalando marcas de e-commerce globalmente. Desenvolvimento full-stack + gestão de tráfego pago.",
+    "cta": {
+      "primary": "Iniciar Seu Projeto",
+      "secondary": "Contato WhatsApp"
+    }
+  },
+  "stats": {
+    "years": "Anos de Experiência",
+    "stores": "Lojas Entregues",
+    "countries": "Países Atendidos",
+    "certified": "Shopify Certificado"
+  },
+  "servicesSection": {
+    "title": "O Que Fazemos",
+    "subtitle": "Soluções Full-Stack para E-commerce",
+    "viewAll": "Ver Todos os Serviços"
+  },
+  "serviceCards": {
+    "development": {
+      "title": "Desenvolvimento Shopify",
+      "description": "Criação completa de lojas, temas customizados, soluções Headless Hydrogen e integrações avançadas.",
+      "features": ["Loja Customizada", "Headless Hydrogen", "Personalização de Tema", "Desenvolvimento de Apps"]
+    },
+    "growth": {
+      "title": "Growth & Marketing",
+      "description": "Facebook Ads, TikTok Ads, otimização de conversão e automação de email marketing.",
+      "features": ["Facebook & TikTok Ads", "Otimização de Conversão", "Automação de Email", "Estratégia de Funil"]
+    },
+    "design": {
+      "title": "Design & Criativo",
+      "description": "Landing pages de alta conversão, redesign UX/UI, identidade de marca e criativos para ads.",
+      "features": ["Landing Pages", "Redesign UX/UI", "Identidade de Marca", "Criativos para Ads"]
+    }
+  },
+  "portfolio": {
+    "title": "Projetos em Destaque",
+    "subtitle": "Designs impressionantes, lojas de alta performance e resultados comprovados em diversos nichos.",
+    "viewDetails": "Ver Detalhes",
+    "viewAll": "Ver Todos os Projetos",
+    "filters": {
+      "all": "Todos",
+      "fashion": "Moda",
+      "beauty": "Beleza",
+      "electronics": "Eletrônicos",
+      "supplements": "Suplementos",
+      "luxury": "Luxo",
+      "petshop": "Pet Shop",
+      "jewelry": "Joias",
+      "homeDecor": "Casa & Decor"
+    }
+  },
+  "testimonials": {
+    "title": "O Que Nossos Clientes Dizem",
+    "subtitle": "Feedback real de empresas que ajudamos a crescer."
+  },
+  "about": {
+    "title": "Sobre",
+    "headline": "Olá, eu sou o Andre Almeida",
+    "role": "Desenvolvedor Shopify Expert & Especialista em Growth para E-commerce",
+    "bio1": "Minha jornada no e-commerce começou há mais de 6 anos, quando desenvolvi minha primeira loja Shopify e percebi o potencial transformador do comércio eletrônico para empreendedores ao redor do mundo.",
+    "bio2": "Desde então, já entreguei mais de 100 projetos em 15+ países, incluindo Brasil (especialmente Grande São Paulo), Estados Unidos, Canadá, Reino Unido e Austrália.",
+    "bio3": "O que começou como um desenvolvedor solo apaixonado por e-commerce evoluiu para um time especializado em grande expansão. Hoje, nossa equipe reúne desenvolvedores full-stack, designers criativos, especialistas em tráfego pago e estrategistas de CRO.",
+    "bio4": "Não nos contentamos em apenas criar lojas. Nossa missão é construir sistemas completos de e-commerce que transformam visões empreendedoras em negócios lucrativos e escaláveis.",
+    "teamTitle": "Nosso Time em Expansão",
+    "teamMembers": {
+      "developers": "Desenvolvedores Full-Stack",
+      "designers": "Designers UI/UX",
+      "traffic": "Especialistas em Tráfego Pago",
+      "cro": "Estrategistas de CRO",
+      "ai": "Especialistas em IA"
+    },
+    "philosophy": {
+      "title": "Nossa Abordagem",
+      "transparency": {
+        "title": "Transparência",
+        "description": "Você sempre saberá o que estamos fazendo e por quê"
+      },
+      "results": {
+        "title": "Foco em Resultados",
+        "description": "Cada decisão baseada em dados e melhores práticas"
+      },
+      "partnership": {
+        "title": "Parceria de Longo Prazo",
+        "description": "Investimos no seu crescimento sustentável"
+      },
+      "learning": {
+        "title": "Aprendizado Contínuo",
+        "description": "Sempre à frente das tendências do e-commerce"
+      }
+    },
+    "timeline": {
+      "title": "Nossa Jornada",
+      "2019": "Início do desenvolvimento Shopify",
+      "2020": "25 lojas entregues",
+      "2021": "Especialização em Headless Commerce",
+      "2022": "Expansão para gestão de tráfego pago",
+      "2023": "75+ projetos, múltiplos países",
+      "2024": "Status de Shopify Expert alcançado",
+      "2025": "100+ lojas entregues, time internacional"
+    }
+  },
+  "contact": {
+    "title": "Vamos Discutir Seu Projeto",
+    "subtitle": "Entre em contato e vamos construir algo incrível juntos.",
+    "form": {
+      "name": "Nome Completo",
+      "namePlaceholder": "João Silva",
+      "email": "Email",
+      "emailPlaceholder": "joao@exemplo.com",
+      "phone": "Telefone / WhatsApp",
+      "phonePlaceholder": "+55 (11) 99999-9999",
+      "company": "Empresa / Marca",
+      "companyPlaceholder": "Nome da Sua Marca",
+      "serviceType": "Tipo de Serviço",
+      "serviceTypePlaceholder": "Selecione um serviço...",
+      "niche": "Nicho do Negócio",
+      "nichePlaceholder": "Ex: Moda, Beleza, Eletrônicos...",
+      "budget": "Orçamento Estimado",
+      "budgetPlaceholder": "Selecione a faixa...",
+      "message": "Mensagem / Detalhes do Projeto",
+      "messagePlaceholder": "Conte-nos sobre seu projeto, objetivos e prazo...",
+      "privacy": "Concordo com a Política de Privacidade e Termos de Uso",
+      "submit": "Enviar Mensagem",
+      "sending": "Enviando...",
+      "success": "Mensagem enviada com sucesso! Retornaremos em até 24 horas.",
+      "error": "Algo deu errado. Tente novamente ou entre em contato via WhatsApp."
+    },
+    "budgetOptions": {
+      "under2k": "Menos de R$11.000",
+      "2k5k": "R$11.000 - R$28.000",
+      "5k10k": "R$28.000 - R$56.000",
+      "10k25k": "R$56.000 - R$140.000",
+      "25kPlus": "R$140.000+",
+      "notSure": "Ainda não sei"
+    },
+    "serviceOptions": {
+      "storeDev": "Desenvolvimento de Loja Shopify",
+      "headless": "Desenvolvimento Headless Hydrogen",
+      "migration": "Migração de Loja",
+      "customApps": "Apps Customizados",
+      "performance": "Otimização de Performance",
+      "audit": "Auditoria de Loja",
+      "facebookAds": "Gestão de Facebook Ads",
+      "tiktokAds": "Gestão de TikTok Ads",
+      "cro": "Otimização de Conversão",
+      "email": "Email Marketing",
+      "landingPages": "Landing Pages",
+      "instagram": "Setup de Instagram",
+      "adCreatives": "Criativos para Ads",
+      "automation": "Sistemas de Automação",
+      "ai": "Integração de IA",
+      "other": "Outro"
+    },
+    "info": {
+      "title": "Entre em Contato",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "chatOnWhatsapp": "Conversar no WhatsApp",
+      "responseTime": "Tempo de Resposta",
+      "responseValue": "Geralmente em até 24 horas",
+      "location": "Localização",
+      "locationValue": "São Paulo, Brasil",
+      "international": "Disponível para projetos internacionais",
+      "scheduleTitle": "Agende uma Consulta Gratuita",
+      "scheduleDescription": "Agende uma call de 30 minutos",
+      "scheduleButton": "Agendar Call"
+    },
+    "faq": {
+      "title": "Respostas Rápidas",
+      "q1": "Quanto tempo leva um projeto típico?",
+      "a1": "2-8 semanas dependendo da complexidade.",
+      "q2": "Vocês atendem clientes do mundo todo?",
+      "a2": "Sim! Atendemos clientes em 15+ países.",
+      "q3": "Qual a disponibilidade?",
+      "a3": "Estamos aceitando novos projetos. Início típico: 1-2 semanas.",
+      "q4": "Oferecem parcelamento?",
+      "a4": "Sim, condições de pagamento flexíveis disponíveis."
+    }
+  },
+  "cta": {
+    "title": "Pronto para Escalar Seu E-commerce?",
+    "subtitle": "Vamos construir algo incrível juntos. Agende uma consulta gratuita e vamos discutir seu projeto.",
+    "primary": "Agendar Consulta Gratuita",
+    "secondary": "WhatsApp Agora"
+  },
+  "footer": {
+    "description": "Desenvolvedor Shopify Expert construindo soluções de e-commerce escaláveis mundialmente. 6+ anos de experiência em desenvolvimento, growth e design.",
+    "services": "Serviços",
+    "company": "Empresa",
+    "legal": "Legal",
+    "connect": "Conecte-se",
+    "privacyPolicy": "Política de Privacidade",
+    "termsOfService": "Termos de Uso",
+    "cookiePolicy": "Política de Cookies",
+    "cookieSettings": "Configurações de Cookies",
+    "rights": "Todos os direitos reservados.",
+    "madeWith": "Feito com"
+  },
+  "whatsapp": {
+    "defaultMessage": "Olá Andre! Gostaria de saber mais sobre seus serviços Shopify.",
+    "status": "Geralmente responde em 1 hora",
+    "greeting": "Olá! 👋 Como posso ajudar com seu projeto Shopify?",
+    "startChat": "Iniciar Conversa"
+  },
+  "cookies": {
+    "title": "Usamos cookies",
+    "description": "Este site usa cookies para melhorar sua experiência e analisar o tráfego. Ao clicar em 'Aceitar', você concorda com nosso uso de cookies.",
+    "learnMore": "Saiba Mais",
+    "accept": "Aceitar Todos",
+    "reject": "Apenas Essenciais"
+  },
+  "chatbot": {
+    "title": "Assistente IA do Andre",
+    "placeholder": "Digite sua mensagem...",
+    "greeting": "Olá! Sou o assistente IA do Andre. Como posso ajudar hoje?",
+    "quickActions": {
+      "pricing": "Informações de preço",
+      "schedule": "Agendar uma call",
+      "services": "Ver serviços",
+      "human": "Falar com humano"
+    },
+    "needHelp": "Precisa de Ajuda?"
+  },
+  "notFound": {
+    "title": "Página Não Encontrada",
+    "description": "A página que você procura não existe ou foi movida.",
+    "backHome": "Voltar ao Início"
+  }
+}
