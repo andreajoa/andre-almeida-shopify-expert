@@ -1,15 +1,11 @@
 {
-  "meta": {
-    "title": "Andre Almeida | Shopify Expert Developer | Headless Commerce",
-    "description": "Shopify Expert with 6+ years building high-performance stores. Headless Hydrogen, migrations, Facebook Ads, and conversion optimization. Serving clients globally."
-  },
   "nav": {
     "home": "Home",
     "services": "Services",
     "portfolio": "Portfolio",
     "about": "About",
-    "contact": "Contact",
     "blog": "Blog",
+    "contact": "Contact",
     "scheduleCall": "Schedule Call"
   },
   "hero": {
@@ -29,33 +25,30 @@
     "countries": "Countries Served",
     "certified": "Shopify Certified"
   },
-  "servicesSection": {
-    "title": "What We Do",
-    "subtitle": "Full-Stack Ecommerce Solutions",
-    "viewAll": "View All Services"
-  },
-  "serviceCards": {
-    "development": {
-      "title": "Shopify Development",
-      "description": "Complete store creation, custom themes, Headless Hydrogen solutions, and advanced integrations.",
-      "features": ["Custom Store Setup", "Headless Hydrogen", "Theme Customization", "App Development"]
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Complete Shopify Solutions for Every Stage of Your Business",
+    "viewAll": "View All Services",
+    "from": "From",
+    "timeline": "Timeline",
+    "dev": {
+      "t": "Shopify Development",
+      "d": "Custom store creation, theme customization, and full Shopify 2.0 development."
     },
     "growth": {
-      "title": "Growth & Marketing",
-      "description": "Facebook Ads, TikTok Ads, conversion optimization, and email marketing automation.",
-      "features": ["Facebook & TikTok Ads", "Conversion Optimization", "Email Automation", "Funnel Strategy"]
+      "t": "Growth & Marketing",
+      "d": "Facebook & TikTok Ads, conversion optimization, and email automation."
     },
     "design": {
-      "title": "Design & Creative",
-      "description": "High-converting landing pages, UX/UI redesign, brand identity, and ad creatives.",
-      "features": ["Landing Pages", "UX/UI Redesign", "Brand Identity", "Ad Creatives"]
+      "t": "Design & Creative",
+      "d": "Landing pages, UX/UI redesign, brand identity, and ad creatives."
     }
   },
   "portfolio": {
     "title": "Featured Projects",
     "subtitle": "Stunning designs, high-performance stores, and proven results across multiple niches.",
-    "viewDetails": "View Details",
     "viewAll": "View All Projects",
+    "viewDetails": "View Details",
     "filters": {
       "all": "All",
       "fashion": "Fashion",
@@ -70,148 +63,126 @@
   },
   "testimonials": {
     "title": "What Clients Say",
-    "subtitle": "Real feedback from businesses we've helped grow."
+    "subtitle": "Trusted by entrepreneurs and brands worldwide"
+  },
+  "cta": {
+    "title": "Ready to Scale Your Ecommerce Business?",
+    "subtitle": "Let's discuss your project and find the perfect solution for your needs.",
+    "primary": "Schedule Free Consultation",
+    "secondary": "View Our Services"
   },
   "about": {
-    "title": "About",
     "headline": "Hi, I'm Andre Almeida",
     "role": "Shopify Expert Developer & Ecommerce Growth Specialist",
-    "bio1": "My journey in e-commerce started over 6 years ago when I built my first Shopify store and realized the transformative potential of online commerce for entrepreneurs worldwide.",
-    "bio2": "Since then, I've delivered 100+ projects across 15+ countries, including Brazil (especially Greater São Paulo), the United States, Canada, the United Kingdom, and Australia.",
-    "bio3": "What started as a solo developer passionate about e-commerce has evolved into a specialized team in rapid expansion. Today, our team brings together full-stack developers, creative designers, paid traffic specialists, and CRO strategists.",
-    "bio4": "We don't just create stores. Our mission is to build complete e-commerce systems that transform entrepreneurial visions into profitable and scalable businesses.",
-    "teamTitle": "Our Growing Team",
-    "teamMembers": {
-      "developers": "Full-Stack Developers",
-      "designers": "UI/UX Designers",
-      "traffic": "Paid Traffic Specialists",
-      "cro": "CRO Strategists",
-      "ai": "AI Specialists"
-    },
+    "bio1": "My journey in ecommerce started over 6 years ago when I developed my first Shopify store and realized the transformative potential of electronic commerce for entrepreneurs around the world.",
+    "bio2": "Since then, I've delivered over 100 projects in 15+ countries, including Brazil (especially Greater São Paulo), United States, Canada, United Kingdom, and Australia. Each project brought unique learnings and allowed me to constantly evolve.",
+    "bio3": "What started as a passion for solving technical problems and helping businesses grow online naturally evolved into a specialized team. Today, I lead developers, designers, paid traffic specialists, CRO strategists, and AI experts — all united by one goal: transforming ecommerce visions into profitable, scalable businesses.",
+    "bio4": "We combine cutting-edge technical expertise with proven marketing and growth strategies to deliver results that truly impact our clients' revenue. Technology should serve the business, not the other way around.",
     "philosophy": {
-      "title": "Our Approach",
+      "title": "My Approach",
       "transparency": {
         "title": "Transparency",
-        "description": "You'll always know what we're doing and why"
+        "description": "You'll always know what I'm doing and why. Clear communication at every step."
       },
       "results": {
         "title": "Results-Driven",
-        "description": "Every decision backed by data and best practices"
+        "description": "Every decision backed by data and best practices. ROI is always the focus."
       },
       "partnership": {
         "title": "Long-term Partnership",
-        "description": "We're invested in your sustainable growth"
+        "description": "I'm invested in your sustainable growth, not just a one-time project."
       },
       "learning": {
         "title": "Continuous Learning",
-        "description": "Staying ahead of ecommerce trends"
+        "description": "Staying ahead of ecommerce trends to bring you the latest solutions."
       }
     },
     "timeline": {
-      "title": "Our Journey",
-      "2019": "Started Shopify development",
-      "2020": "Reached 25 stores delivered",
-      "2021": "Specialized in Headless Commerce",
-      "2022": "Expanded to paid advertising management",
-      "2023": "75+ projects, multiple countries",
-      "2024": "Shopify Expert status achieved",
-      "2025": "100+ stores delivered, international team"
+      "title": "Achievement Timeline",
+      "2019": "Started Shopify development — first store built and passion ignited",
+      "2020": "Reached 25 stores delivered — expanded to international clients",
+      "2021": "Specialized in Headless Commerce — pioneered Hydrogen implementations",
+      "2022": "Expanded to paid advertising management — added growth marketing services",
+      "2023": "75+ projects worldwide — consistent results across multiple countries",
+      "2024": "Shopify Expert status — official recognition and advanced certifications",
+      "2025": "100+ stores delivered — international team established and scaling"
     }
   },
   "contact": {
     "title": "Let's Discuss Your Project",
     "subtitle": "Get in touch and let's build something amazing together.",
-    "form": {
-      "name": "Full Name",
-      "namePlaceholder": "John Doe",
-      "email": "Email",
-      "emailPlaceholder": "john@example.com",
-      "phone": "Phone / WhatsApp",
-      "phonePlaceholder": "+1 (555) 123-4567",
-      "company": "Company / Brand",
-      "companyPlaceholder": "Your Brand Name",
-      "serviceType": "Type of Service",
-      "serviceTypePlaceholder": "Select a service...",
-      "niche": "Business Niche",
-      "nichePlaceholder": "e.g. Fashion, Beauty, Electronics...",
-      "budget": "Estimated Budget",
-      "budgetPlaceholder": "Select budget range...",
-      "message": "Message / Project Details",
-      "messagePlaceholder": "Tell us about your project, goals, and timeline...",
-      "privacy": "I agree to the Privacy Policy and Terms of Service",
-      "submit": "Send Message",
-      "sending": "Sending...",
-      "success": "Message sent successfully! We'll get back to you within 24 hours.",
-      "error": "Something went wrong. Please try again or contact us via WhatsApp."
-    },
-    "budgetOptions": {
-      "under2k": "Under $2,000",
-      "2k5k": "$2,000 - $5,000",
-      "5k10k": "$5,000 - $10,000",
-      "10k25k": "$10,000 - $25,000",
-      "25kPlus": "$25,000+",
-      "notSure": "Not sure yet"
-    },
-    "serviceOptions": {
-      "storeDev": "Shopify Store Development",
-      "headless": "Headless Hydrogen Development",
-      "migration": "Store Migration",
-      "customApps": "Custom Apps",
-      "performance": "Performance Optimization",
-      "audit": "Store Audit",
-      "facebookAds": "Facebook Ads Management",
-      "tiktokAds": "TikTok Ads Management",
-      "cro": "Conversion Optimization",
-      "email": "Email Marketing",
-      "landingPages": "Landing Pages",
-      "instagram": "Instagram Setup",
-      "adCreatives": "Ad Creatives",
-      "automation": "Automation Systems",
-      "ai": "AI Integration",
-      "other": "Other"
-    },
-    "info": {
-      "title": "Get in Touch",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
-      "chatOnWhatsapp": "Chat on WhatsApp",
-      "responseTime": "Response Time",
-      "responseValue": "Usually within 24 hours",
-      "location": "Location",
-      "locationValue": "São Paulo, Brazil",
-      "international": "Available for international projects",
-      "scheduleTitle": "Book a Free Consultation",
-      "scheduleDescription": "Schedule a 30-minute discovery call",
-      "scheduleButton": "Schedule Call"
-    },
-    "faq": {
-      "title": "Quick Answers",
-      "q1": "How long does a typical project take?",
-      "a1": "2-8 weeks depending on complexity.",
-      "q2": "Do you work with clients worldwide?",
-      "a2": "Yes! We work with clients in 15+ countries.",
-      "q3": "What's your availability?",
-      "a3": "Currently accepting new projects. Typical start: 1-2 weeks.",
-      "q4": "Do you offer payment plans?",
-      "a4": "Yes, flexible payment terms available."
-    }
+    "submit": "Send Message",
+    "orSchedule": "Schedule a Call",
+    "success": "Message sent successfully! I'll get back to you within 24 hours.",
+    "scheduleSuccess": "Call scheduled successfully! Check your email for confirmation.",
+    "name": "Full Name",
+    "namePh": "John Doe",
+    "email": "Email",
+    "emailPh": "john@example.com",
+    "phone": "Phone / WhatsApp",
+    "phonePh": "+1 (555) 123-4567",
+    "company": "Company / Brand",
+    "companyPh": "Your Brand Name",
+    "service": "Service Type",
+    "servicePh": "Select a service",
+    "budget": "Estimated Budget",
+    "budgetPh": "Select budget range",
+    "message": "Message / Project Details",
+    "messagePh": "Tell me about your project, goals, and timeline...",
+    "privacy": "I agree to the Privacy Policy and Terms of Service",
+    "sending": "Sending...",
+    "info": "Get in Touch",
+    "responseTime": "Response Time",
+    "responseValue": "Usually within 24 hours (Mon-Fri, 9AM-6PM BRT)",
+    "location": "Location",
+    "locationValue": "São Paulo, Brazil",
+    "international": "Available for international projects",
+    "faq": "Quick Answers",
+    "q1": "How long does a typical project take?",
+    "a1": "2-8 weeks depending on complexity. Simple stores take 2-3 weeks, while headless builds may take 6-8 weeks.",
+    "q2": "Do you work with clients worldwide?",
+    "a2": "Yes! I work with clients in 15+ countries including Brazil, USA, Canada, UK, and Australia.",
+    "q3": "What's your availability?",
+    "a3": "Currently accepting new projects. Typical start: 1-2 weeks from contract signing.",
+    "selectDate": "Select a Date",
+    "selectTime": "Select a Time",
+    "booked": "Booked",
+    "scheduleCall": "Confirm & Schedule Call"
   },
-  "cta": {
-    "title": "Ready to Scale Your Ecommerce Business?",
-    "subtitle": "Let's build something amazing together. Schedule a free consultation and let's discuss your project.",
-    "primary": "Schedule Free Consultation",
-    "secondary": "WhatsApp Me Now"
+  "serviceOptions": {
+    "sd": "Shopify Store Development",
+    "hh": "Headless Hydrogen Development",
+    "sm": "Store Migration",
+    "ca": "Custom Apps",
+    "po": "Performance Optimization",
+    "sa": "Store Audit",
+    "fa": "Facebook Ads Management",
+    "ta": "TikTok Ads Management",
+    "cro": "Conversion Optimization",
+    "em": "Email Marketing",
+    "lp": "Landing Pages",
+    "ig": "Instagram Setup",
+    "ac": "Ad Creatives",
+    "au": "Automation Systems",
+    "ai": "AI Integration",
+    "ot": "Other (specify in message)"
+  },
+  "budgetOptions": {
+    "u2": "Under $2,000",
+    "2_5": "$2,000 - $5,000",
+    "5_10": "$5,000 - $10,000",
+    "10_25": "$10,000 - $25,000",
+    "25p": "$25,000+",
+    "ns": "Not sure yet"
   },
   "footer": {
-    "description": "Shopify Expert Developer building scalable ecommerce solutions worldwide. 6+ years of experience in development, growth, and design.",
+    "description": "Building scalable ecommerce empires for entrepreneurs and brands worldwide.",
     "services": "Services",
     "company": "Company",
     "legal": "Legal",
-    "connect": "Connect",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "cookiePolicy": "Cookie Policy",
-    "cookieSettings": "Cookie Settings",
     "rights": "All rights reserved.",
     "madeWith": "Made with"
   },
@@ -223,26 +194,9 @@
   },
   "cookies": {
     "title": "We use cookies",
-    "description": "This website uses cookies to improve your experience and analyze traffic. By clicking 'Accept', you agree to our use of cookies.",
+    "description": "This website uses cookies to improve your experience and analyze traffic.",
     "learnMore": "Learn More",
     "accept": "Accept All",
     "reject": "Essential Only"
-  },
-  "chatbot": {
-    "title": "Andre AI Assistant",
-    "placeholder": "Type your message...",
-    "greeting": "Hi! I'm Andre's AI assistant. How can I help you today?",
-    "quickActions": {
-      "pricing": "Pricing info",
-      "schedule": "Schedule a call",
-      "services": "View services",
-      "human": "Talk to human"
-    },
-    "needHelp": "Need Help?"
-  },
-  "notFound": {
-    "title": "Page Not Found",
-    "description": "The page you're looking for doesn't exist or has been moved.",
-    "backHome": "Back to Home"
   }
 }
