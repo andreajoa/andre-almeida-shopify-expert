@@ -165,7 +165,13 @@
     "ac": "Ad Creatives",
     "au": "Automation Systems",
     "ai": "AI Integration",
-    "ot": "Other (specify in message)"
+    "ot": "Other (specify in message)",
+    "sm_social": "Social Media Management",
+    "eb": "E-book Creation",
+    "ip": "Infoproduct Development",
+    "kw": "Kiwify Setup",
+    "ir": "Infoproduct Research",
+    "mt": "Ecommerce Mentorship"
   },
   "budgetOptions": {
     "u2": "Under $2,000",

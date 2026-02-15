@@ -76,6 +76,36 @@ export const PRICES: Record<string, Record<string, { min: number; max: number }>
     USD: { min: 1200, max: 3500 },
     EUR: { min: 1100, max: 3200 },
   },
+  "social-media": {
+    BRL: { min: 1500, max: 4000 },
+    USD: { min: 600, max: 1800 },
+    EUR: { min: 550, max: 1600 },
+  },
+  "ebook-creation": {
+    BRL: { min: 800, max: 2500 },
+    USD: { min: 400, max: 1200 },
+    EUR: { min: 350, max: 1100 },
+  },
+  "infoproduct-development": {
+    BRL: { min: 3000, max: 10000 },
+    USD: { min: 1500, max: 5000 },
+    EUR: { min: 1400, max: 4500 },
+  },
+  "kiwify-setup": {
+    BRL: { min: 800, max: 2000 },
+    USD: { min: 400, max: 1000 },
+    EUR: { min: 350, max: 900 },
+  },
+  "infoproduct-research": {
+    BRL: { min: 500, max: 1500 },
+    USD: { min: 250, max: 700 },
+    EUR: { min: 230, max: 650 },
+  },
+  "ecommerce-mentorship": {
+    BRL: { min: 6000, max: 6000 },
+    USD: { min: 2000, max: 2000 },
+    EUR: { min: 1800, max: 1800 },
+  },
 }
 
 export function formatPrice(amount: number, currency: string): string {

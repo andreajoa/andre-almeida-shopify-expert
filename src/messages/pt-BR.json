@@ -165,7 +165,13 @@
     "ac": "Criativos para Ads",
     "au": "Sistemas de Automação",
     "ai": "Integração de IA",
-    "ot": "Outro (especifique na mensagem)"
+    "ot": "Outro (especifique na mensagem)",
+    "sm_social": "Gestao de Redes Sociais",
+    "eb": "Criacao de E-book",
+    "ip": "Desenvolvimento de Infoproduto",
+    "kw": "Setup Kiwify",
+    "ir": "Pesquisa de Infoproduto",
+    "mt": "Mentoria para E-commerce"
   },
   "budgetOptions": {
     "u2": "Abaixo de R$11.000",

@@ -13,10 +13,11 @@ export default function ServicesPage() {
   const currency = getCurrencyForLocale(locale)
 
   const categories = [
-    { id: "shopify", label: "💎 Core Shopify" },
-    { id: "growth", label: "📈 Growth & Marketing" },
-    { id: "design", label: "🎨 Design & Creative" },
-    { id: "automation", label: "🤖 Automation & AI" },
+    { id: "shopify", label: locale === "pt-BR" ? "💎 Core Shopify" : "💎 Core Shopify" },
+    { id: "growth", label: locale === "pt-BR" ? "📈 Growth & Marketing" : "📈 Growth & Marketing" },
+    { id: "design", label: locale === "pt-BR" ? "🎨 Design & Criativo" : "🎨 Design & Creative" },
+    { id: "automation", label: locale === "pt-BR" ? "🤖 Automação & IA" : "🤖 Automation & AI" },
+    { id: "digital", label: locale === "pt-BR" ? "📱 Digital & Infoprodutos" : "📱 Digital & Infoproducts" },
   ]
 
   return (
@@ -24,13 +25,16 @@ export default function ServicesPage() {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection className="text-center mb-16">
-            <Badge variant="indigo" className="mb-4">14+ Professional Services</Badge>
+            <Badge variant="indigo" className="mb-4">
+              {locale === "pt-BR" ? "20+ Serviços Profissionais" : "20+ Professional Services"}
+            </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">{t("title")}</h1>
             <p className="text-lg text-slate-400">{t("subtitle")}</p>
           </AnimatedSection>
 
           {categories.map(cat => {
             const services = allServices.filter(s => s.cat === cat.id)
+            if (services.length === 0) return null
             return (
               <div key={cat.id} className="mb-20">
                 <AnimatedSection>
@@ -41,6 +45,7 @@ export default function ServicesPage() {
                   {services.map((svc, i) => {
                     const localized = svc[locale] || svc.en
                     const price = PRICES[svc.priceKey]?.[currency]
+                    const isFixed = price && price.min === price.max
                     return (
                       <AnimatedSection key={svc.id} delay={i * 0.1}>
                         <Card variant="gradient" className="h-full flex flex-col">
@@ -55,8 +60,12 @@ export default function ServicesPage() {
                           <div className="pt-4 border-t border-white/5">
                             {price && (
                               <div className="flex items-center justify-between mb-3">
-                                <span className="text-sm text-slate-500">{t("from")}</span>
-                                <span className="text-lg font-bold text-white">{formatPrice(price.min, currency)}</span>
+                                <span className="text-sm text-slate-500">
+                                  {isFixed ? (locale === "pt-BR" ? "Investimento" : "Investment") : t("from")}
+                                </span>
+                                <span className="text-lg font-bold text-white">
+                                  {isFixed ? formatPrice(price.min, currency) : formatPrice(price.min, currency)}
+                                </span>
                               </div>
                             )}
                             <div className="flex items-center justify-between mb-4">
