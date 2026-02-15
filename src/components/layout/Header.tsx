@@ -50,8 +50,12 @@ export function Header() {
         scrolled ? "bg-slate-900/80 backdrop-blur-xl border-b border-white/5 py-3" : "bg-transparent py-5"
       )}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <a href={`/${locale}`} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform">AA</div>
+          <a href={`/${locale}`} className="flex items-center gap-3 group">
+            <img
+              src="/images/branding/logo.png"
+              alt="Andre Almeida - Shopify Expert"
+              className="h-10 w-10 rounded-xl object-contain group-hover:scale-110 transition-transform"
+            />
             <div className="hidden sm:block">
               <span className="text-white font-bold text-lg">Andre Almeida</span>
               <span className="block text-[10px] text-slate-500 -mt-1 tracking-wider uppercase">Shopify Expert</span>
