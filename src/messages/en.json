@@ -1,0 +1,208 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "scheduleCall": "Schedule Call"
+  },
+  "hero": {
+    "badge": "Available for new projects",
+    "headline1": "Shopify Expert Developer",
+    "headline2": "Headless, Growth &",
+    "headline3": "High-Conversion Stores",
+    "subheadline": "6+ years building Shopify stores, custom integrations and scaling ecommerce brands worldwide. Full-stack development + paid ads management.",
+    "cta": {
+      "primary": "Start Your Project",
+      "secondary": "WhatsApp Contact"
+    }
+  },
+  "stats": {
+    "years": "Years Experience",
+    "stores": "Stores Delivered",
+    "countries": "Countries Served",
+    "certified": "Shopify Certified"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Complete Shopify Solutions for Every Stage of Your Business",
+    "viewAll": "View All Services",
+    "from": "From",
+    "timeline": "Timeline",
+    "dev": {
+      "t": "Shopify Development",
+      "d": "Custom store creation, theme customization, and full Shopify 2.0 development."
+    },
+    "growth": {
+      "t": "Growth & Marketing",
+      "d": "Facebook & TikTok Ads, conversion optimization, and email automation."
+    },
+    "design": {
+      "t": "Design & Creative",
+      "d": "Landing pages, UX/UI redesign, brand identity, and ad creatives."
+    }
+  },
+  "portfolio": {
+    "title": "Featured Projects",
+    "subtitle": "Stunning designs, high-performance stores, and proven results across multiple niches.",
+    "viewAll": "View All Projects",
+    "viewDetails": "View Details",
+    "filters": {
+      "all": "All",
+      "fashion": "Fashion",
+      "beauty": "Beauty",
+      "electronics": "Electronics",
+      "supplements": "Supplements",
+      "luxury": "Luxury",
+      "petshop": "Pet Shop",
+      "jewelry": "Jewelry",
+      "homeDecor": "Home Decor"
+    }
+  },
+  "testimonials": {
+    "title": "What Clients Say",
+    "subtitle": "Trusted by entrepreneurs and brands worldwide"
+  },
+  "cta": {
+    "title": "Ready to Scale Your Ecommerce Business?",
+    "subtitle": "Let's discuss your project and find the perfect solution for your needs.",
+    "primary": "Schedule Free Consultation",
+    "secondary": "View Our Services"
+  },
+  "about": {
+    "headline": "Hi, I'm Andre Almeida",
+    "role": "Shopify Expert Developer & Ecommerce Growth Specialist",
+    "bio1": "My journey in ecommerce started over 6 years ago when I developed my first Shopify store and realized the transformative potential of electronic commerce for entrepreneurs around the world.",
+    "bio2": "Since then, I've delivered over 100 projects in 15+ countries, including Brazil (especially Greater São Paulo), United States, Canada, United Kingdom, and Australia. Each project brought unique learnings and allowed me to constantly evolve.",
+    "bio3": "What started as a passion for solving technical problems and helping businesses grow online naturally evolved into a specialized team. Today, I lead developers, designers, paid traffic specialists, CRO strategists, and AI experts — all united by one goal: transforming ecommerce visions into profitable, scalable businesses.",
+    "bio4": "We combine cutting-edge technical expertise with proven marketing and growth strategies to deliver results that truly impact our clients' revenue. Technology should serve the business, not the other way around.",
+    "philosophy": {
+      "title": "My Approach",
+      "transparency": {
+        "title": "Transparency",
+        "description": "You'll always know what I'm doing and why. Clear communication at every step."
+      },
+      "results": {
+        "title": "Results-Driven",
+        "description": "Every decision backed by data and best practices. ROI is always the focus."
+      },
+      "partnership": {
+        "title": "Long-term Partnership",
+        "description": "I'm invested in your sustainable growth, not just a one-time project."
+      },
+      "learning": {
+        "title": "Continuous Learning",
+        "description": "Staying ahead of ecommerce trends to bring you the latest solutions."
+      }
+    },
+    "timeline": {
+      "title": "Achievement Timeline",
+      "2019": "Started Shopify development — first store built and passion ignited",
+      "2020": "Reached 25 stores delivered — expanded to international clients",
+      "2021": "Specialized in Headless Commerce — pioneered Hydrogen implementations",
+      "2022": "Expanded to paid advertising management — added growth marketing services",
+      "2023": "75+ projects worldwide — consistent results across multiple countries",
+      "2024": "Shopify Expert status — official recognition and advanced certifications",
+      "2025": "100+ stores delivered — international team established and scaling"
+    }
+  },
+  "contact": {
+    "title": "Let's Discuss Your Project",
+    "subtitle": "Get in touch and let's build something amazing together.",
+    "submit": "Send Message",
+    "orSchedule": "Schedule a Call",
+    "success": "Message sent successfully! I'll get back to you within 24 hours.",
+    "scheduleSuccess": "Call scheduled successfully! Check your email for confirmation.",
+    "name": "Full Name",
+    "namePh": "John Doe",
+    "email": "Email",
+    "emailPh": "john@example.com",
+    "phone": "Phone / WhatsApp",
+    "phonePh": "+1 (555) 123-4567",
+    "company": "Company / Brand",
+    "companyPh": "Your Brand Name",
+    "service": "Service Type",
+    "servicePh": "Select a service",
+    "budget": "Estimated Budget",
+    "budgetPh": "Select budget range",
+    "message": "Message / Project Details",
+    "messagePh": "Tell me about your project, goals, and timeline...",
+    "privacy": "I agree to the Privacy Policy and Terms of Service",
+    "sending": "Sending...",
+    "info": "Get in Touch",
+    "responseTime": "Response Time",
+    "responseValue": "Usually within 24 hours (Mon-Fri, 9AM-6PM BRT)",
+    "location": "Location",
+    "locationValue": "São Paulo, Brazil",
+    "international": "Available for international projects",
+    "faq": "Quick Answers",
+    "q1": "How long does a typical project take?",
+    "a1": "2-8 weeks depending on complexity. Simple stores take 2-3 weeks, while headless builds may take 6-8 weeks.",
+    "q2": "Do you work with clients worldwide?",
+    "a2": "Yes! I work with clients in 15+ countries including Brazil, USA, Canada, UK, and Australia.",
+    "q3": "What's your availability?",
+    "a3": "Currently accepting new projects. Typical start: 1-2 weeks from contract signing.",
+    "selectDate": "Select a Date",
+    "selectTime": "Select a Time",
+    "booked": "Booked",
+    "scheduleCall": "Confirm & Schedule Call"
+  },
+  "serviceOptions": {
+    "sd": "Shopify Store Development",
+    "hh": "Headless Hydrogen Development",
+    "sm": "Store Migration",
+    "ca": "Custom Apps",
+    "po": "Performance Optimization",
+    "sa": "Store Audit",
+    "fa": "Facebook Ads Management",
+    "ta": "TikTok Ads Management",
+    "cro": "Conversion Optimization",
+    "em": "Email Marketing",
+    "lp": "Landing Pages",
+    "ig": "Instagram Setup",
+    "ac": "Ad Creatives",
+    "au": "Automation Systems",
+    "ai": "AI Integration",
+    "ot": "Other (specify in message)",
+    "sm_social": "Social Media Management",
+    "eb": "E-book Creation",
+    "ip": "Infoproduct Development",
+    "kw": "Kiwify Setup",
+    "ir": "Infoproduct Research",
+    "mt": "Ecommerce Mentorship"
+  },
+  "budgetOptions": {
+    "u2": "Under $2,000",
+    "2_5": "$2,000 - $5,000",
+    "5_10": "$5,000 - $10,000",
+    "10_25": "$10,000 - $25,000",
+    "25p": "$25,000+",
+    "ns": "Not sure yet"
+  },
+  "footer": {
+    "description": "Building scalable ecommerce empires for entrepreneurs and brands worldwide.",
+    "services": "Services",
+    "company": "Company",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy",
+    "rights": "All rights reserved.",
+    "madeWith": "Made with"
+  },
+  "whatsapp": {
+    "defaultMessage": "Hi Andre! I'd like to know more about your Shopify services.",
+    "status": "Usually replies within 1 hour",
+    "greeting": "Hi! 👋 How can I help you with your Shopify project?",
+    "startChat": "Start Chat"
+  },
+  "cookies": {
+    "title": "We use cookies",
+    "description": "This website uses cookies to improve your experience and analyze traffic.",
+    "learnMore": "Learn More",
+    "accept": "Accept All",
+    "reject": "Essential Only"
+  }
+}

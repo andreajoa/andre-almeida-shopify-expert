@@ -1,0 +1,208 @@
+{
+  "nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "portfolio": "Portfólio",
+    "about": "Sobre",
+    "blog": "Blog",
+    "contact": "Contato",
+    "scheduleCall": "Agendar Call"
+  },
+  "hero": {
+    "badge": "Disponível para novos projetos",
+    "headline1": "Shopify Expert Developer",
+    "headline2": "Headless, Growth &",
+    "headline3": "Lojas de Alta Conversão",
+    "subheadline": "6+ anos construindo lojas Shopify, integrações customizadas e escalando marcas de e-commerce globalmente. Desenvolvimento full-stack + gestão de tráfego pago.",
+    "cta": {
+      "primary": "Iniciar Seu Projeto",
+      "secondary": "Contato WhatsApp"
+    }
+  },
+  "stats": {
+    "years": "Anos de Experiência",
+    "stores": "Lojas Entregues",
+    "countries": "Países Atendidos",
+    "certified": "Shopify Certificado"
+  },
+  "services": {
+    "title": "Nossos Serviços",
+    "subtitle": "Soluções Shopify Completas para Cada Fase do Seu Negócio",
+    "viewAll": "Ver Todos os Serviços",
+    "from": "A partir de",
+    "timeline": "Prazo",
+    "dev": {
+      "t": "Desenvolvimento Shopify",
+      "d": "Criação de loja customizada, personalização de tema e desenvolvimento Shopify 2.0 completo."
+    },
+    "growth": {
+      "t": "Growth & Marketing",
+      "d": "Facebook & TikTok Ads, otimização de conversão e automação de email marketing."
+    },
+    "design": {
+      "t": "Design & Criativo",
+      "d": "Landing pages, redesign UX/UI, identidade de marca e criativos para ads."
+    }
+  },
+  "portfolio": {
+    "title": "Projetos em Destaque",
+    "subtitle": "Designs impressionantes, lojas de alta performance e resultados comprovados em diversos nichos.",
+    "viewAll": "Ver Todos os Projetos",
+    "viewDetails": "Ver Detalhes",
+    "filters": {
+      "all": "Todos",
+      "fashion": "Moda",
+      "beauty": "Beleza",
+      "electronics": "Eletrônicos",
+      "supplements": "Suplementos",
+      "luxury": "Luxo",
+      "petshop": "Pet Shop",
+      "jewelry": "Joias",
+      "homeDecor": "Casa & Decoração"
+    }
+  },
+  "testimonials": {
+    "title": "O Que os Clientes Dizem",
+    "subtitle": "Confiança de empreendedores e marcas em todo o mundo"
+  },
+  "cta": {
+    "title": "Pronto para Escalar Seu E-commerce?",
+    "subtitle": "Vamos discutir seu projeto e encontrar a solução perfeita para suas necessidades.",
+    "primary": "Agendar Consulta Gratuita",
+    "secondary": "Ver Nossos Serviços"
+  },
+  "about": {
+    "headline": "Olá, eu sou o Andre Almeida",
+    "role": "Desenvolvedor Shopify Expert & Especialista em Growth para E-commerce",
+    "bio1": "Minha jornada no e-commerce começou há mais de 6 anos quando desenvolvi minha primeira loja Shopify e percebi o potencial transformador do comércio eletrônico para empreendedores ao redor do mundo.",
+    "bio2": "Desde então, já entreguei mais de 100 projetos em 15+ países, incluindo Brasil (especialmente Grande São Paulo), Estados Unidos, Canadá, Reino Unido e Austrália. Cada projeto trouxe aprendizados únicos e me permitiu evoluir constantemente.",
+    "bio3": "O que começou como uma paixão por resolver problemas técnicos e ajudar negócios a crescerem online naturalmente evoluiu para um time especializado. Hoje, lidero desenvolvedores, designers, especialistas em tráfego pago, estrategistas de CRO e especialistas em IA — todos unidos por um objetivo: transformar visões de e-commerce em negócios lucrativos e escaláveis.",
+    "bio4": "Combinamos expertise técnica de ponta com estratégias comprovadas de marketing e growth para entregar resultados que realmente impactam o faturamento dos nossos clientes. Tecnologia deve servir ao negócio, não o contrário.",
+    "philosophy": {
+      "title": "Minha Abordagem",
+      "transparency": {
+        "title": "Transparência",
+        "description": "Você sempre saberá o que estou fazendo e por quê. Comunicação clara em cada etapa."
+      },
+      "results": {
+        "title": "Orientado por Resultados",
+        "description": "Cada decisão respaldada por dados e melhores práticas. ROI é sempre o foco."
+      },
+      "partnership": {
+        "title": "Parceria de Longo Prazo",
+        "description": "Estou investido no seu crescimento sustentável, não apenas em um projeto pontual."
+      },
+      "learning": {
+        "title": "Aprendizado Contínuo",
+        "description": "Sempre à frente das tendências de e-commerce para trazer as melhores soluções."
+      }
+    },
+    "timeline": {
+      "title": "Linha do Tempo",
+      "2019": "Início no desenvolvimento Shopify — primeira loja construída e paixão acesa",
+      "2020": "25 lojas entregues — expansão para clientes internacionais",
+      "2021": "Especialização em Headless Commerce — pioneiro em implementações Hydrogen",
+      "2022": "Expansão para gestão de tráfego pago — adição de serviços de growth marketing",
+      "2023": "75+ projetos mundiais — resultados consistentes em múltiplos países",
+      "2024": "Status de Shopify Expert — reconhecimento oficial e certificações avançadas",
+      "2025": "100+ lojas entregues — time internacional estabelecido e em expansão"
+    }
+  },
+  "contact": {
+    "title": "Vamos Discutir Seu Projeto",
+    "subtitle": "Entre em contato e vamos construir algo incrível juntos.",
+    "submit": "Enviar Mensagem",
+    "orSchedule": "Agendar uma Call",
+    "success": "Mensagem enviada com sucesso! Retornarei em até 24 horas.",
+    "scheduleSuccess": "Call agendada com sucesso! Verifique seu email para confirmação.",
+    "name": "Nome Completo",
+    "namePh": "João Silva",
+    "email": "Email",
+    "emailPh": "joao@exemplo.com",
+    "phone": "Telefone / WhatsApp",
+    "phonePh": "+55 (11) 99999-9999",
+    "company": "Empresa / Marca",
+    "companyPh": "Nome da Sua Marca",
+    "service": "Tipo de Serviço",
+    "servicePh": "Selecione um serviço",
+    "budget": "Orçamento Estimado",
+    "budgetPh": "Selecione faixa de orçamento",
+    "message": "Mensagem / Detalhes do Projeto",
+    "messagePh": "Conte-me sobre seu projeto, objetivos e prazo...",
+    "privacy": "Concordo com a Política de Privacidade e Termos de Uso",
+    "sending": "Enviando...",
+    "info": "Entre em Contato",
+    "responseTime": "Tempo de Resposta",
+    "responseValue": "Geralmente em até 24 horas (Seg-Sex, 9h-18h BRT)",
+    "location": "Localização",
+    "locationValue": "São Paulo, Brasil",
+    "international": "Disponível para projetos internacionais",
+    "faq": "Respostas Rápidas",
+    "q1": "Quanto tempo leva um projeto típico?",
+    "a1": "De 2 a 8 semanas dependendo da complexidade. Lojas simples levam 2-3 semanas, enquanto implementações headless podem levar 6-8 semanas.",
+    "q2": "Vocês trabalham com clientes de todo o mundo?",
+    "a2": "Sim! Trabalhamos com clientes em 15+ países incluindo Brasil, EUA, Canadá, Reino Unido e Austrália.",
+    "q3": "Qual a disponibilidade atual?",
+    "a3": "Atualmente aceitando novos projetos. Início típico: 1-2 semanas após assinatura do contrato.",
+    "selectDate": "Selecione uma Data",
+    "selectTime": "Selecione um Horário",
+    "booked": "Ocupado",
+    "scheduleCall": "Confirmar e Agendar Call"
+  },
+  "serviceOptions": {
+    "sd": "Desenvolvimento de Loja Shopify",
+    "hh": "Desenvolvimento Headless Hydrogen",
+    "sm": "Migração de Loja",
+    "ca": "Apps Customizados",
+    "po": "Otimização de Performance",
+    "sa": "Auditoria da Loja",
+    "fa": "Gestão de Facebook Ads",
+    "ta": "Gestão de TikTok Ads",
+    "cro": "Otimização de Conversão",
+    "em": "Email Marketing",
+    "lp": "Landing Pages",
+    "ig": "Setup Instagram",
+    "ac": "Criativos para Ads",
+    "au": "Sistemas de Automação",
+    "ai": "Integração de IA",
+    "ot": "Outro (especifique na mensagem)",
+    "sm_social": "Gestao de Redes Sociais",
+    "eb": "Criacao de E-book",
+    "ip": "Desenvolvimento de Infoproduto",
+    "kw": "Setup Kiwify",
+    "ir": "Pesquisa de Infoproduto",
+    "mt": "Mentoria para E-commerce"
+  },
+  "budgetOptions": {
+    "u2": "Abaixo de R$11.000",
+    "2_5": "R$11.000 - R$28.000",
+    "5_10": "R$28.000 - R$56.000",
+    "10_25": "R$56.000 - R$140.000",
+    "25p": "Acima de R$140.000",
+    "ns": "Ainda não tenho certeza"
+  },
+  "footer": {
+    "description": "Construindo impérios de e-commerce escaláveis para empreendedores e marcas em todo o mundo.",
+    "services": "Serviços",
+    "company": "Empresa",
+    "legal": "Legal",
+    "privacyPolicy": "Política de Privacidade",
+    "termsOfService": "Termos de Uso",
+    "cookiePolicy": "Política de Cookies",
+    "rights": "Todos os direitos reservados.",
+    "madeWith": "Feito com"
+  },
+  "whatsapp": {
+    "defaultMessage": "Olá Andre! Gostaria de saber mais sobre seus serviços Shopify.",
+    "status": "Geralmente responde em 1 hora",
+    "greeting": "Olá! 👋 Como posso ajudar com seu projeto Shopify?",
+    "startChat": "Iniciar Conversa"
+  },
+  "cookies": {
+    "title": "Usamos cookies",
+    "description": "Este site usa cookies para melhorar sua experiência e analisar o tráfego.",
+    "learnMore": "Saiba Mais",
+    "accept": "Aceitar Todos",
+    "reject": "Apenas Essenciais"
+  }
+}
