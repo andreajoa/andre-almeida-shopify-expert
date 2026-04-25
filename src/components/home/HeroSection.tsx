@@ -13,7 +13,6 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950/50 to-slate-900">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] animate-pulse" />
@@ -22,7 +21,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Grid overlay */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
@@ -31,7 +29,6 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-24">
-        {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,7 +42,6 @@ export function HeroSection() {
           <span className="text-sm text-slate-300">{t("hero.badge")}</span>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,7 +59,6 @@ export function HeroSection() {
           </span>
         </motion.h1>
 
-        {/* Subheadline */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,7 +68,6 @@ export function HeroSection() {
           {t("hero.subheadline")}
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,7 +93,6 @@ export function HeroSection() {
           </a>
         </motion.div>
 
-        {/* Stats */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -119,16 +112,13 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 1.2 + i * 0.1 }}
               className="text-center"
             >
-              <div className="text-3xl md:text-4xl font-bold text-white mb-1">
-                {stat.value}
-              </div>
+              <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
               <div className="text-sm text-slate-500">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
