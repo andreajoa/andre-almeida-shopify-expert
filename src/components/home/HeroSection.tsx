@@ -80,7 +80,7 @@ export function HeroSection() {
               <ArrowRight className="w-5 h-5" />
             </Button>
           </Link>
-          
+          <a
             href={`https://wa.me/${SITE_CONFIG.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
