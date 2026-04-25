@@ -40,7 +40,7 @@ export function WhatsAppButton() {
               </div>
             </div>
             <div className="p-4">
-              
+              <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
