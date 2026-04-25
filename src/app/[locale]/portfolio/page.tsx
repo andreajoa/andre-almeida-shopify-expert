@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { ExternalLink } from "lucide-react"
+import Image from "next/image"
 import { Card } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
 import { AnimatedSection } from "@/components/shared/AnimatedSection"
@@ -28,7 +29,6 @@ export default function PortfolioPage() {
             </p>
           </AnimatedSection>
 
-          {/* Filters */}
           <AnimatedSection className="flex flex-wrap justify-center gap-2 mb-12">
             {filters.map((filter) => (
               <button
@@ -45,16 +45,17 @@ export default function PortfolioPage() {
             ))}
           </AnimatedSection>
 
-          {/* Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((project, i) => (
               <AnimatedSection key={project.id} delay={i * 0.1}>
                 <Card variant="gradient" className="group overflow-hidden">
                   <div className="relative h-48 rounded-xl mb-6 overflow-hidden">
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
                     <div className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
