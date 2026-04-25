@@ -50,9 +50,14 @@ export default function PortfolioPage() {
             {filtered.map((project, i) => (
               <AnimatedSection key={project.id} delay={i * 0.1}>
                 <Card variant="gradient" className="group overflow-hidden">
-                  <div className="relative h-48 bg-gradient-to-br from-indigo-900/50 to-purple-900/50 rounded-xl mb-6 overflow-hidden flex items-center justify-center">
-                    <span className="text-4xl opacity-30">🛍️</span>
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                  <div className="relative h-48 rounded-xl mb-6 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                    <div className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="text-white text-sm font-medium flex items-center gap-1">
                         {t("portfolio.viewDetails")} <ExternalLink className="w-3 h-3" />
                       </span>
