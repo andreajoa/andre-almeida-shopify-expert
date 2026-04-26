@@ -33,8 +33,12 @@ export default function AboutPage() {
       <section className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6">
           <AnimatedSection className="text-center mb-16">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
-              AA
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-indigo-500/30">
+              <img
+                src="/images/andre.png"
+                alt="Andre Almeida"
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               {t("about.headline")}
