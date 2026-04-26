@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { Code, Palette, TrendingUp, Brain, Users, Eye, Target, BookOpen } from "lucide-react"
+import { Users, Eye, Target, BookOpen } from "lucide-react"
 import { Card } from "@/components/ui/Card"
 import { AnimatedSection } from "@/components/shared/AnimatedSection"
 import { Button } from "@/components/ui/Button"
@@ -28,28 +28,60 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="pt-24">
-      {/* Hero */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <AnimatedSection className="text-center mb-16">
-            <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-indigo-500/30">
-              <img
-                src="/images/andre.png"
-                alt="Andre Almeida"
-                className="w-full h-full object-cover object-top"
-              />
+    <div>
+      {/* Hero - Cinematic Full Bleed */}
+      <section className="relative min-h-screen flex flex-col justify-end overflow-hidden bg-slate-950">
+        {/* Foto de fundo */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/andre.png"
+            alt="Andre Almeida"
+            className="w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+        </div>
+
+        {/* Conteúdo */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-32 w-full">
+          <AnimatedSection className="max-w-2xl">
+            <div className="text-indigo-400 text-sm font-medium tracking-widest uppercase mb-5 border-l-2 border-indigo-400 pl-3">
+              Shopify Expert
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
               {t("about.headline")}
             </h1>
-            <p className="text-xl text-indigo-400">{t("about.role")}</p>
+            <p className="text-xl text-indigo-300 mb-6">{t("about.role")}</p>
+            <p className="text-slate-300 leading-relaxed max-w-xl mb-10">{t("about.bio1")}</p>
           </AnimatedSection>
 
-          {/* Bio */}
+          {/* Stats */}
+          <AnimatedSection>
+            <div className="flex gap-10 border-t border-white/10 pt-8">
+              <div>
+                <div className="text-3xl font-bold text-indigo-400">100+</div>
+                <div className="text-sm text-slate-400 mt-1">Projetos</div>
+              </div>
+              <div className="w-px bg-white/10" />
+              <div>
+                <div className="text-3xl font-bold text-indigo-400">15+</div>
+                <div className="text-sm text-slate-400 mt-1">Países</div>
+              </div>
+              <div className="w-px bg-white/10" />
+              <div>
+                <div className="text-3xl font-bold text-indigo-400">6+</div>
+                <div className="text-sm text-slate-400 mt-1">Anos</div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Bio */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-6">
           <AnimatedSection>
             <div className="prose prose-lg prose-invert mx-auto space-y-6">
-              <p className="text-slate-300 leading-relaxed">{t("about.bio1")}</p>
               <p className="text-slate-300 leading-relaxed">{t("about.bio2")}</p>
               <p className="text-slate-300 leading-relaxed">{t("about.bio3")}</p>
               <p className="text-slate-300 leading-relaxed">{t("about.bio4")}</p>
