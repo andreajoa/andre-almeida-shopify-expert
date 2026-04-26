@@ -33,11 +33,11 @@ export default function AboutPage() {
       <section className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6">
           <AnimatedSection className="text-center mb-16">
-            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-indigo-500/30">
+            <div className="w-40 h-40 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-indigo-500/30">
               <img
                 src="/images/andre.png"
                 alt="Andre Almeida"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
