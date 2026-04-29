@@ -34,7 +34,7 @@ export default function AboutPage() {
         {/* Foto de fundo */}
         <div className="absolute inset-0">
           <img
-            src="/images/andre.png"
+            src="/images/andre.jpg"
             alt="Andre Almeida"
             className="w-full h-full object-cover object-top"
           />
