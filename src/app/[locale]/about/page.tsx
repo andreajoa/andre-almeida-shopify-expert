@@ -170,11 +170,11 @@ export default function AboutPage() {
                 <div className="absolute left-1/2 top-16 h-[520px] w-[520px] -translate-x-1/2 rounded-full border border-indigo-400/15" />
 
                 <img
-                  src="/images/andre3-small.jpg"
+                  src="/images/andre4-small.png"
                   alt="Andre Almeida"
                   className="relative z-10 mx-auto h-[520px] lg:h-[680px] w-auto object-contain object-bottom drop-shadow-[0_40px_80px_rgba(0,0,0,0.55)]"
                   onError={(event) => {
-                    event.currentTarget.src = "/images/andre3.png"
+                    event.currentTarget.src = "/images/andre4.png"
                   }}
                 />
 
