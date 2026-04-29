@@ -83,7 +83,7 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <a href={`/${locale}`} className="flex items-center gap-3 group">
             <img
-              src="/images/branding/logo1.png"
+              src="/images/branding/logo1.jpg"
               alt="Andre Almeida - Shopify Expert"
               className="h-10 w-10 rounded-xl object-contain group-hover:scale-110 transition-transform"
             />
