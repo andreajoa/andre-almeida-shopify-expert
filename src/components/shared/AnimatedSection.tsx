@@ -1,7 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useScrollAnimation } from "@/hooks/useScrollAnimation"
+import { useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface AnimatedSectionProps {
@@ -11,43 +10,49 @@ interface AnimatedSectionProps {
   direction?: "up" | "down" | "left" | "right" | "none"
 }
 
+const directionClass: Record<string, string> = {
+  up: "translate-y-10",
+  down: "-translate-y-10",
+  left: "translate-x-10",
+  right: "-translate-x-10",
+  none: "",
+}
+
 export function AnimatedSection({
   children,
   className,
   delay = 0,
   direction = "up",
 }: AnimatedSectionProps) {
-  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  const ref = useRef<HTMLDivElement>(null)
 
-  const directionMap = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { y: 0, x: 40 },
-    right: { y: 0, x: -40 },
-    none: { y: 0, x: 0 },
-  }
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1"
+          el.style.transform = "translate(0,0)"
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{
+      className={cn(directionClass[direction], className)}
+      style={{
         opacity: 0,
-        y: directionMap[direction].y,
-        x: directionMap[direction].x,
+        transition: `opacity 700ms ease-out ${delay * 1000}ms, transform 700ms ease-out ${delay * 1000}ms`,
       }}
-      animate={
-        isVisible
-          ? { opacity: 1, y: 0, x: 0 }
-          : {
-              opacity: 0,
-              y: directionMap[direction].y,
-              x: directionMap[direction].x,
-            }
-      }
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
-      className={cn(className)}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

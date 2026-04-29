@@ -1,6 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
 import { Menu, X, Globe, ChevronDown } from "lucide-react"
 import { useTranslations, useLocale } from "next-intl"
 import { useRouter, usePathname } from "next/navigation"
@@ -23,6 +22,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const mobileRef = useRef<HTMLDivElement>(null)
+  const langRef = useRef<HTMLDivElement>(null)
   const t = useTranslations("nav")
   const locale = useLocale()
   const router = useRouter()
@@ -35,6 +36,36 @@ export function Header() {
   }, [])
 
   useEffect(() => { setMobileOpen(false) }, [pathname])
+
+  useEffect(() => {
+    if (mobileRef.current) {
+      if (mobileOpen) {
+        mobileRef.current.style.opacity = "1"
+        mobileRef.current.style.pointerEvents = "auto"
+        mobileRef.current.style.display = "block"
+      } else {
+        mobileRef.current.style.opacity = "0"
+        mobileRef.current.style.pointerEvents = "none"
+        setTimeout(() => {
+          if (mobileRef.current) mobileRef.current.style.display = "none"
+        }, 300)
+      }
+    }
+  }, [mobileOpen])
+
+  useEffect(() => {
+    if (langRef.current) {
+      if (langOpen) {
+        langRef.current.style.opacity = "1"
+        langRef.current.style.transform = "translateY(0)"
+        langRef.current.style.pointerEvents = "auto"
+      } else {
+        langRef.current.style.opacity = "0"
+        langRef.current.style.transform = "translateY(-8px)"
+        langRef.current.style.pointerEvents = "none"
+      }
+    }
+  }, [langOpen])
 
   const switchLocale = (newLocale: string) => {
     const path = pathname.replace(`/${locale}`, "").replace(/^\//, "")
@@ -80,21 +111,20 @@ export function Header() {
                 <span>{localeFlags[locale]} {locale === "pt-BR" ? "PT" : locale.toUpperCase()}</span>
                 <ChevronDown className="w-3 h-3" />
               </button>
-              <AnimatePresence>
-                {langOpen && (
-                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 top-full mt-2 bg-slate-800 border border-white/10 rounded-xl shadow-2xl overflow-hidden min-w-[160px]">
-                    {Object.entries(localeNames).map(([loc, name]) => (
-                      <button key={loc} onClick={() => switchLocale(loc)}
-                        className={cn("w-full px-4 py-3 text-sm text-left flex items-center gap-2 transition-colors cursor-pointer",
-                          locale === loc ? "bg-indigo-600/20 text-indigo-400" : "text-slate-300 hover:bg-white/5"
-                        )}>
-                        <span>{localeFlags[loc]}</span>{name}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div
+                ref={langRef}
+                className="absolute right-0 top-full mt-2 bg-slate-800 border border-white/10 rounded-xl shadow-2xl overflow-hidden min-w-[160px]"
+                style={{ opacity: 0, transform: "translateY(-8px)", pointerEvents: "none", transition: "opacity 200ms ease, transform 200ms ease" }}
+              >
+                {Object.entries(localeNames).map(([loc, name]) => (
+                  <button key={loc} onClick={() => switchLocale(loc)}
+                    className={cn("w-full px-4 py-3 text-sm text-left flex items-center gap-2 transition-colors cursor-pointer",
+                      locale === loc ? "bg-indigo-600/20 text-indigo-400" : "text-slate-300 hover:bg-white/5"
+                    )}>
+                    <span>{localeFlags[loc]}</span>{name}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <a href={`/${locale}/contact`} className="hidden md:block">
@@ -108,33 +138,31 @@ export function Header() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-slate-900/98 backdrop-blur-xl pt-24 px-6 lg:hidden overflow-y-auto">
-            <nav className="flex flex-col gap-2">
-              {navItems.map((item, i) => (
-                <motion.a key={item.key} href={`/${locale}${item.href === "/" ? "" : item.href}`}
-                  initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                  className="block px-4 py-3 rounded-xl text-lg font-medium text-slate-400 hover:text-white hover:bg-white/5">
-                  {t(item.key)}
-                </motion.a>
-              ))}
-              <div className="flex gap-2 mt-6">
-                {Object.entries(localeFlags).map(([loc, flag]) => (
-                  <button key={loc} onClick={() => switchLocale(loc)}
-                    className={cn("flex-1 py-3 rounded-xl text-center font-medium cursor-pointer",
-                      locale === loc ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-400"
-                    )}>{flag} {loc === "pt-BR" ? "PT" : loc.toUpperCase()}</button>
-                ))}
-              </div>
-              <a href={`/${locale}/contact`} className="mt-4">
-                <Button variant="primary" size="lg" className="w-full">{t("scheduleCall")}</Button>
-              </a>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        ref={mobileRef}
+        className="fixed inset-0 z-40 bg-slate-900/98 backdrop-blur-xl pt-24 px-6 lg:hidden overflow-y-auto"
+        style={{ opacity: 0, pointerEvents: "none", display: "none", transition: "opacity 300ms ease" }}
+      >
+        <nav className="flex flex-col gap-2">
+          {navItems.map((item) => (
+            <a key={item.key} href={`/${locale}${item.href === "/" ? "" : item.href}`}
+              className="block px-4 py-3 rounded-xl text-lg font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+              {t(item.key)}
+            </a>
+          ))}
+          <div className="flex gap-2 mt-6">
+            {Object.entries(localeFlags).map(([loc, flag]) => (
+              <button key={loc} onClick={() => switchLocale(loc)}
+                className={cn("flex-1 py-3 rounded-xl text-center font-medium cursor-pointer",
+                  locale === loc ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-400"
+                )}>{flag} {loc === "pt-BR" ? "PT" : loc.toUpperCase()}</button>
+            ))}
+          </div>
+          <a href={`/${locale}/contact`} className="mt-4">
+            <Button variant="primary" size="lg" className="w-full">{t("scheduleCall")}</Button>
+          </a>
+        </nav>
+      </div>
     </>
   )
 }
