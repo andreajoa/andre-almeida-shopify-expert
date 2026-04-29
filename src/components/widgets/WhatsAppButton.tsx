@@ -62,6 +62,7 @@ export function WhatsAppButton() {
       </div>
 
       <button
+        aria-label="Abrir chat WhatsApp"
         onClick={() => {
           if (!isOpen) Analytics.whatsappClick("floating_button")
           setIsOpen(!isOpen)
