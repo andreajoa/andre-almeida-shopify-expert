@@ -164,26 +164,25 @@ export default function AboutPage() {
             </AnimatedSection>
 
             <AnimatedSection delay={0.08}>
-              <div className="relative h-[460px] sm:h-[540px] lg:h-[680px] overflow-hidden">
-                <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_65%_35%,rgba(124,58,237,0.35),transparent_42%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(2,6,23,0.12)_100%)]" />
-                <div className="absolute right-[-8%] top-[2%] h-[540px] w-[540px] lg:h-[740px] lg:w-[740px] rounded-full border border-purple-400/20" />
-                <div className="absolute right-[4%] top-[10%] h-[430px] w-[430px] lg:h-[590px] lg:w-[590px] rounded-full border border-indigo-300/12" />
+              <div className="relative h-[500px] sm:h-[580px] lg:h-[720px]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(124,58,237,0.38),transparent_42%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(2,6,23,0.05)_100%)]" />
 
-                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10" />
+                <div className="absolute right-[-10%] top-[2%] h-[560px] w-[560px] lg:h-[760px] lg:w-[760px] rounded-full border border-purple-400/20" />
+                <div className="absolute right-[2%] top-[11%] h-[430px] w-[430px] lg:h-[610px] lg:w-[610px] rounded-full border border-indigo-300/12" />
 
-                <div className="absolute right-[-4%] bottom-0 z-20 h-full w-[86%] sm:w-[78%] lg:w-[82%]">
+                <div className="absolute right-[2%] top-8 z-30 hidden lg:block text-purple-200/90 font-serif italic text-4xl">
+                  Andre Almeida
+                </div>
+
+                <div className="absolute right-[-2%] bottom-0 z-20 w-[82%] sm:w-[76%] lg:w-[78%]">
                   <img
                     src="/images/andre4.png"
                     alt="Andre Almeida"
-                    className="absolute bottom-0 right-0 h-[112%] lg:h-[118%] w-auto max-w-none object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+                    className="w-full h-auto object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.42)]"
                     onError={(event) => {
-                      event.currentTarget.src = "/images/andre3-small.jpg"
+                      event.currentTarget.src = "/images/andre3.png"
                     }}
                   />
-                </div>
-
-                <div className="absolute right-2 top-10 z-30 hidden lg:block text-purple-200/90 font-serif italic text-4xl">
-                  Andre Almeida
                 </div>
               </div>
             </AnimatedSection>
