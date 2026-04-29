@@ -131,7 +131,7 @@ export function Header() {
               <Button variant="primary" size="sm">{t("scheduleCall")}</Button>
             </a>
 
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-slate-400 hover:text-white cursor-pointer">
+            <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle mobile menu" className="lg:hidden p-2 text-slate-400 hover:text-white cursor-pointer">
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
