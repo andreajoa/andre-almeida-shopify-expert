@@ -152,6 +152,14 @@ export default function PortfolioPage() {
 
       <section id="todos-os-projetos" className="py-10">
         <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection className="mb-8 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 text-center">
+            <p className="text-sm text-slate-300 max-w-4xl mx-auto leading-relaxed">
+              {isPt
+                ? "Por confidencialidade, alguns projetos não exibem links públicos. Durante a conversa, posso apresentar exemplos reais, contexto dos projetos e referências disponíveis."
+                : "For confidentiality, some projects do not display public links. During our conversation, I can share real examples, project context and available references."}
+            </p>
+          </AnimatedSection>
+
           <AnimatedSection className="flex flex-wrap justify-center gap-2 mb-10">
             {filters.map((filter) => (
               <button
@@ -312,7 +320,7 @@ function FeaturedProjectCard({
           </div>
 
           <span className="inline-flex items-center gap-2 font-bold text-indigo-600">
-            {isPt ? "Ver estudo completo" : "View full case study"}
+            {isPt ? "Solicitar detalhes no WhatsApp" : "Request details on WhatsApp"}
             <ArrowRight className="w-4 h-4" />
           </span>
         </div>

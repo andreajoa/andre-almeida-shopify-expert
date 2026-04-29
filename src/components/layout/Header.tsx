@@ -1,10 +1,12 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, Globe, ChevronDown } from "lucide-react"
+import { Menu, X, Globe, ChevronDown, MessageCircle } from "lucide-react"
 import { useTranslations, useLocale } from "next-intl"
 import { useRouter, usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
+import { SITE_CONFIG } from "@/lib/constants"
+import { Analytics } from "@/lib/analytics"
 
 const navItems = [
   { href: "/", key: "home" },
@@ -28,6 +30,13 @@ export function Header() {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
+  const whatsappText = encodeURIComponent(
+    locale === "pt-BR"
+      ? "Olá André, vi seu site e quero conversar sobre minha loja online."
+      : "Hi Andre, I saw your website and want to talk about my online store."
+  )
+  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
+
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20)
@@ -127,8 +136,17 @@ export function Header() {
               </div>
             </div>
 
-            <a href={`/${locale}/contact`} className="hidden md:block">
-              <Button variant="primary" size="sm">{t("scheduleCall")}</Button>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => Analytics.whatsappClick("header_cta")}
+              className="hidden md:block"
+            >
+              <Button variant="primary" size="sm">
+                <MessageCircle className="w-4 h-4" />
+                {locale === "pt-BR" ? "Falar no WhatsApp" : "WhatsApp"}
+              </Button>
             </a>
 
             <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle mobile menu" className="lg:hidden p-2 text-slate-400 hover:text-white cursor-pointer">
@@ -158,8 +176,17 @@ export function Header() {
                 )}>{flag} {loc === "pt-BR" ? "PT" : loc.toUpperCase()}</button>
             ))}
           </div>
-          <a href={`/${locale}/contact`} className="mt-4">
-            <Button variant="primary" size="lg" className="w-full">{t("scheduleCall")}</Button>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => Analytics.whatsappClick("mobile_header_cta")}
+            className="mt-4"
+          >
+            <Button variant="primary" size="lg" className="w-full">
+              <MessageCircle className="w-5 h-5" />
+              {locale === "pt-BR" ? "Falar no WhatsApp" : "Talk on WhatsApp"}
+            </Button>
           </a>
         </nav>
       </div>

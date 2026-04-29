@@ -1,14 +1,22 @@
 "use client"
 
 import { ArrowRight, MessageCircle } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 import { AnimatedSection } from "@/components/shared/AnimatedSection"
 import { SITE_CONFIG } from "@/lib/constants"
+import { Analytics } from "@/lib/analytics"
 
 export function CTASection() {
   const t = useTranslations()
+  const locale = useLocale()
+  const whatsappText = encodeURIComponent(
+    locale === "pt-BR"
+      ? "Olá André, quero receber um diagnóstico inicial para minha loja online."
+      : "Hi Andre, I want an initial diagnosis for my online store."
+  )
+  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
 
   return (
     <section className="py-24 md:py-32 relative overflow-hidden">
@@ -28,22 +36,24 @@ export function CTASection() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/contact">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => Analytics.whatsappClick("home_final_cta")}
+            >
               <Button variant="primary" size="lg">
-                {t("cta.primary")}
+                <MessageCircle className="w-5 h-5" />
+                {locale === "pt-BR" ? "Falar no WhatsApp" : "Talk on WhatsApp"}
+              </Button>
+            </a>
+
+            <Link href={`/${locale}/services`}>
+              <Button variant="outline" size="lg">
+                {locale === "pt-BR" ? "Ver Serviços" : "View Services"}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
-            <a
-              href={`https://wa.me/${SITE_CONFIG.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="outline" size="lg">
-                <MessageCircle className="w-5 h-5" />
-                {t("cta.secondary")}
-              </Button>
-            </a>
           </div>
         </AnimatedSection>
       </div>
