@@ -322,7 +322,7 @@ function FeaturedProjectCard({
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover"
+            className="object-contain object-center p-4"
             sizes="(max-width: 1024px) 100vw, 50vw"
             priority
           />
