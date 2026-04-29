@@ -104,7 +104,7 @@ export default function AboutPage() {
 
   return (
     <div className="bg-slate-950 text-white pt-24 overflow-hidden">
-      <section className="relative min-h-[calc(100vh-6rem)] flex items-center py-16 md:py-24">
+      <section className="relative min-h-[calc(100vh-6rem)] flex items-center pt-8 pb-10 md:pt-12 md:pb-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.38),transparent_34%),radial-gradient(circle_at_top_left,rgba(59,130,246,0.18),transparent_32%),linear-gradient(180deg,#020617_0%,#0f172a_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
         <div className="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-purple-900/20 to-transparent" />
@@ -164,21 +164,21 @@ export default function AboutPage() {
             </AnimatedSection>
 
             <AnimatedSection delay={0.08}>
-              <div className="relative h-[500px] sm:h-[580px] lg:h-[720px]">
+              <div className="relative h-[460px] sm:h-[540px] lg:h-[660px]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(124,58,237,0.38),transparent_42%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(2,6,23,0.05)_100%)]" />
 
                 <div className="absolute right-[-10%] top-[2%] h-[560px] w-[560px] lg:h-[760px] lg:w-[760px] rounded-full border border-purple-400/20" />
                 <div className="absolute right-[2%] top-[11%] h-[430px] w-[430px] lg:h-[610px] lg:w-[610px] rounded-full border border-indigo-300/12" />
 
-                <div className="absolute right-[2%] top-8 z-30 hidden lg:block text-purple-200/90 font-serif italic text-4xl">
+                <div className="absolute right-[4%] top-6 z-30 hidden lg:block text-purple-200/90 font-serif italic text-4xl">
                   Andre Almeida
                 </div>
 
-                <div className="absolute right-[-2%] bottom-0 z-20 w-[82%] sm:w-[76%] lg:w-[78%]">
+                <div className="absolute right-[-1%] top-[8%] z-20 w-[88%] sm:w-[82%] lg:w-[84%]">
                   <img
                     src="/images/andre6.png"
                     alt="Andre Almeida"
-                    className="w-full h-auto object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.42)]"
+                    className="w-full h-auto object-contain drop-shadow-[0_34px_80px_rgba(0,0,0,0.42)]"
                     onError={(event) => {
                       event.currentTarget.src = "/images/andre6.png"
                     }}
