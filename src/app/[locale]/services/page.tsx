@@ -220,7 +220,7 @@ export default function ServicesPage() {
                   <div className="grid sm:grid-cols-[1fr_0.8fr] gap-5 items-end">
                     <div className="rounded-[1.5rem] overflow-hidden bg-white">
                       <img
-                        src="/images/andre1-small.jpg"
+                        src="/images/andre2-small.jpg"
                         alt="Andre Almeida, Shopify Expert"
                         className="w-full h-[380px] object-cover object-top"
                         onError={(event) => {
