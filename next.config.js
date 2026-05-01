@@ -17,11 +17,22 @@ const nextConfig = {
   poweredByHeader: false,
   headers: async () => [
     {
+      source: "/(.*)",
+      headers: [
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: "DENY" },
+      ],
+    },
+    {
       source: "/portfolio-featured/:path*",
       headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
     },
     {
       source: "/fashion-apparel/:path*",
+      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+    },
+    {
+      source: "/images/:path*",
       headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
     },
   ],
