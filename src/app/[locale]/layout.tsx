@@ -5,7 +5,7 @@ import { routing } from "@/i18n/routing"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { WhatsAppButton } from "@/components/widgets/WhatsAppButton"
-import { CookieConsent } from "@/components/widgets/CookieConsent"
+import { CookieConsentLazy } from "@/components/widgets/CookieConsentLazy"
 import type { Metadata } from "next"
 
 type Props = {
@@ -83,7 +83,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <main className="min-h-screen">{children}</main>
       <Footer />
       <WhatsAppButton />
-      <CookieConsent />
+      <CookieConsentLazy />
     </NextIntlClientProvider>
   )
 }
