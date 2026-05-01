@@ -2,10 +2,23 @@ import { MetadataRoute } from "next"
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/static/"],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "Bingbot",
+        allow: "/",
+        disallow: ["/api/", "/_next/"],
+      },
+    ],
     sitemap: "https://andre-almeida.online/sitemap.xml",
     host: "https://andre-almeida.online",
   }
