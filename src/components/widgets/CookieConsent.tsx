@@ -57,8 +57,8 @@ export function CookieConsent() {
             <p className="text-white font-medium mb-1">🍪 {t("title")}</p>
             <p className="text-slate-400 text-sm">
               {t("description")}{" "}
-              <Link href="/cookie-policy" className="text-indigo-400 hover:underline">
-                {t("learnMore")}
+              <Link href="/cookie-policy" className="text-indigo-400 hover:underline" aria-label="Read our cookie policy">
+                {t("learnMore")} - Cookie Policy
               </Link>
             </p>
           </div>
