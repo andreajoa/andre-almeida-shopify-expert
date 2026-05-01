@@ -191,7 +191,6 @@ export default function BlogPostPage() {
 
       {/* Content */}
       <section className="max-w-4xl mx-auto px-6 pb-16">
-        <AnimatedSection>
           <div className="grid lg:grid-cols-[1fr_280px] gap-12">
             {/* Article */}
             <article className="min-w-0">
@@ -294,7 +293,6 @@ export default function BlogPostPage() {
               </div>
             </aside>
           </div>
-        </AnimatedSection>
       </section>
 
       {/* Related Posts - Mobile */}
