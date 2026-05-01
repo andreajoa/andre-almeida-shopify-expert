@@ -1,12 +1,13 @@
 "use client"
 
 import { Heart, ArrowUp } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import Link from "next/link"
 import { SITE_CONFIG } from "@/lib/constants"
 
 export function Footer() {
   const t = useTranslations()
+  const locale = useLocale()
   const currentYear = new Date().getFullYear()
 
   const scrollToTop = () => {
@@ -18,7 +19,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-4">
+            <Link href={`/${locale}`} className="flex items-center gap-3 mb-4">
               <img
                 src="/images/branding/logo1.jpg"
                 alt="Andre Almeida - Shopify Expert"
@@ -50,7 +51,7 @@ export function Footer() {
                 "Email Marketing",
               ].map((service) => (
                 <li key={service}>
-                  <Link href="/services" className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">
+                  <Link href={`/${locale}/services`} className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">
                     {service}
                   </Link>
                 </li>
@@ -62,10 +63,10 @@ export function Footer() {
             <h3 className="text-white font-semibold mb-4">{t("footer.company")}</h3>
             <ul className="space-y-2">
               {[
-                { label: t("nav.about"), href: "/about" },
-                { label: t("nav.portfolio"), href: "/portfolio" },
-                { label: t("nav.blog"), href: "/blog" },
-                { label: t("nav.contact"), href: "/contact" },
+                { label: t("nav.about"), href: `/${locale}/about` },
+                { label: t("nav.portfolio"), href: `/${locale}/portfolio` },
+                { label: t("nav.blog"), href: `/${locale}/blog` },
+                { label: t("nav.contact"), href: `/${locale}/contact` },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">

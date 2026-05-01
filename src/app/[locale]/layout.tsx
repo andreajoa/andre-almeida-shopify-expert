@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     alternates: {
       canonical: `https://andre-almeida.online/${locale}`,
       languages: {
+        "x-default": "https://andre-almeida.online/pt-BR",
         "en": "https://andre-almeida.online/en",
         "pt-BR": "https://andre-almeida.online/pt-BR",
         "es": "https://andre-almeida.online/es",
