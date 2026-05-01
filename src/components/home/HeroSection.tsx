@@ -11,10 +11,25 @@ export function HeroSection() {
   const t = useTranslations()
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950/50 to-slate-900">
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-24">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950/50 to-slate-900">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] animate-pulse" />
+          <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] animate-pulse [animation-delay:2s]" />
+          <div className="absolute bottom-1/4 left-1/3 w-[450px] h-[450px] bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] animate-pulse [animation-delay:4s]" />
+        </div>
+      </div>
 
-        <div className="hero-item inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8" style={{ animationDelay: "0.1s" }}>
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-24">
+        <div className="hero-item inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8"
+          style={{ animationDelay: "0.1s" }}>
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -22,7 +37,8 @@ export function HeroSection() {
           <span className="text-sm text-slate-300">{t("hero.badge")}</span>
         </div>
 
-        <h1 className="hero-item text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6" style={{ animationDelay: "0.2s" }}>
+        <h1 className="hero-item text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6"
+          style={{ animationDelay: "0.2s" }}>
           <span className="block">{t("hero.headline1")}</span>
           <span className="block mt-2">
             <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
@@ -34,18 +50,21 @@ export function HeroSection() {
           </span>
         </h1>
 
-        <p className="hero-item text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed" style={{ animationDelay: "0.4s" }}>
+        <p className="hero-item text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed"
+          style={{ animationDelay: "0.4s" }}>
           {t("hero.subheadline")}
         </p>
 
-        <div className="hero-item flex flex-col sm:flex-row items-center justify-center gap-4" style={{ animationDelay: "0.6s" }}>
+        <div className="hero-item flex flex-col sm:flex-row items-center justify-center gap-4"
+          style={{ animationDelay: "0.6s" }}>
           <Link href="/contact" onClick={() => Analytics.ctaClick("hero_primary_cta")}>
             <Button variant="primary" size="lg">
               {t("hero.cta.primary")}
               <ArrowRight className="w-5 h-5" />
             </Button>
           </Link>
-          <a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("hero_section")}>
+          <a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer"
+            onClick={() => Analytics.whatsappClick("hero_section")}>
             <Button variant="outline" size="lg">
               <MessageCircle className="w-5 h-5" />
               {t("hero.cta.secondary")}
@@ -53,7 +72,8 @@ export function HeroSection() {
           </a>
         </div>
 
-        <div className="hero-item mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto" style={{ animationDelay: "1s" }}>
+        <div className="hero-item mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+          style={{ animationDelay: "1s" }}>
           {[
             { value: "6+", label: t("stats.years") },
             { value: "100+", label: t("stats.stores") },
