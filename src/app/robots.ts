@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://andre-almeida.vercel.app/sitemap.xml",
+    sitemap: "https://andre-almeida.online/sitemap.xml",
+    host: "https://andre-almeida.online",
   }
 }

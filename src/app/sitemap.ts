@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next"
 
-const baseUrl = "https://andre-almeida.vercel.app"
+const baseUrl = "https://andre-almeida.online"
 const lastModified = new Date()
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -11,9 +11,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/portfolio", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog", priority: 0.7, changeFrequency: "weekly" as const },
+    { path: "/cookie-policy", priority: 0.4, changeFrequency: "yearly" as const },
+    { path: "/privacy-policy", priority: 0.4, changeFrequency: "yearly" as const },
+    { path: "/terms-of-service", priority: 0.4, changeFrequency: "yearly" as const },
   ]
 
-  const locales = ["pt-BR", "en"]
+  const locales = ["pt-BR", "en", "es"]
 
   return routes.flatMap(({ path, priority, changeFrequency }) =>
     locales.map((locale) => ({
