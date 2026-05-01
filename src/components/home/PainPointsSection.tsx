@@ -4,30 +4,36 @@ import { AlertTriangle, Clock, MousePointerClick, SearchX } from "lucide-react"
 import { useLocale } from "next-intl"
 import { AnimatedSection } from "@/components/shared/AnimatedSection"
 
+type Locale = "en" | "pt-BR" | "es"
+function t(locale: Locale, pt: string, es: string, en: string) {
+  if (locale === "pt-BR") return pt
+  if (locale === "es") return es
+  return en
+}
+
 export function PainPointsSection() {
-  const locale = useLocale() as "en" | "pt-BR" | "es"
-  const isPt = locale === "pt-BR"
+  const locale = useLocale() as Locale
 
   const pains = [
     {
       Icon: SearchX,
-      title: isPt ? "Seu negócio não aparece no Google" : "Your business does not appear on Google",
-      text: isPt ? "As pessoas procuram soluções, mas encontram seus concorrentes primeiro." : "People search for solutions but find your competitors first.",
+      title: t(locale, "Seu negócio não aparece no Google", "Tu negocio no aparece en Google", "Your business does not appear on Google"),
+      text: t(locale, "As pessoas procuram soluções, mas encontram seus concorrentes primeiro.", "Las personas buscan soluciones pero encuentran a tus competidores primero.", "People search for solutions but find your competitors first."),
     },
     {
       Icon: MousePointerClick,
-      title: isPt ? "A loja recebe visitas, mas não vende" : "The store gets visits but does not sell",
-      text: isPt ? "O problema pode estar no layout, oferta, checkout, velocidade ou confiança." : "The issue may be layout, offer, checkout, speed or trust.",
+      title: t(locale, "A loja recebe visitas, mas não vende", "La tienda recibe visitas pero no vende", "The store gets visits but does not sell"),
+      text: t(locale, "O problema pode estar no layout, oferta, checkout, velocidade ou confiança.", "El problema puede estar en el diseño, oferta, checkout, velocidad o confianza.", "The issue may be layout, offer, checkout, speed or trust."),
     },
     {
       Icon: Clock,
-      title: isPt ? "Você perde tempo fazendo tudo manual" : "You waste time doing everything manually",
-      text: isPt ? "Atendimento, pedidos, recuperação de clientes e gestão podem ser automatizados." : "Support, orders, recovery and management can be automated.",
+      title: t(locale, "Você perde tempo fazendo tudo manual", "Pierdes tiempo haciendo todo manual", "You waste time doing everything manually"),
+      text: t(locale, "Atendimento, pedidos, recuperação de clientes e gestão podem ser automatizados.", "Atención, pedidos, recuperación de clientes y gestión pueden automatizarse.", "Support, orders, recovery and management can be automated."),
     },
     {
       Icon: AlertTriangle,
-      title: isPt ? "Você sabe que precisa vender online, mas não sabe por onde começar" : "You know you need to sell online but do not know where to start",
-      text: isPt ? "Eu organizo estratégia, tecnologia, canais e execução em um plano claro." : "I organize strategy, technology, channels and execution into a clear plan.",
+      title: t(locale, "Você sabe que precisa vender online, mas não sabe por onde começar", "Sabes que necesitas vender online pero no sabes por dónde empezar", "You know you need to sell online but do not know where to start"),
+      text: t(locale, "Eu organizo estratégia, tecnologia, canais e execução em um plano claro.", "Organizo estrategia, tecnología, canales y ejecución en un plan claro.", "I organize strategy, technology, channels and execution into a clear plan."),
     },
   ]
 
@@ -36,10 +42,10 @@ export function PainPointsSection() {
       <div className="max-w-7xl mx-auto px-6">
         <AnimatedSection className="mb-12 max-w-3xl">
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-300">
-            {isPt ? "Antes de investir mais" : "Before investing more"}
+            {t(locale, "Antes de investir mais", "Antes de invertir más", "Before investing more")}
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-bold text-white">
-            {isPt ? "Sua loja ou negócio pode estar perdendo vendas todos os dias" : "Your store or business may be losing sales every day"}
+            {t(locale, "Sua loja ou negócio pode estar perdendo vendas todos os dias", "Tu tienda o negocio puede estar perdiendo ventas todos los días", "Your store or business may be losing sales every day")}
           </h2>
         </AnimatedSection>
 
