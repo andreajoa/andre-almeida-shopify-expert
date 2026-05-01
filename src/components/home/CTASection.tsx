@@ -14,6 +14,8 @@ export function CTASection() {
   const whatsappText = encodeURIComponent(
     locale === "pt-BR"
       ? "Olá André, quero receber um diagnóstico inicial para minha loja online."
+      : locale === "es"
+      ? "Hola André, quiero recibir un diagnóstico inicial para mi tienda online."
       : "Hi Andre, I want an initial diagnosis for my online store."
   )
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
@@ -44,13 +46,13 @@ export function CTASection() {
             >
               <Button variant="primary" size="lg">
                 <MessageCircle className="w-5 h-5" />
-                {locale === "pt-BR" ? "Falar no WhatsApp" : "Talk on WhatsApp"}
+                {locale === "pt-BR" ? "Falar no WhatsApp" : locale === "es" ? "Hablar por WhatsApp" : "Talk on WhatsApp"}
               </Button>
             </a>
 
             <Link href={`/${locale}/services`}>
               <Button variant="outline" size="lg">
-                {locale === "pt-BR" ? "Ver Serviços" : "View Services"}
+                {locale === "pt-BR" ? "Ver Serviços" : locale === "es" ? "Ver Servicios" : "View Services"}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
