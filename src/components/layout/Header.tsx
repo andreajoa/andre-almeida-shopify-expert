@@ -14,6 +14,7 @@ const navItems = [
   { href: "/portfolio", key: "portfolio" },
   { href: "/about", key: "about" },
   { href: "/blog", key: "blog" },
+  { href: "/material-gratuito", key: "freeMaterial" },
   { href: "/contact", key: "contact" },
 ]
 
