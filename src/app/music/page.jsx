@@ -20,13 +20,10 @@ export default function MusicPage() {
           <div className="max-w-5xl">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <div className="h-24 w-24 overflow-hidden rounded-full border border-white/15 shadow-xl">
-                <Image
-                  src="/music/perfil.png"
+                <img
+                  src="/music/andre-profile-artist.png?v=3"
                   alt="Andre Almeida profile photo"
-                  width={600}
-                  height={600}
                   className="h-full w-full object-cover"
-                  priority
                 />
               </div>
 
