@@ -1,4 +1,4 @@
-import Image from "next/image";
+import MusicPlayer from "@/components/music/MusicPlayer";
 
 const spotifyArtistUrl = "https://open.spotify.com/artist/1IGGZFDaw41PO6oc6aReq9";
 const soundOnReleaseUrl = "https://www.soundon.global/library/detail?id=7633233121920976913";
@@ -19,9 +19,9 @@ export default function MusicPage() {
         <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-24">
           <div className="max-w-5xl">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div className="h-24 w-24 overflow-hidden rounded-full border border-white/15 shadow-xl">
+              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-white/15 bg-black/30 shadow-xl">
                 <img
-                  src="/music/andre-profile-artist.png?v=3"
+                  src="/music/andre-profile-artist.png?v=20"
                   alt="Andre Almeida profile photo"
                   className="h-full w-full object-cover"
                 />
@@ -45,18 +45,13 @@ export default function MusicPage() {
           </div>
 
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur">
-            <div className="grid gap-8 md:grid-cols-[280px,1fr] md:items-center">
-              <div className="flex justify-center md:justify-start">
-                <div className="w-full max-w-[280px] overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-xl">
-                  <Image
-                    src="/music/deixa-ela-ir.png"
-                    alt="DEIXA ELA IR cover art by Andre Almeida"
-                    width={1200}
-                    height={1200}
-                    className="h-auto w-full object-contain"
-                    priority
-                  />
-                </div>
+            <div className="grid gap-8 md:grid-cols-[240px,1fr] md:items-center">
+              <div className="mx-auto w-full max-w-[240px] overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-xl md:mx-0">
+                <img
+                  src="/music/deixa-ela-ir.png?v=20"
+                  alt="DEIXA ELA IR cover art by Andre Almeida"
+                  className="h-auto w-full object-contain"
+                />
               </div>
 
               <div>
@@ -107,19 +102,10 @@ export default function MusicPage() {
 
           <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-4 shadow-xl">
             <p className="mb-4 text-sm uppercase tracking-[0.2em] text-zinc-400">
-              Listen on Spotify
+              Listen on Website
             </p>
 
-            <iframe
-              style={{ borderRadius: "16px" }}
-              src="https://open.spotify.com/embed/artist/1IGGZFDaw41PO6oc6aReq9?utm_source=generator"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            />
+            <MusicPlayer />
           </div>
 
           <p className="mt-8 max-w-3xl text-sm leading-relaxed text-zinc-500">
