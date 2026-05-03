@@ -17,14 +17,29 @@ export default function MusicPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8b5a2b55,transparent_35%),radial-gradient(circle_at_bottom_left,#1d4ed855,transparent_30%)]" />
 
         <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-24">
-          <div className="max-w-4xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#d4af69]">
-              Official Artist Page
-            </p>
+          <div className="max-w-5xl">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+              <div className="h-24 w-24 overflow-hidden rounded-full border border-white/15 shadow-xl">
+                <Image
+                  src="/music/perfil.png"
+                  alt="Andre Almeida profile photo"
+                  width={600}
+                  height={600}
+                  className="h-full w-full object-cover"
+                  priority
+                />
+              </div>
 
-            <h1 className="text-5xl font-bold tracking-tight md:text-7xl">
-              Andre Almeida
-            </h1>
+              <div>
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#d4af69]">
+                  Official Artist Page
+                </p>
+
+                <h1 className="text-5xl font-bold tracking-tight md:text-7xl">
+                  Andre Almeida
+                </h1>
+              </div>
+            </div>
 
             <p className="mt-6 max-w-3xl text-xl leading-relaxed text-zinc-300 md:text-2xl">
               Brazilian artist blending romantic sertanejo, pisadinha, forró,
@@ -33,16 +48,18 @@ export default function MusicPage() {
           </div>
 
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur">
-            <div className="grid gap-8 md:grid-cols-[260px,1fr] md:items-center">
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-xl">
-                <Image
-                  src="/music/deixa-ela-ir.png"
-                  alt="DEIXA ELA IR cover art by Andre Almeida"
-                  width={1200}
-                  height={1200}
-                  className="h-full w-full object-cover"
-                  priority
-                />
+            <div className="grid gap-8 md:grid-cols-[280px,1fr] md:items-center">
+              <div className="flex justify-center md:justify-start">
+                <div className="w-full max-w-[280px] overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-xl">
+                  <Image
+                    src="/music/deixa-ela-ir.png"
+                    alt="DEIXA ELA IR cover art by Andre Almeida"
+                    width={1200}
+                    height={1200}
+                    className="h-auto w-full object-contain"
+                    priority
+                  />
+                </div>
               </div>
 
               <div>
