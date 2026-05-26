@@ -83,19 +83,19 @@ export function LatestRealProjects() {
         <AnimatedSection className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300 mb-5">
             <Sparkles className="w-4 h-4" />
-            Últimos projetos executados
+            Veja o que acontece quando estratégia encontra execução
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-5">
-            Projetos reais. Resultados reais.
+            Negócios reais transformados em experiências que vendem todos os dias
           </h2>
 
           <p className="text-lg text-slate-400 leading-relaxed">
-            Sites, e-commerces, apps e plataformas desenvolvidos para negócios reais. Clique em qualquer projeto para visitar a versão ao vivo.
+            Ecommerce, plataformas, apps e experiências digitais desenvolvidas para gerar crescimento, confiança e conversão.
           </p>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-7 mt-14">
           {projects.map((project, index) => (
             <AnimatedSection key={project.title} delay={index * 0.04}>
               <a
@@ -107,7 +107,7 @@ export function LatestRealProjects() {
                   project.featured ? "lg:col-span-2" : ""
                 }`}
               >
-                <div className={`relative overflow-hidden bg-slate-900 ${project.featured ? "h-72" : "h-52"}`}>
+                <div className={`relative overflow-hidden bg-slate-900 ${project.featured ? "h-[380px]" : "h-[280px]"}`}>
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -151,7 +151,34 @@ export function LatestRealProjects() {
             </AnimatedSection>
           ))}
         </div>
-      </div>
-    </section>
+      
+        <AnimatedSection delay={0.6} className="mt-16">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-slate-900 to-indigo-950 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <p className="text-emerald-300 font-semibold mb-2">
+                PRONTO PARA TER ALGO ASSIM?
+              </p>
+
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                Seu projeto pode ser o próximo case de sucesso.
+              </h3>
+
+              <p className="text-slate-400">
+                Vamos transformar sua ideia em um produto digital profissional.
+              </p>
+            </div>
+
+            <a
+              href="https://wa.me/"
+              target="_blank"
+              className="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold hover:scale-105 transition-all"
+            >
+              Quero meu projeto →
+            </a>
+          </div>
+        </AnimatedSection>
+
+</div>
+</section>
   )
 }
