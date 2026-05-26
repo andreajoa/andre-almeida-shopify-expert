@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/home/HeroSection"
 import { PainPointsSection } from "@/components/home/PainPointsSection"
 import { ServicesOverview } from "@/components/home/ServicesOverview"
 import { PortfolioHighlights } from "@/components/home/PortfolioHighlights"
+import { LatestRealProjects } from "@/components/home/LatestRealProjects"
 import { Testimonials } from "@/components/home/Testimonials"
 import { ProcessSection } from "@/components/home/ProcessSection"
 import { FAQSection } from "@/components/home/FAQSection"
@@ -14,6 +15,7 @@ export default function HomePage() {
       <PainPointsSection />
       <ServicesOverview />
       <PortfolioHighlights />
+      <LatestRealProjects />
       <Testimonials />
       <ProcessSection />
       <FAQSection />
