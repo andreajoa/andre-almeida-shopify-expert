@@ -53,7 +53,7 @@ export default function BlogPostPage() {
           <ul key={`list-${listKey++}`} className="space-y-3 my-6 ml-2">
             {listItems.map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-slate-300 leading-relaxed">
-                <span className="text-emerald-400 mt-1.5 flex-shrink-0">✓</span>
+                <span className="text-insta-neon mt-1.5 flex-shrink-0">✓</span>
                 <span>{item}</span>
               </li>
             ))}

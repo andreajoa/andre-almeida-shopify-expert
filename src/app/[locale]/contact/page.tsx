@@ -117,7 +117,7 @@ export default function ContactPage() {
                 <Card variant="gradient">
                   {formState === "success" ? (
                     <div className="text-center py-12">
-                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-emerald-400" /></div>
+                      <div className="w-16 h-16 rounded-full bg-insta-violet/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-insta-neon" /></div>
                       <p className="text-white text-lg font-medium">{t("success")}</p>
                     </div>
                   ) : (
@@ -162,7 +162,7 @@ export default function ContactPage() {
                 <Card variant="gradient">
                   {scheduleState === "success" ? (
                     <div className="text-center py-12">
-                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-emerald-400" /></div>
+                      <div className="w-16 h-16 rounded-full bg-insta-violet/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-insta-neon" /></div>
                       <p className="text-white text-lg font-medium mb-2">{t("scheduleSuccess")}</p>
                       <p className="text-indigo-400 font-semibold">{selectedDate} — {selectedTime}</p>
                     </div>
@@ -286,7 +286,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold text-white mb-6">{t("info")}</h3>
                 <div className="space-y-5">
                   <div className="flex items-start gap-3"><Mail className="w-5 h-5 text-indigo-400 mt-0.5" /><div><p className="text-sm text-slate-500">Email</p><a href={`mailto:${SITE_CONFIG.email}`} className="text-white hover:text-indigo-400 transition-colors">{SITE_CONFIG.email}</a></div></div>
-                  <div className="flex items-start gap-3"><MessageCircle className="w-5 h-5 text-emerald-400 mt-0.5" /><div><p className="text-sm text-slate-500">WhatsApp</p><a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("contact_sidebar")} className="text-white hover:text-emerald-400 transition-colors">+55 11 99259-8585</a></div></div>
+                  <div className="flex items-start gap-3"><MessageCircle className="w-5 h-5 text-insta-neon mt-0.5" /><div><p className="text-sm text-slate-500">WhatsApp</p><a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("contact_sidebar")} className="text-white hover:text-insta-neon transition-colors">+55 11 99259-8585</a></div></div>
                   <div className="flex items-start gap-3"><Clock className="w-5 h-5 text-purple-400 mt-0.5" /><div><p className="text-sm text-slate-500">{t("responseTime")}</p><p className="text-white">{t("responseValue")}</p></div></div>
                   <div className="flex items-start gap-3"><MapPin className="w-5 h-5 text-orange-400 mt-0.5" /><div><p className="text-sm text-slate-500">{t("location")}</p><p className="text-white">{t("locationValue")}</p><p className="text-slate-500 text-sm">{t("international")}</p></div></div>
                 </div>

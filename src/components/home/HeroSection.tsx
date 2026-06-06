@@ -55,21 +55,21 @@ export function HeroSection() {
               {isPt ? (
                 <>
                   Transformo sua ideia em uma{" "}
-                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-insta-accent bg-clip-text text-transparent">
                     loja online pronta para vender
                   </span>
                 </>
               ) : isEs ? (
                 <>
                   Convierto tu idea en una{" "}
-                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-insta-accent bg-clip-text text-transparent">
                     tienda online lista para vender
                   </span>
                 </>
               ) : (
                 <>
                   I turn your idea into an{" "}
-                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-insta-accent bg-clip-text text-transparent">
                     online store built to sell
                   </span>
                 </>
@@ -90,7 +90,7 @@ export function HeroSection() {
                 isPt ? "Para Shopify, tráfego, SEO e automação" : isEs ? "Para Shopify, tráfico, SEO y automatización" : "For Shopify, traffic, SEO and automation",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2 text-sm text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-insta-neon shrink-0" />
                   {item}
                 </div>
               ))}
@@ -102,7 +102,7 @@ export function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => Analytics.whatsappClick("hero_primary")}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-500 px-7 py-4 font-bold text-slate-950 shadow-[0_0_40px_rgba(16,185,129,0.35)] transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-insta-violet px-7 py-4 font-bold text-slate-950 shadow-[0_0_40px_rgba(124,58,237,0.35)] transition hover:-translate-y-0.5 hover:bg-insta-purple"
               >
                 <MessageCircle className="w-5 h-5" />
                 {isPt ? "Chamar no WhatsApp" : isEs ? "Escribir por WhatsApp" : "Message me on WhatsApp"}
@@ -140,7 +140,7 @@ export function HeroSection() {
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-emerald-500/20 blur-3xl" />
+            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-insta-purple/20 blur-3xl" />
 
             <div className="relative rounded-[2rem] border border-white/10 bg-white/[0.05] p-5 shadow-2xl backdrop-blur">
               <div className="rounded-3xl border border-white/10 bg-slate-950/90 p-5">
@@ -149,7 +149,7 @@ export function HeroSection() {
                     <p className="text-sm text-slate-400">{isPt ? "Diagnóstico da loja" : isEs ? "Diagnóstico de la tienda" : "Store diagnosis"}</p>
                     <h2 className="text-xl font-bold text-white">{isPt ? "Plano de crescimento" : isEs ? "Plan de crecimiento" : "Growth plan"}</h2>
                   </div>
-                  <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300">
+                  <span className="rounded-full bg-insta-violet/15 px-3 py-1 text-xs font-semibold text-insta-accent">
                     Online
                   </span>
                 </div>
@@ -169,7 +169,7 @@ export function HeroSection() {
                   ))}
                 </div>
 
-                <div className="rounded-2xl bg-gradient-to-r from-indigo-500/15 to-emerald-500/15 border border-white/10 p-5 mb-5">
+                <div className="rounded-2xl bg-gradient-to-r from-indigo-500/15 to-insta-purple/15 border border-white/10 p-5 mb-5">
                   <p className="text-sm text-slate-300 mb-3">
                     {isPt ? "O que eu identifico no diagnóstico:" : isEs ? "Lo que identifico en el diagnóstico:" : "What I check in the diagnosis:"}
                   </p>
@@ -180,7 +180,7 @@ export function HeroSection() {
                       isPt ? "Como atrair clientes pelo Google, IA e tráfego pago" : isEs ? "Cómo atraer clientes por Google, IA y tráfico pago" : "How to attract customers from search, AI and ads",
                     ].map((item) => (
                       <div key={item} className="flex items-center gap-2 text-sm text-slate-200">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <CheckCircle2 className="w-4 h-4 text-insta-neon" />
                         {item}
                       </div>
                     ))}

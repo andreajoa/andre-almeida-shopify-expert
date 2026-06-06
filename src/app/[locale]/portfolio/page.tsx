@@ -230,7 +230,7 @@ export default function PortfolioPage() {
       <section className="py-10 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
-            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-emerald-500/15 p-8 md:p-10">
+            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-insta-purple/15 p-8 md:p-10">
               <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-center">
                 <div>
                   <p className="text-xs uppercase tracking-[0.28em] font-bold text-indigo-300 mb-4">
@@ -256,8 +256,8 @@ export default function PortfolioPage() {
                   className="group rounded-[2rem] border border-white/10 bg-slate-950/70 p-7 transition hover:bg-slate-950"
                 >
                   <div className="flex items-center gap-5">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/15 border border-emerald-400/20">
-                      <MessageCircle className="w-10 h-10 text-emerald-300" />
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-insta-violet/15 border border-insta-violet/20">
+                      <MessageCircle className="w-10 h-10 text-insta-accent" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold text-white mb-1">
@@ -305,7 +305,7 @@ function FeaturedProjectCard({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-7">
             {metrics.map((metric) => (
               <div key={metric.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xl font-bold text-emerald-600">{metric.value}</p>
+                <p className="text-xl font-bold text-insta-accent">{metric.value}</p>
                 <p className="text-xs text-slate-500">{metric.label}</p>
               </div>
             ))}
@@ -369,7 +369,7 @@ function ProjectMiniCard({
 
           <div className="mt-2 space-y-1">
             {project.results.slice(0, 2).map((result) => (
-              <p key={result} className="flex items-center gap-1 text-xs text-emerald-600">
+              <p key={result} className="flex items-center gap-1 text-xs text-insta-accent">
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span className="truncate">{result}</span>
               </p>

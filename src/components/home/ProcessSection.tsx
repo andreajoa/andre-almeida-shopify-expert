@@ -56,8 +56,8 @@ export function ProcessSection() {
           {steps.map(({ Icon, title, text }, i) => (
             <AnimatedSection key={title} delay={i * 0.08}>
               <div className="h-full rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/10 border border-emerald-400/20">
-                  <Icon className="w-6 h-6 text-emerald-300" />
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-insta-purple/10 border border-insta-violet/20">
+                  <Icon className="w-6 h-6 text-insta-accent" />
                 </div>
                 <h3 className="font-bold text-white mb-3">{title}</h3>
                 <p className="text-sm leading-relaxed text-slate-400">{text}</p>

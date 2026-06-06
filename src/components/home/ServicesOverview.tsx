@@ -63,7 +63,7 @@ export function ServicesOverview() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.12),transparent_45%)]" />
       <div className="relative max-w-7xl mx-auto px-6">
         <AnimatedSection className="text-center mb-14">
-          <span className="inline-flex items-center rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-300 mb-5">
+          <span className="inline-flex items-center rounded-full border border-insta-violet/20 bg-insta-purple/10 px-4 py-2 text-sm font-medium text-insta-accent mb-5">
             {t(locale, "Soluções para vender online", "Soluciones para vender online", "Solutions to sell online")}
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-5">
@@ -96,7 +96,7 @@ export function ServicesOverview() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => Analytics.whatsappClick("services_overview_card")}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition group-hover:text-emerald-200"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-insta-accent transition group-hover:text-white"
                 >
                   {t(locale, "Conversar sobre isso", "Hablar sobre esto", "Talk about this")}
                   <ArrowRight className="w-4 h-4 transition group-hover:translate-x-1" />
@@ -106,8 +106,8 @@ export function ServicesOverview() {
           ))}
         </div>
 
-        <AnimatedSection delay={0.4} className="mt-14 rounded-[2rem] border border-white/10 bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-emerald-500/15 p-8 md:p-10 text-center">
-          <Cake className="mx-auto mb-5 h-10 w-10 text-emerald-300" />
+        <AnimatedSection delay={0.4} className="mt-14 rounded-[2rem] border border-white/10 bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-insta-purple/15 p-8 md:p-10 text-center">
+          <Cake className="mx-auto mb-5 h-10 w-10 text-insta-accent" />
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
             {t(locale,
               "Você não precisa saber tecnologia. Precisa saber o que quer vender.",
@@ -127,7 +127,7 @@ export function ServicesOverview() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => Analytics.whatsappClick("services_overview_cta")}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-500 px-7 py-4 font-bold text-slate-950 transition hover:bg-emerald-400"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-insta-violet px-7 py-4 font-bold text-slate-950 transition hover:bg-insta-purple"
           >
             <ShoppingCart className="w-5 h-5" />
             {t(locale, "Quero vender online", "Quiero vender online", "I want to sell online")}

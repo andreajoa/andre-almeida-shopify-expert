@@ -317,8 +317,8 @@ export default function AboutPage() {
             <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 md:p-8">
               <div className="grid md:grid-cols-5 gap-5 items-center">
                 <div className="md:col-span-2 flex items-center gap-4">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/15">
-                    <ShoppingBag className="w-9 h-9 text-emerald-300" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-insta-violet/15">
+                    <ShoppingBag className="w-9 h-9 text-insta-accent" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">Shopify Expert</h3>

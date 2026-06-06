@@ -146,7 +146,7 @@ export default function ServicesPage() {
         <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="grid lg:grid-cols-[1.03fr_0.97fr] gap-12 items-center">
             <AnimatedSection>
-              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-400/20 px-4 py-2 text-sm font-medium text-emerald-300 mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-insta-violet/10 border border-insta-violet/20 px-4 py-2 text-sm font-medium text-insta-accent mb-6">
                 <Sparkles className="w-4 h-4" />
                 {isPt ? "20+ serviços para vender online" : "20+ services to sell online"}
               </div>
@@ -155,12 +155,12 @@ export default function ServicesPage() {
                 {isPt ? (
                   <>
                     Tudo que você precisa para{" "}
-                    <span className="text-emerald-300">vender mais</span> na internet.
+                    <span className="text-insta-accent">vender mais</span> na internet.
                   </>
                 ) : (
                   <>
                     Everything you need to{" "}
-                    <span className="text-emerald-300">sell more</span> online.
+                    <span className="text-insta-accent">sell more</span> online.
                   </>
                 )}
               </h1>
@@ -178,7 +178,7 @@ export default function ServicesPage() {
                   rel="noopener noreferrer"
                   onClick={() => Analytics.whatsappClick("services_clean_hero")}
                 >
-                  <Button variant="primary" size="lg" className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                  <Button variant="primary" size="lg" className="w-full sm:w-auto bg-insta-violet hover:bg-insta-purple text-slate-950">
                     <MessageCircle className="w-5 h-5" />
                     {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
                   </Button>
@@ -199,15 +199,15 @@ export default function ServicesPage() {
 
               <div className="grid sm:grid-cols-3 gap-4 text-sm text-slate-300">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-emerald-300" />
+                  <Globe className="w-4 h-4 text-insta-accent" />
                   {isPt ? "Atendimento para todo o Brasil" : "Remote service"}
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                  <CheckCircle2 className="w-4 h-4 text-insta-accent" />
                   {isPt ? "Projetos personalizados" : "Custom projects"}
                 </div>
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-4 h-4 text-emerald-300" />
+                  <ShoppingCart className="w-4 h-4 text-insta-accent" />
                   {isPt ? "Foco em resultado" : "Results focused"}
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default function ServicesPage() {
 
             <AnimatedSection delay={0.08}>
               <div className="relative">
-                <div className="absolute -inset-6 rounded-[2rem] bg-emerald-400/20 blur-3xl" />
+                <div className="absolute -inset-6 rounded-[2rem] bg-insta-purple/20 blur-3xl" />
                 <div className="relative rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur">
                   <div className="grid sm:grid-cols-[1fr_0.8fr] gap-5 items-end">
                     <div className="rounded-[1.5rem] overflow-hidden bg-white">
@@ -264,12 +264,12 @@ export default function ServicesPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => Analytics.whatsappClick("services_moment")}
-                  className="block h-full rounded-3xl bg-white border border-slate-200 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:border-emerald-200"
+                  className="block h-full rounded-3xl bg-white border border-slate-200 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:border-insta-purple/30"
                 >
-                  <Icon className="w-9 h-9 text-emerald-500 mb-5" />
+                  <Icon className="w-9 h-9 text-insta-violet mb-5" />
                   <h3 className="font-bold text-lg text-slate-950 mb-2">{title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed mb-5">{text}</p>
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600">
+                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-insta-accent">
                     {cta}
                     <ArrowRight className="w-4 h-4" />
                   </span>
@@ -283,7 +283,7 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-emerald-600">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
               {isPt ? "Todos os serviços" : "All services"}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3 mb-4">
@@ -300,7 +300,7 @@ export default function ServicesPage() {
             {categories.map(({ icon: Icon, title }, index) => (
               <AnimatedSection key={title} delay={index * 0.05}>
                 <div className="rounded-3xl bg-white border border-slate-200 p-6 text-center shadow-sm h-full">
-                  <Icon className="mx-auto w-8 h-8 text-emerald-500 mb-4" />
+                  <Icon className="mx-auto w-8 h-8 text-insta-violet mb-4" />
                   <h3 className="font-bold text-slate-950">{title}</h3>
                 </div>
               </AnimatedSection>
@@ -312,7 +312,7 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-emerald-600">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
               {isPt ? "Serviços em destaque" : "Featured services"}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3 mb-4">
@@ -335,7 +335,7 @@ export default function ServicesPage() {
                     <ul className="space-y-2 mb-7">
                       {localized.features.slice(0, 4).map((feature: string) => (
                         <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-insta-violet mt-0.5 shrink-0" />
                           {feature}
                         </li>
                       ))}
@@ -356,7 +356,7 @@ export default function ServicesPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => Analytics.whatsappClick(`service_clean_${svc.id}`)}
-                        className="inline-flex items-center gap-1 text-sm font-bold text-emerald-600 hover:text-emerald-700"
+                        className="inline-flex items-center gap-1 text-sm font-bold text-insta-accent hover:text-insta-purple"
                       >
                         {isPt ? "Ver detalhes" : "Details"}
                         <ChevronRight className="w-4 h-4" />
@@ -372,7 +372,7 @@ export default function ServicesPage() {
 
       <section className="py-16 md:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="rounded-[2rem] bg-emerald-50 border border-emerald-100 p-8 md:p-10 overflow-hidden">
+          <AnimatedSection className="rounded-[2rem] bg-insta-dark border border-insta-purple/20 p-8 md:p-10 overflow-hidden">
             <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
               <div>
                 <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mb-4">
@@ -390,7 +390,7 @@ export default function ServicesPage() {
                   rel="noopener noreferrer"
                   onClick={() => Analytics.whatsappClick("services_green_cta")}
                 >
-                  <Button variant="primary" size="lg" className="bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                  <Button variant="primary" size="lg" className="bg-insta-violet hover:bg-insta-purple text-slate-950">
                     <MessageCircle className="w-5 h-5" />
                     {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
                   </Button>
@@ -417,7 +417,7 @@ export default function ServicesPage() {
                     isPt ? "Atendimento para todo o Brasil" : "Remote service",
                   ].map((item) => (
                     <div key={item} className="flex items-center gap-2 text-sm text-slate-600 mb-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                      <CheckCircle2 className="w-4 h-4 text-insta-violet" />
                       {item}
                     </div>
                   ))}
@@ -431,7 +431,7 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection className="text-center mb-10">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-emerald-600">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
               {isPt ? "Dúvidas frequentes" : "FAQ"}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3">
@@ -473,7 +473,7 @@ export default function ServicesPage() {
                 rel="noopener noreferrer"
                 onClick={() => Analytics.whatsappClick("services_final_clean_cta")}
               >
-                <Button variant="primary" size="lg" className="bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                <Button variant="primary" size="lg" className="bg-insta-violet hover:bg-insta-purple text-slate-950">
                   <MessageCircle className="w-5 h-5" />
                   {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
                 </Button>

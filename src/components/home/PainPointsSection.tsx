@@ -41,7 +41,7 @@ export function PainPointsSection() {
     <section className="bg-slate-950 py-24">
       <div className="max-w-7xl mx-auto px-6">
         <AnimatedSection className="mb-12 max-w-3xl">
-          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-300">
+          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-insta-accent">
             {t(locale, "Antes de investir mais", "Antes de invertir más", "Before investing more")}
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-bold text-white">

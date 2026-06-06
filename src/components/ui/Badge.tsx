@@ -14,7 +14,7 @@ export function Badge({ children, variant = "default", className }: BadgeProps) 
         {
           "bg-white/10 text-slate-300": variant === "default",
           "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20": variant === "indigo",
-          "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": variant === "emerald",
+          "bg-insta-violet/10 text-insta-neon border border-insta-violet/20": variant === "emerald",
           "bg-purple-500/10 text-purple-400 border border-purple-500/20": variant === "purple",
           "bg-orange-500/10 text-orange-400 border border-orange-500/20": variant === "orange",
           "bg-rose-500/10 text-rose-400 border border-rose-500/20": variant === "rose",

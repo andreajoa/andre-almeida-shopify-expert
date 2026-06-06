@@ -36,7 +36,7 @@ export function WhatsAppButton() {
         className="absolute bottom-[72px] right-0 w-72 bg-white rounded-2xl shadow-2xl overflow-hidden mb-2"
         style={{ display: "none", opacity: 0, transform: "scale(0.8) translateY(20px)", transition: "opacity 250ms ease, transform 250ms ease" }}
       >
-        <div className="bg-[#075E54] p-4 text-white">
+        <div className="bg-insta-dark p-4 text-white">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">AA</div>
             <div>
@@ -56,7 +56,7 @@ export function WhatsAppButton() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => Analytics.whatsappClick("popup_button")}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-insta-violet hover:bg-insta-purple text-white rounded-lg font-semibold transition-colors"
           ><MessageCircle className="w-5 h-5" />{t("startChat")}</a>
         </div>
       </div>
@@ -67,9 +67,9 @@ export function WhatsAppButton() {
           if (!isOpen) Analytics.whatsappClick("floating_button")
           setIsOpen(!isOpen)
         }}
-        className="relative w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+        className="relative w-14 h-14 rounded-full bg-insta-violet text-white shadow-lg shadow-insta-violet/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
       >
-        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+        <span className="absolute inset-0 rounded-full bg-insta-violet animate-ping opacity-20" />
         {isOpen ? <X className="w-6 h-6 relative z-10" /> : <MessageCircle className="w-6 h-6 relative z-10" />}
       </button>
     </div>

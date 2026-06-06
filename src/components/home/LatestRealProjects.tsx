@@ -81,7 +81,7 @@ export function LatestRealProjects() {
 
       <div className="relative max-w-7xl mx-auto px-6">
         <AnimatedSection className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300 mb-5">
+          <div className="inline-flex items-center gap-2 rounded-full border border-insta-violet/20 bg-insta-purple/10 px-4 py-2 text-sm font-semibold text-insta-accent mb-5">
             <Sparkles className="w-4 h-4" />
             Veja o que acontece quando estratégia encontra execução
           </div>
@@ -103,7 +103,7 @@ export function LatestRealProjects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => Analytics.ctaClick(`latest_project_${project.title}`)}
-                className={`group block h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] transition-all duration-500 hover:-translate-y-1 hover:border-emerald-400/40 hover:bg-white/[0.07] hover:shadow-2xl hover:shadow-emerald-500/10 ${
+                className={`group block h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] transition-all duration-500 hover:-translate-y-1 hover:border-insta-violet/40 hover:bg-white/[0.07] hover:shadow-2xl hover:shadow-emerald-500/10 ${
                   project.featured ? "lg:col-span-2" : ""
                 }`}
               >
@@ -122,11 +122,11 @@ export function LatestRealProjects() {
                 </div>
 
                 <div className="p-6">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-emerald-300">
+                  <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-insta-accent">
                     {project.category}
                   </p>
 
-                  <h3 className="mb-2 text-xl font-bold text-white transition-colors group-hover:text-emerald-200">
+                  <h3 className="mb-2 text-xl font-bold text-white transition-colors group-hover:text-white">
                     {project.title}
                   </h3>
 
@@ -142,7 +142,7 @@ export function LatestRealProjects() {
                     ))}
                   </div>
 
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300">
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-insta-accent">
                     Ver projeto ao vivo
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
@@ -155,7 +155,7 @@ export function LatestRealProjects() {
         <AnimatedSection delay={0.6} className="mt-16">
           <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-slate-900 to-indigo-950 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <p className="text-emerald-300 font-semibold mb-2">
+              <p className="text-insta-accent font-semibold mb-2">
                 PRONTO PARA TER ALGO ASSIM?
               </p>
 
