@@ -2,11 +2,8 @@ import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { routing } from "@/i18n/routing"
-import { Header } from "@/components/layout/Header"
-import { Footer } from "@/components/layout/Footer"
-import { WhatsAppButton } from "@/components/widgets/WhatsAppButton"
-import { CookieConsentLazy } from "@/components/widgets/CookieConsentLazy"
 import type { Metadata } from "next"
+import { LocaleChrome } from "@/components/layout/LocaleChrome"
 
 type Props = {
   children: React.ReactNode
@@ -80,11 +77,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <Header />
-      <main className="min-h-screen">{children}</main>
-      <Footer />
-      <WhatsAppButton />
-      <CookieConsentLazy />
+      <LocaleChrome>{children}</LocaleChrome>
     </NextIntlClientProvider>
   )
 }
