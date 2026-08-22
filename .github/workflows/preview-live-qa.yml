@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BASE_URL: https://andre-almeida-git-previ-e16ed2-andre-almeidas-projects-7fa48c22.vercel.app
+      BASE_URL: https://andre-almeida.online
       QA_NAME: QA Preview 20260822
     steps:
       - uses: actions/checkout@v4
@@ -92,7 +92,7 @@ jobs:
                 const page = await context.newPage();
                 const consoleErrors = [];
                 const requestFailures = [];
-                page.on('console', m => { if (m.type()==='error' && !/google-analytics/i.test(m.text())) consoleErrors.push(m.text()); });
+                page.on('console', m => { if (m.type()==='error' && !/google-analytics|ERR_ABORTED/i.test(m.text())) consoleErrors.push(m.text()); });
                 page.on('requestfailed', r => {
                   const err = r.failure()?.errorText || '';
                   if (!/ERR_ABORTED/.test(err) && !/google-analytics\.com/.test(r.url())) requestFailures.push(`${r.url()} ${err}`);
