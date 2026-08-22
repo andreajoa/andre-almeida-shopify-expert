@@ -1,116 +1,108 @@
 "use client"
 
-import { Heart, ArrowUp } from "lucide-react"
-import { useTranslations, useLocale } from "next-intl"
 import Link from "next/link"
+import { ArrowUp, ArrowUpRight } from "lucide-react"
+import { useLocale } from "next-intl"
 import { SITE_CONFIG } from "@/lib/constants"
 
 export function Footer() {
-  const t = useTranslations()
   const locale = useLocale()
+  const isPt = locale === "pt-BR"
+  const isEs = locale === "es"
   const currentYear = new Date().getFullYear()
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
+  const labels = {
+    work: isPt ? "Projetos" : isEs ? "Proyectos" : "Work",
+    services: isPt ? "Serviços" : isEs ? "Servicios" : "Services",
+    about: isPt ? "Sobre" : isEs ? "Sobre mí" : "About",
+    blog: "Insights",
+    free: isPt ? "Material gratuito" : isEs ? "Material gratuito" : "Free material",
+    privacy: isPt ? "Privacidade" : isEs ? "Privacidad" : "Privacy",
+    terms: isPt ? "Termos" : isEs ? "Términos" : "Terms",
+    cookies: "Cookies",
+    contact: isPt ? "Contato" : isEs ? "Contacto" : "Contact",
+    statement: isPt
+      ? "Estratégia, commerce e sistemas digitais para marcas que querem crescer com direção."
+      : isEs
+        ? "Estrategia, commerce y sistemas digitales para marcas que quieren crecer con dirección."
+        : "Strategy, commerce and digital systems for brands that want to grow with direction.",
   }
 
+  const primary = [
+    [labels.work, `/${locale}/portfolio`],
+    [labels.services, `/${locale}/services`],
+    [labels.about, `/${locale}/about`],
+    [labels.blog, `/${locale}/blog`],
+    [labels.free, `/${locale}/material-gratuito`],
+    [labels.contact, `/${locale}/contact`],
+  ]
+
+  const legal = [
+    [labels.privacy, `/${locale}/privacy-policy`],
+    [labels.terms, `/${locale}/terms-of-service`],
+    [labels.cookies, `/${locale}/cookie-policy`],
+  ]
+
   return (
-    <footer className="bg-slate-950 border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div className="lg:col-span-1">
-            <Link href={`/${locale}`} className="flex items-center gap-3 mb-4">
-              <img
-                src="/images/branding/logo1.jpg"
-                alt="Andre Almeida - Shopify Expert"
-                className="h-10 w-10 rounded-xl object-contain"
-                width={40}
-                height={40}
-              />
-              <div>
-                <span className="text-white font-bold">Andre Almeida</span>
-                <span className="block text-[10px] text-slate-400 -mt-1 tracking-wider uppercase">
-                  Shopify Expert
-                </span>
-              </div>
+    <footer className="border-t border-white/10 bg-[#11110f] text-white">
+      <div className="mx-auto max-w-[1600px] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 xl:px-14">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:gap-16">
+          <div>
+            <Link href={`/${locale}`} className="inline-flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-[9px] font-semibold tracking-[0.08em]">AA</span>
+              <span>
+                <span className="block text-[12px] font-semibold tracking-[0.06em]">ANDRÉ ALMEIDA</span>
+                <span className="mt-1 block text-[7px] font-medium tracking-[0.2em] text-white/35">DIGITAL COMMERCE</span>
+              </span>
             </Link>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              {t("footer.description")}
-            </p>
+
+            <p className="mt-8 max-w-xl font-editorial text-3xl leading-[1.04] tracking-[-0.03em] text-white/92 sm:text-4xl">{labels.statement}</p>
+
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              className="mt-8 inline-flex items-center gap-2 border-b border-white/25 pb-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-white/60 transition hover:border-[#c7b18d] hover:text-[#c7b18d]"
+            >
+              {SITE_CONFIG.email}
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">{t("footer.services")}</h3>
-            <ul className="space-y-2">
-              {[
-                "Shopify Development",
-                "Headless Hydrogen",
-                "Store Migration",
-                "Facebook & TikTok Ads",
-                "Conversion Optimization",
-                "Email Marketing",
-              ].map((service) => (
-                <li key={service}>
-                  <Link href={`/${locale}/services`} className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">
-                    {service}
-                  </Link>
+            <p className="text-[8px] font-semibold uppercase tracking-[0.18em] text-white/30">Navigation</p>
+            <ul className="mt-6 space-y-3">
+              {primary.map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-white/58 transition hover:text-white">{label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">{t("footer.company")}</h3>
-            <ul className="space-y-2">
-              {[
-                { label: t("nav.about"), href: `/${locale}/about` },
-                { label: t("nav.portfolio"), href: `/${locale}/portfolio` },
-                { label: t("nav.blog"), href: `/${locale}/blog` },
-                { label: t("nav.contact"), href: `/${locale}/contact` },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-4">{t("footer.legal")}</h3>
-            <ul className="space-y-2">
-              {[
-                { label: t("footer.privacyPolicy"), href: "/privacy-policy" },
-                { label: t("footer.termsOfService"), href: "/terms-of-service" },
-                { label: t("footer.cookiePolicy"), href: "/cookie-policy" },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-slate-400 hover:text-indigo-400 text-sm transition-colors">
-                    {item.label}
-                  </Link>
+            <p className="text-[8px] font-semibold uppercase tracking-[0.18em] text-white/30">Legal</p>
+            <ul className="mt-6 space-y-3">
+              {legal.map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-white/58 transition hover:text-white">{label}</Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-400 text-sm">
-            © {currentYear} {SITE_CONFIG.name}. {t("footer.rights")}
-          </p>
-          <div className="flex items-center gap-2 text-slate-400 text-sm">
-            {t("footer.madeWith")}
-            <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-            in São Paulo, Brazil
+        <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-7 text-[8px] font-medium uppercase tracking-[0.14em] text-white/32 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {currentYear} {SITE_CONFIG.name}. {isPt ? "Todos os direitos reservados." : isEs ? "Todos los derechos reservados." : "All rights reserved."}</p>
+          <div className="flex items-center gap-6">
+            <span>São Paulo · Brazil</span>
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/55 transition hover:border-[#c7b18d] hover:text-[#c7b18d]"
+              aria-label="Scroll to top"
+            >
+              <ArrowUp className="h-3.5 w-3.5" />
+            </button>
           </div>
-          <button
-            onClick={scrollToTop}
-            aria-label="Scroll to top"
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </button>
         </div>
       </div>
     </footer>
