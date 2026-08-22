@@ -1,35 +1,26 @@
-export default function TermsPage() {
-  return (
-    <div className="pt-24">
-      <section className="py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl font-bold text-white mb-8">Terms of Service</h1>
-          <p className="text-slate-500 mb-8">Last updated: January 2025</p>
+import { LegalPage } from "@/components/legal/LegalPage"
+import { SITE_CONFIG } from "@/lib/constants"
 
-          <div className="space-y-8 text-slate-300 leading-relaxed">
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-3">1. Acceptance of Terms</h2>
-              <p>By using this website, you agree to these Terms of Service.</p>
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-3">2. Services</h2>
-              <p>We provide Shopify development, marketing, and design services as described on our website. Specific terms are defined in individual project agreements.</p>
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-3">3. Intellectual Property</h2>
-              <p>All content on this website is owned by Andre Almeida and may not be reproduced without permission.</p>
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-3">4. Limitation of Liability</h2>
-              <p>We are not liable for any indirect damages arising from the use of this website or our services.</p>
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-3">5. Contact</h2>
-              <p>Questions about these terms? Contact us at contact@andrealmeida.dev</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
+type Props = { params: Promise<{ locale: string }> }
+
+export default async function TermsPage({ params }: Props) {
+  const { locale } = await params
+  const lang = locale === "en" ? "en" : "pt-BR"
+  const isPt = lang === "pt-BR"
+  const sections = isPt ? [
+    { title: "Uso do website", paragraphs: ["Ao acessar este website, você concorda em utilizá-lo de forma lícita e compatível com estes termos. O conteúdo possui finalidade informativa e comercial sobre os serviços apresentados."] },
+    { title: "Serviços e propostas", paragraphs: ["Escopo, prazo, investimento, entregáveis, responsabilidades e condições de cada projeto são definidos em proposta, contrato ou instrumento específico.", "Informações gerais do website não substituem os termos particulares acordados para um projeto."] },
+    { title: "Tecnologia e terceiros", paragraphs: ["Projetos podem depender de serviços de terceiros, como domínio, hospedagem, plataformas, meios de pagamento, provedores de e-mail e APIs. Custos, disponibilidade e regras desses serviços são definidos por seus respectivos fornecedores."] },
+    { title: "Propriedade intelectual", paragraphs: ["Conteúdo, identidade e materiais deste website pertencem a André Almeida ou são utilizados sob autorização aplicável e não devem ser reproduzidos indevidamente.", "A titularidade e licença dos entregáveis de clientes são definidas no instrumento específico de cada projeto."] },
+    { title: "Resultados e limitações", paragraphs: ["Não há garantia de posição específica em mecanismos de busca, recomendação por sistemas de IA, volume de tráfego ou resultado financeiro. Resultados dependem de mercado, oferta, concorrência, execução, orçamento, histórico, fatores técnicos e variáveis externas."] },
+    { title: "Contato", paragraphs: [`Dúvidas sobre estes termos podem ser enviadas para ${SITE_CONFIG.email}.`] },
+  ] : [
+    { title: "Website use", paragraphs: ["By accessing this website, you agree to use it lawfully and consistently with these terms. Content is informational and commercial in nature and describes available services."] },
+    { title: "Services and proposals", paragraphs: ["Scope, schedule, investment, deliverables, responsibilities and project conditions are defined in a specific proposal, contract or agreement.", "General website information does not replace the terms agreed for an individual project."] },
+    { title: "Technology and third parties", paragraphs: ["Projects may depend on third-party services such as domains, hosting, platforms, payment providers, email providers and APIs. Their costs, availability and rules are controlled by the relevant provider."] },
+    { title: "Intellectual property", paragraphs: ["Website content, identity and materials belong to Andre Almeida or are used under applicable permission and should not be reproduced improperly.", "Ownership and licensing of client deliverables are defined in each project's agreement."] },
+    { title: "Results and limitations", paragraphs: ["No specific search ranking, AI recommendation, traffic volume or financial outcome is guaranteed. Results depend on market, offer, competition, execution, budget, history, technical factors and external variables."] },
+    { title: "Contact", paragraphs: [`Questions about these terms can be sent to ${SITE_CONFIG.email}.`] },
+  ]
+  return <LegalPage locale={lang} eyebrow={isPt?"TERMOS · CONDIÇÕES":"TERMS · CONDITIONS"} title={isPt?"Termos de Serviço":"Terms of Service"} updated={isPt?"Atualizados em agosto de 2026":"Updated August 2026"} sections={sections}/>
 }
