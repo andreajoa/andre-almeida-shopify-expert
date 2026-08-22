@@ -2,12 +2,12 @@
 
 ## Status geral
 
-**Progresso detalhado:** 120 de 135 tarefas concluídas (**89%**).
+**Progresso detalhado:** 121 de 135 tarefas concluídas (**90%**).
 
-- Concluídas: **120**
-- Em andamento: **5**
+- Concluídas: **121**
+- Em andamento: **4**
 - Pendentes: **10**
-- Fase atual: asset AMB + validação final de build/deploy/produção
+- Fase atual: validação final de build/deploy/produção
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
 
@@ -50,7 +50,7 @@
 - [x] Trocar referências nas páginas internas principais
 - [x] Criar versões otimizadas WebP para os principais assets
 - [x] Instalar favicon novo em icon.png / apple-icon / favicon
-- [~] Publicar asset específico da AMB Boutique no main
+- [x] Preparar asset específico da AMB Boutique
 - [ ] Validar carregamento de todas as imagens em produção
 
 ## 4. Websites & E-commerce próprio
