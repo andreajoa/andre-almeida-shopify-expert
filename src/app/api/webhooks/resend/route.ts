@@ -5,8 +5,7 @@ import { verifyResendWebhook } from "@/lib/marketing/resend-webhook"
 type ResendEvent = {
   type?: string
   created_at?: string
-  data?: { email_id?: string; [key:string]: unknown }
-  [key:string]: unknown
+  data?: { email_id?: string }
 }
 
 export async function POST(req: NextRequest) {
@@ -17,7 +16,7 @@ export async function POST(req: NextRequest) {
   if (!id || !timestamp || !signature) return new NextResponse("Missing signature", { status:400 })
 
   try {
-    const verified = await verifyResendWebhook(payload, { id, timestamp, signature }) as ResendEvent
+    const verified = await verifyResendWebhook(payload, { id, timestamp, signature }) as unknown as ResendEvent
     const emailId = String(verified.data?.email_id || "")
     const eventType = String(verified.type || "")
     if (emailId && eventType) {
@@ -25,7 +24,7 @@ export async function POST(req: NextRequest) {
       await marketingRpc("record_resend_email_event", {
         p_resend_email_id:emailId,
         p_event_type:eventType,
-        p_payload:verified,
+        p_payload:JSON.parse(payload) as Record<string,unknown>,
         p_occurred_at:occurredAt,
       })
     }
