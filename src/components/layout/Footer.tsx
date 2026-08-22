@@ -45,7 +45,7 @@ export function Footer() {
     <div className="mx-auto max-w-[1600px] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 xl:px-14">
       <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:gap-16">
         <div>
-          <Link href={`/${lang}`} className="inline-flex items-center gap-3"><Image src="/icon.png" alt="Monograma André Almeida" width={36} height={36} className="h-9 w-9 rounded-full object-cover"/><span><span className="block text-[12px] font-semibold tracking-[0.06em]">ANDRÉ ALMEIDA</span><span className="mt-1 block text-[7px] font-medium tracking-[0.2em] text-white/35">DIGITAL STRATEGY · COMMERCE · AI</span></span></Link>
+          <Link href={`/${lang}`} className="inline-flex items-center gap-3"><Image src="/favicon.svg" alt="Monograma André Almeida" width={36} height={36} className="h-9 w-9 rounded-full object-cover"/><span><span className="block text-[12px] font-semibold tracking-[0.06em]">ANDRÉ ALMEIDA</span><span className="mt-1 block text-[7px] font-medium tracking-[0.2em] text-white/35">DIGITAL STRATEGY · COMMERCE · AI</span></span></Link>
           <p className="mt-8 max-w-xl font-editorial text-3xl leading-[1.04] tracking-[-0.03em] text-white/92 sm:text-4xl">{labels.statement}</p>
           <a href={`mailto:${SITE_CONFIG.email}`} className="mt-8 inline-flex items-center gap-2 border-b border-white/25 pb-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-white/60 transition hover:border-[#c7b18d] hover:text-[#c7b18d]">{SITE_CONFIG.email}<ArrowUpRight className="h-3.5 w-3.5"/></a>
         </div>
