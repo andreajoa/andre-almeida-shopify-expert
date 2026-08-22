@@ -26,5 +26,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function AutoridadeOnlinePage({ params }: Props) {
   const { locale } = await params
   const lang = locale === "en" ? "en" : "pt-BR"
-  return <IntentLandingPage locale={lang} content={intentPages[slug][lang].content} />
+  return <IntentLandingPage locale={lang} slug={slug} content={intentPages[slug][lang].content} />
 }
