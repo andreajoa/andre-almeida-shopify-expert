@@ -1,60 +1,48 @@
 "use client"
-import { useState, useMemo } from "react"
-import { useTranslations, useLocale } from "next-intl"
-import { Mail, MessageCircle, Clock, MapPin, ChevronLeft, ChevronRight, Calendar, Check, User } from "lucide-react"
-import { Card } from "@/components/ui/Card"
-import { Button } from "@/components/ui/Button"
-import { AnimatedSection } from "@/components/shared/AnimatedSection"
+
+import { useMemo, useState } from "react"
+import { useLocale } from "next-intl"
+import { ArrowLeft, ArrowRight, Calendar, Check, Mail, MessageCircle } from "lucide-react"
+import { getAvailableDates, getAvailableSlots } from "@/data/scheduling"
 import { SITE_CONFIG } from "@/lib/constants"
-import { getAvailableSlots, getAvailableDates } from "@/data/scheduling"
 import { Analytics } from "@/lib/analytics"
 
+type FormState = "idle" | "sending" | "success" | "error"
+
 export default function ContactPage() {
-  const t = useTranslations("contact")
-  const tSvc = useTranslations("serviceOptions")
-  const tBud = useTranslations("budgetOptions")
   const locale = useLocale()
-  const [formState, setFormState] = useState<"idle"|"sending"|"success"|"error">("idle")
-  const [formData, setFormData] = useState({ name:"",email:"",phone:"",company:"",serviceType:"",budget:"",message:"",privacy:false })
-  const [tab, setTab] = useState<"form"|"schedule">("form")
+  const isPt = locale !== "en"
+  const lang = isPt ? "pt-BR" : "en"
+  const [tab, setTab] = useState<"form" | "schedule">("form")
+  const [formState, setFormState] = useState<FormState>("idle")
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", company: "", serviceType: "", budget: "", message: "", privacy: false })
   const [calMonth, setCalMonth] = useState(new Date().getMonth())
   const [calYear, setCalYear] = useState(new Date().getFullYear())
-  const [selectedDate, setSelectedDate] = useState<string|null>(null)
-  const [selectedTime, setSelectedTime] = useState<string|null>(null)
-  const [scheduleState, setScheduleState] = useState<"idle"|"form"|"sending"|"success">("idle")
-  const [scheduleData, setScheduleData] = useState({ name:"",email:"",phone:"",company:"",website:"",serviceType:"",about:"" })
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [scheduleState, setScheduleState] = useState<"idle" | "details" | "sending" | "success" | "error">("idle")
+  const [scheduleData, setScheduleData] = useState({ name: "", email: "", phone: "", company: "", website: "", serviceType: "", about: "" })
 
-  const availDates = useMemo(() => getAvailableDates(calYear, calMonth), [calYear, calMonth])
+  const availableDates = useMemo(() => getAvailableDates(calYear, calMonth), [calYear, calMonth])
   const timeSlots = useMemo(() => selectedDate ? getAvailableSlots(selectedDate) : [], [selectedDate])
+  const months = isPt ? ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"] : ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  const services = isPt ? ["Website para empresa", "E-commerce próprio", "Shopify", "SEO / GEO / Autoridade", "CRM / Analytics", "E-mail marketing", "Automação / IA", "Venda de livros online", "Outro"] : ["Business website", "Owned ecommerce", "Shopify", "SEO / GEO / Authority", "CRM / Analytics", "Email marketing", "Automation / AI", "Book sales website", "Other"]
+  const budgets = isPt ? ["Até R$ 3 mil", "R$ 3 mil – R$ 7 mil", "R$ 7 mil – R$ 15 mil", "R$ 15 mil – R$ 30 mil", "Acima de R$ 30 mil", "Ainda não defini"] : ["Up to $1k", "$1k – $3k", "$3k – $7k", "$7k – $15k", "$15k+", "Not defined yet"]
+  const whatsapp = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(isPt ? "Olá André, vi seu site e quero conversar sobre um projeto." : "Hi Andre, I saw your website and want to discuss a project.")}`
 
-  const monthNames: Record<string, string[]> = {
-    en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
-    "pt-BR": ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
-    es: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
-  }
-  const dayNames: Record<string, string[]> = {
-    en: ["Mon","Tue","Wed","Thu","Fri"],
-    "pt-BR": ["Seg","Ter","Qua","Qui","Sex"],
-    es: ["Lun","Mar","Mié","Jue","Vie"],
-  }
+  const input = "w-full border-b border-[#cfc8bc] bg-transparent px-0 py-3 text-sm text-[#11110f] placeholder:text-[#99938a] focus:border-[#11110f] focus:outline-none"
+  const label = "block text-[9px] font-semibold uppercase tracking-[.15em] text-[#77736b]"
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setFormState("sending")
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, locale, type: "contact" }),
-      })
-      if (res.ok) {
-        setFormState("success")
-        Analytics.contactFormSubmit()
-      } else setFormState("error")
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...formData, locale: lang, type: "contact" }) })
+      if (res.ok) { setFormState("success"); Analytics.contactFormSubmit() } else setFormState("error")
     } catch { setFormState("error") }
   }
 
-  const handleScheduleSubmit = async (e: React.FormEvent) => {
+  async function handleScheduleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedDate || !selectedTime) return
     setScheduleState("sending")
@@ -69,240 +57,29 @@ export default function ContactPage() {
           company: scheduleData.company,
           serviceType: scheduleData.serviceType,
           budget: "",
-          message: `📅 SCHEDULED CALL\nDate: ${selectedDate}\nTime: ${selectedTime}\nWebsite/Store: ${scheduleData.website}\n\nAbout their business:\n${scheduleData.about}`,
-          locale,
+          message: `${isPt ? "CALL AGENDADA" : "SCHEDULED CALL"}\n${isPt ? "Data" : "Date"}: ${selectedDate}\n${isPt ? "Horário" : "Time"}: ${selectedTime}\nWebsite: ${scheduleData.website}\n\n${isPt ? "Sobre o projeto" : "About the project"}:\n${scheduleData.about}`,
+          locale: lang,
           type: "scheduled-call",
           selectedDate,
           selectedTime,
         }),
       })
-      if (res.ok) {
-        setScheduleState("success")
-        Analytics.callScheduled()
-      }
-    } catch { /* handle error */ }
+      if (res.ok) { setScheduleState("success"); Analytics.callScheduled() } else setScheduleState("error")
+    } catch { setScheduleState("error") }
   }
 
-  const prevMonth = () => { if (calMonth === 0) { setCalMonth(11); setCalYear(y => y-1) } else setCalMonth(m => m-1) }
-  const nextMonth = () => { if (calMonth === 11) { setCalMonth(0); setCalYear(y => y+1) } else setCalMonth(m => m+1) }
+  const prevMonth = () => { if (calMonth === 0) { setCalMonth(11); setCalYear(y => y - 1) } else setCalMonth(m => m - 1) }
+  const nextMonth = () => { if (calMonth === 11) { setCalMonth(0); setCalYear(y => y + 1) } else setCalMonth(m => m + 1) }
 
-  const svcOptions = ["sd","hh","sm","ca","po","sa","fa","ta","cro","em","lp","ig","ac","au","ai","ot"]
-  const budOptions = ["u2","2_5","5_10","10_25","25p","ns"]
+  return <main className="bg-[#f2efe8] text-[#11110f]">
+    <section className="border-b border-[#d4cec2] px-5 pb-20 pt-36 sm:px-8 md:pb-28 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1500px]"><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#77736b]">{isPt ? "CONTATO · NOVOS PROJETOS" : "CONTACT · NEW PROJECTS"}</p><div className="mt-8 grid gap-12 lg:grid-cols-[.68fr_.32fr] lg:items-end"><h1 className="font-editorial text-[clamp(3.5rem,7vw,7.5rem)] leading-[.88] tracking-[-.05em]">{isPt ? "Conte o que precisa mudar. Eu ajudo a definir" : "Tell me what needs to change. I will help define"} <span className="italic text-[#5f6559]">{isPt ? "o que construir." : "what to build."}</span></h1><div><p className="text-base leading-8 text-[#625e56]">{isPt ? "Você pode enviar os detalhes pelo formulário, escolher um horário para uma conversa ou falar diretamente pelo WhatsApp." : "Send project details through the form, choose a call time or talk directly through WhatsApp."}</p><a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("contact_hero")} className="mt-7 inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white"><MessageCircle className="h-4 w-4"/>{isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}</a></div></div></div></section>
 
-  const inputClass = "w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-  const labelClass = "block text-sm font-medium text-slate-300 mb-2"
+    <section className="px-5 py-20 sm:px-8 md:py-28 lg:px-10 xl:px-14"><div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[.32fr_.68fr] lg:gap-20"><aside><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#77736b]">{isPt ? "ESCOLHA O CANAL" : "CHOOSE A CHANNEL"}</p><div className="mt-8 space-y-2"><button type="button" onClick={() => setTab("form")} className={`flex min-h-14 w-full items-center justify-between border px-5 text-left text-[10px] font-semibold uppercase tracking-[.13em] ${tab === "form" ? "border-[#11110f] bg-[#11110f] text-white" : "border-[#cfc8bc]"}`}><span className="flex items-center gap-3"><Mail className="h-4 w-4"/>{isPt ? "Enviar projeto" : "Send project"}</span><ArrowRight className="h-4 w-4"/></button><button type="button" onClick={() => setTab("schedule")} className={`flex min-h-14 w-full items-center justify-between border px-5 text-left text-[10px] font-semibold uppercase tracking-[.13em] ${tab === "schedule" ? "border-[#11110f] bg-[#11110f] text-white" : "border-[#cfc8bc]"}`}><span className="flex items-center gap-3"><Calendar className="h-4 w-4"/>{isPt ? "Agendar conversa" : "Schedule a call"}</span><ArrowRight className="h-4 w-4"/></button></div><div className="mt-10 border-t border-[#d4cec2] pt-7"><p className="text-[9px] font-semibold uppercase tracking-[.15em] text-[#77736b]">E-mail</p><a href={`mailto:${SITE_CONFIG.email}`} className="mt-2 block font-editorial text-2xl">{SITE_CONFIG.email}</a><p className="mt-7 text-[9px] font-semibold uppercase tracking-[.15em] text-[#77736b]">{isPt ? "Atendimento" : "Service area"}</p><p className="mt-2 text-sm leading-6 text-[#625e56]">{isPt ? "Todo o Brasil · projetos internacionais" : "Brazil · international projects"}</p></div></aside>
 
-  return (
-    <div className="pt-24">
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{t("title")}</h1>
-            <p className="text-lg text-slate-400">{t("subtitle")}</p>
-          </AnimatedSection>
-
-          <div className="grid lg:grid-cols-5 gap-12">
-            <AnimatedSection className="lg:col-span-3">
-              {/* Tabs */}
-              <div className="flex gap-2 mb-6">
-                <button onClick={() => setTab("form")} className={`flex-1 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${tab==="form" ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-400 hover:bg-white/10"}`}>
-                  <Mail className="w-4 h-4 inline mr-2" />{t("submit")}
-                </button>
-                <button onClick={() => setTab("schedule")} className={`flex-1 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${tab==="schedule" ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-400 hover:bg-white/10"}`}>
-                  <Calendar className="w-4 h-4 inline mr-2" />{t("orSchedule")}
-                </button>
-              </div>
-
-              {tab === "form" ? (
-                <Card variant="gradient">
-                  {formState === "success" ? (
-                    <div className="text-center py-12">
-                      <div className="w-16 h-16 rounded-full bg-insta-violet/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-insta-neon" /></div>
-                      <p className="text-white text-lg font-medium">{t("success")}</p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      <div className="grid md:grid-cols-2 gap-5">
-                        <div><label className={labelClass}>{t("name")} *</label>
-                          <input type="text" required value={formData.name} onChange={e=>setFormData({...formData,name:e.target.value})} placeholder={t("namePh")} className={inputClass} /></div>
-                        <div><label className={labelClass}>{t("email")} *</label>
-                          <input type="email" required value={formData.email} onChange={e=>setFormData({...formData,email:e.target.value})} placeholder={t("emailPh")} className={inputClass} /></div>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-5">
-                        <div><label className={labelClass}>{t("phone")}</label>
-                          <input type="tel" value={formData.phone} onChange={e=>setFormData({...formData,phone:e.target.value})} placeholder={t("phonePh")} className={inputClass} /></div>
-                        <div><label className={labelClass}>{t("company")}</label>
-                          <input type="text" value={formData.company} onChange={e=>setFormData({...formData,company:e.target.value})} placeholder={t("companyPh")} className={inputClass} /></div>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-5">
-                        <div><label className={labelClass}>{t("service")} *</label>
-                          <select required value={formData.serviceType} onChange={e=>setFormData({...formData,serviceType:e.target.value})} className={`${inputClass} appearance-none`}>
-                            <option value="" className="bg-slate-900">{t("servicePh")}</option>
-                            {svcOptions.map(o => <option key={o} value={o} className="bg-slate-900">{tSvc(o)}</option>)}
-                          </select></div>
-                        <div><label className={labelClass}>{t("budget")}</label>
-                          <select value={formData.budget} onChange={e=>setFormData({...formData,budget:e.target.value})} className={`${inputClass} appearance-none`}>
-                            <option value="" className="bg-slate-900">{t("budgetPh")}</option>
-                            {budOptions.map(o => <option key={o} value={o} className="bg-slate-900">{tBud(o)}</option>)}
-                          </select></div>
-                      </div>
-                      <div><label className={labelClass}>{t("message")} *</label>
-                        <textarea required rows={5} value={formData.message} onChange={e=>setFormData({...formData,message:e.target.value})} placeholder={t("messagePh")} className={`${inputClass} resize-none`} /></div>
-                      <label className="flex items-start gap-3 cursor-pointer">
-                        <input type="checkbox" required checked={formData.privacy} onChange={e=>setFormData({...formData,privacy:e.target.checked})} className="mt-1 w-4 h-4 rounded" />
-                        <span className="text-sm text-slate-400">{t("privacy")}</span>
-                      </label>
-                      <Button type="submit" variant="primary" size="lg" className="w-full" disabled={formState==="sending"}>
-                        {formState==="sending" ? t("sending") : t("submit")}
-                      </Button>
-                    </form>
-                  )}
-                </Card>
-              ) : (
-                <Card variant="gradient">
-                  {scheduleState === "success" ? (
-                    <div className="text-center py-12">
-                      <div className="w-16 h-16 rounded-full bg-insta-violet/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-insta-neon" /></div>
-                      <p className="text-white text-lg font-medium mb-2">{t("scheduleSuccess")}</p>
-                      <p className="text-indigo-400 font-semibold">{selectedDate} — {selectedTime}</p>
-                    </div>
-                  ) : scheduleState === "form" || scheduleState === "sending" ? (
-                    <form onSubmit={handleScheduleSubmit} className="space-y-5">
-                      <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4 mb-2">
-                        <p className="text-indigo-400 font-medium text-sm flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
-                          {selectedDate} — {selectedTime}
-                        </p>
-                      </div>
-                      <p className="text-slate-400 text-sm">
-                        {locale === "pt-BR" ? "Preencha suas informações para que possamos nos preparar para a call:" :
-                         locale === "es" ? "Completa tu información para que podamos prepararnos para la llamada:" :
-                         "Fill in your details so we can prepare for the call:"}
-                      </p>
-                      <div className="grid md:grid-cols-2 gap-5">
-                        <div><label className={labelClass}>{t("name")} *</label>
-                          <input type="text" required value={scheduleData.name} onChange={e=>setScheduleData({...scheduleData,name:e.target.value})} placeholder={t("namePh")} className={inputClass} /></div>
-                        <div><label className={labelClass}>{t("email")} *</label>
-                          <input type="email" required value={scheduleData.email} onChange={e=>setScheduleData({...scheduleData,email:e.target.value})} placeholder={t("emailPh")} className={inputClass} /></div>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-5">
-                        <div><label className={labelClass}>{t("phone")} *</label>
-                          <input type="tel" required value={scheduleData.phone} onChange={e=>setScheduleData({...scheduleData,phone:e.target.value})} placeholder={t("phonePh")} className={inputClass} /></div>
-                        <div><label className={labelClass}>{t("company")}</label>
-                          <input type="text" value={scheduleData.company} onChange={e=>setScheduleData({...scheduleData,company:e.target.value})} placeholder={t("companyPh")} className={inputClass} /></div>
-                      </div>
-                      <div><label className={labelClass}>
-                        {locale === "pt-BR" ? "Website / Loja atual" : locale === "es" ? "Website / Tienda actual" : "Website / Current Store"}
-                      </label>
-                        <input type="text" value={scheduleData.website} onChange={e=>setScheduleData({...scheduleData,website:e.target.value})}
-                          placeholder={locale === "pt-BR" ? "https://sualojaaqui.com" : "https://yourstore.com"} className={inputClass} /></div>
-                      <div><label className={labelClass}>{t("service")} *</label>
-                        <select required value={scheduleData.serviceType} onChange={e=>setScheduleData({...scheduleData,serviceType:e.target.value})} className={`${inputClass} appearance-none`}>
-                          <option value="" className="bg-slate-900">{t("servicePh")}</option>
-                          {svcOptions.map(o => <option key={o} value={o} className="bg-slate-900">{tSvc(o)}</option>)}
-                        </select></div>
-                      <div><label className={labelClass}>
-                        {locale === "pt-BR" ? "Conte sobre seu negócio e o que precisa *" :
-                         locale === "es" ? "Cuéntanos sobre tu negocio y lo que necesitas *" :
-                         "Tell us about your business and what you need *"}
-                      </label>
-                        <textarea required rows={4} value={scheduleData.about} onChange={e=>setScheduleData({...scheduleData,about:e.target.value})}
-                          placeholder={locale === "pt-BR" ? "Ex: Tenho uma loja de moda no Shopify, faturo R$30K/mês e preciso de ajuda com Facebook Ads..." :
-                                       locale === "es" ? "Ej: Tengo una tienda de moda en Shopify..." :
-                                       "E.g.: I have a fashion store on Shopify, doing $5K/mo..."}
-                          className={`${inputClass} resize-none`} /></div>
-                      <div className="flex gap-3">
-                        <button type="button" onClick={() => setScheduleState("idle")}
-                          className="flex-1 py-3 rounded-xl font-medium text-sm border border-white/10 text-slate-400 hover:bg-white/5 transition-all cursor-pointer">
-                          {locale === "pt-BR" ? "← Voltar" : locale === "es" ? "← Volver" : "← Back"}
-                        </button>
-                        <Button type="submit" variant="primary" size="lg" className="flex-1" disabled={scheduleState==="sending"}>
-                          {scheduleState === "sending"
-                            ? (locale === "pt-BR" ? "Agendando..." : locale === "es" ? "Agendando..." : "Scheduling...")
-                            : t("scheduleCall")}
-                        </Button>
-                      </div>
-                    </form>
-                  ) : (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-white font-medium mb-4">{t("selectDate")}</h3>
-                        <div className="flex items-center justify-between mb-4">
-                          <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-white/5 text-slate-400 cursor-pointer"><ChevronLeft className="w-5 h-5" /></button>
-                          <span className="text-white font-medium">{(monthNames[locale] || monthNames.en)[calMonth]} {calYear}</span>
-                          <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-white/5 text-slate-400 cursor-pointer"><ChevronRight className="w-5 h-5" /></button>
-                        </div>
-                        <div className="grid grid-cols-5 gap-2 mb-2">
-                          {(dayNames[locale] || dayNames.en).map(d => <div key={d} className="text-center text-xs text-slate-500 py-1">{d}</div>)}
-                        </div>
-                        <div className="grid grid-cols-5 gap-2">
-                          {availDates.slice(0,20).map(date => {
-                            const day = parseInt(date.split("-")[2])
-                            const isSelected = selectedDate === date
-                            return (
-                              <button key={date} onClick={() => { setSelectedDate(date); setSelectedTime(null) }}
-                                className={`py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${isSelected ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-300 hover:bg-white/10"}`}>
-                                {day}
-                              </button>
-                            )
-                          })}
-                        </div>
-                      </div>
-                      {selectedDate && (
-                        <div>
-                          <h3 className="text-white font-medium mb-4">{t("selectTime")}</h3>
-                          <div className="grid grid-cols-2 gap-3">
-                            {timeSlots.map(slot => (
-                              <button key={slot.time} disabled={!slot.available}
-                                onClick={() => slot.available && setSelectedTime(slot.time)}
-                                className={`py-3 rounded-xl text-sm font-medium transition-all ${
-                                  !slot.available ? "bg-red-500/10 text-red-400/50 cursor-not-allowed line-through" :
-                                  selectedTime === slot.time ? "bg-indigo-600 text-white cursor-pointer" :
-                                  "bg-white/5 text-slate-300 hover:bg-white/10 cursor-pointer"
-                                }`}>
-                                {slot.time} {!slot.available ? `(${t("booked")})` : ""}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {selectedDate && selectedTime && (
-                        <Button onClick={() => setScheduleState("form")} variant="primary" size="lg" className="w-full">
-                          <User className="w-5 h-5" />
-                          {locale === "pt-BR" ? "Continuar → Preencher informações" :
-                           locale === "es" ? "Continuar → Completar información" :
-                           "Continue → Fill in your details"}
-                        </Button>
-                      )}
-                    </div>
-                  )}
-                </Card>
-              )}
-            </AnimatedSection>
-
-            {/* Sidebar */}
-            <AnimatedSection delay={0.2} className="lg:col-span-2 space-y-6">
-              <Card variant="glass">
-                <h3 className="text-lg font-bold text-white mb-6">{t("info")}</h3>
-                <div className="space-y-5">
-                  <div className="flex items-start gap-3"><Mail className="w-5 h-5 text-indigo-400 mt-0.5" /><div><p className="text-sm text-slate-500">Email</p><a href={`mailto:${SITE_CONFIG.email}`} className="text-white hover:text-indigo-400 transition-colors">{SITE_CONFIG.email}</a></div></div>
-                  <div className="flex items-start gap-3"><MessageCircle className="w-5 h-5 text-insta-neon mt-0.5" /><div><p className="text-sm text-slate-500">WhatsApp</p><a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("contact_sidebar")} className="text-white hover:text-insta-neon transition-colors">+55 11 99259-8585</a></div></div>
-                  <div className="flex items-start gap-3"><Clock className="w-5 h-5 text-purple-400 mt-0.5" /><div><p className="text-sm text-slate-500">{t("responseTime")}</p><p className="text-white">{t("responseValue")}</p></div></div>
-                  <div className="flex items-start gap-3"><MapPin className="w-5 h-5 text-orange-400 mt-0.5" /><div><p className="text-sm text-slate-500">{t("location")}</p><p className="text-white">{t("locationValue")}</p><p className="text-slate-500 text-sm">{t("international")}</p></div></div>
-                </div>
-              </Card>
-              <Card variant="glass">
-                <h3 className="text-lg font-bold text-white mb-6">{t("faq")}</h3>
-                <div className="space-y-4">
-                  {["1","2","3"].map(n => (
-                    <div key={n}><p className="text-sm font-medium text-white mb-1">{t(`q${n}`)}</p><p className="text-sm text-slate-400">{t(`a${n}`)}</p></div>
-                  ))}
-                </div>
-              </Card>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
+      <div>
+        {tab === "form" ? <div>{formState === "success" ? <div className="border border-[#cfc8bc] p-10 sm:p-14"><span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#11110f] text-white"><Check className="h-5 w-5"/></span><h2 className="mt-8 font-editorial text-4xl">{isPt ? "Mensagem recebida." : "Message received."}</h2><p className="mt-4 max-w-xl text-sm leading-7 text-[#625e56]">{isPt ? "Os dados foram enviados pelo formulário. Vou analisar o contexto do projeto antes de responder." : "Your details were submitted. I will review the project context before replying."}</p></div> : <form onSubmit={handleSubmit} className="border-y border-[#d4cec2] py-2"><div className="grid gap-x-8 md:grid-cols-2"><div className="py-5"><label className={label}>{isPt?"Nome":"Name"} *</label><input required className={input} value={formData.name} onChange={e=>setFormData({...formData,name:e.target.value})} placeholder={isPt?"Seu nome":"Your name"}/></div><div className="py-5"><label className={label}>E-mail *</label><input type="email" required className={input} value={formData.email} onChange={e=>setFormData({...formData,email:e.target.value})} placeholder="email@empresa.com"/></div><div className="py-5"><label className={label}>{isPt?"Telefone / WhatsApp":"Phone / WhatsApp"}</label><input className={input} value={formData.phone} onChange={e=>setFormData({...formData,phone:e.target.value})} placeholder="+55..."/></div><div className="py-5"><label className={label}>{isPt?"Empresa / Marca":"Company / Brand"}</label><input className={input} value={formData.company} onChange={e=>setFormData({...formData,company:e.target.value})}/></div><div className="py-5"><label className={label}>{isPt?"O que você precisa?":"What do you need?"} *</label><select required className={input} value={formData.serviceType} onChange={e=>setFormData({...formData,serviceType:e.target.value})}><option value="">{isPt?"Selecione":"Select"}</option>{services.map(x=><option key={x} value={x}>{x}</option>)}</select></div><div className="py-5"><label className={label}>{isPt?"Faixa de investimento":"Budget range"}</label><select className={input} value={formData.budget} onChange={e=>setFormData({...formData,budget:e.target.value})}><option value="">{isPt?"Selecione":"Select"}</option>{budgets.map(x=><option key={x} value={x}>{x}</option>)}</select></div></div><div className="py-5"><label className={label}>{isPt?"Conte sobre o projeto":"Tell me about the project"} *</label><textarea required rows={6} className={`${input} resize-none`} value={formData.message} onChange={e=>setFormData({...formData,message:e.target.value})} placeholder={isPt?"O que você vende, como funciona hoje e o que precisa melhorar?":"What do you sell, how does it work today and what needs to improve?"}/></div><label className="flex items-start gap-3 py-5 text-xs leading-5 text-[#77736b]"><input type="checkbox" required checked={formData.privacy} onChange={e=>setFormData({...formData,privacy:e.target.checked})} className="mt-1"/><span>{isPt ? "Autorizo o uso dessas informações para responder a esta solicitação, conforme a política de privacidade." : "I authorize the use of this information to respond to this request according to the privacy policy."}</span></label>{formState === "error" ? <p className="mb-4 text-sm text-red-700">{isPt ? "Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp." : "Could not send right now. Try again or use WhatsApp."}</p> : null}<button type="submit" disabled={formState === "sending"} className="mb-5 inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white disabled:opacity-50">{formState === "sending" ? (isPt?"Enviando...":"Sending...") : (isPt?"Enviar informações":"Send details")}<ArrowRight className="h-4 w-4"/></button></form>}</div> :
+        <div>{scheduleState === "success" ? <div className="border border-[#cfc8bc] p-10 sm:p-14"><span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#11110f] text-white"><Check className="h-5 w-5"/></span><h2 className="mt-8 font-editorial text-4xl">{isPt ? "Conversa solicitada." : "Call requested."}</h2><p className="mt-4 text-sm leading-7 text-[#625e56]">{selectedDate} · {selectedTime}</p></div> : scheduleState === "details" || scheduleState === "sending" || scheduleState === "error" ? <form onSubmit={handleScheduleSubmit} className="border-y border-[#d4cec2] py-5"><div className="mb-7 flex items-center justify-between border-b border-[#d4cec2] pb-5"><div><p className={label}>{isPt?"Horário escolhido":"Selected time"}</p><p className="mt-2 font-editorial text-2xl">{selectedDate} · {selectedTime}</p></div><button type="button" onClick={()=>setScheduleState("idle")} className="text-[9px] font-semibold uppercase tracking-[.13em] text-[#77736b]">{isPt?"Alterar":"Change"}</button></div><div className="grid gap-x-8 md:grid-cols-2"><div className="py-4"><label className={label}>{isPt?"Nome":"Name"} *</label><input required className={input} value={scheduleData.name} onChange={e=>setScheduleData({...scheduleData,name:e.target.value})}/></div><div className="py-4"><label className={label}>E-mail *</label><input type="email" required className={input} value={scheduleData.email} onChange={e=>setScheduleData({...scheduleData,email:e.target.value})}/></div><div className="py-4"><label className={label}>{isPt?"Telefone":"Phone"} *</label><input required className={input} value={scheduleData.phone} onChange={e=>setScheduleData({...scheduleData,phone:e.target.value})}/></div><div className="py-4"><label className={label}>{isPt?"Empresa":"Company"}</label><input className={input} value={scheduleData.company} onChange={e=>setScheduleData({...scheduleData,company:e.target.value})}/></div><div className="py-4"><label className={label}>Website</label><input className={input} value={scheduleData.website} onChange={e=>setScheduleData({...scheduleData,website:e.target.value})}/></div><div className="py-4"><label className={label}>{isPt?"Serviço":"Service"} *</label><select required className={input} value={scheduleData.serviceType} onChange={e=>setScheduleData({...scheduleData,serviceType:e.target.value})}><option value="">{isPt?"Selecione":"Select"}</option>{services.map(x=><option key={x} value={x}>{x}</option>)}</select></div></div><div className="py-4"><label className={label}>{isPt?"Contexto do projeto":"Project context"} *</label><textarea required rows={5} className={`${input} resize-none`} value={scheduleData.about} onChange={e=>setScheduleData({...scheduleData,about:e.target.value})}/></div>{scheduleState === "error" ? <p className="mb-4 text-sm text-red-700">{isPt?"Não foi possível agendar agora. Tente novamente.":"Could not schedule right now. Try again."}</p>:null}<button type="submit" disabled={scheduleState === "sending"} className="mt-4 inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white disabled:opacity-50">{scheduleState === "sending"?(isPt?"Enviando...":"Sending..."):(isPt?"Confirmar solicitação":"Confirm request")}<ArrowRight className="h-4 w-4"/></button></form> : <div><div className="flex items-center justify-between border-y border-[#d4cec2] py-5"><button type="button" onClick={prevMonth} className="flex h-10 w-10 items-center justify-center border border-[#cfc8bc]" aria-label={isPt?"Mês anterior":"Previous month"}><ArrowLeft className="h-4 w-4"/></button><h2 className="font-editorial text-3xl">{months[calMonth]} {calYear}</h2><button type="button" onClick={nextMonth} className="flex h-10 w-10 items-center justify-center border border-[#cfc8bc]" aria-label={isPt?"Próximo mês":"Next month"}><ArrowRight className="h-4 w-4"/></button></div><div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">{availableDates.map(date=><button type="button" key={date} onClick={()=>{setSelectedDate(date);setSelectedTime(null)}} className={`min-h-12 border px-3 text-xs ${selectedDate===date?"border-[#11110f] bg-[#11110f] text-white":"border-[#cfc8bc] hover:border-[#11110f]"}`}>{date}</button>)}</div>{selectedDate ? <div className="mt-8 border-t border-[#d4cec2] pt-7"><p className={label}>{isPt?"Horários disponíveis":"Available times"}</p><div className="mt-4 flex flex-wrap gap-2">{timeSlots.map(time=><button type="button" key={time} onClick={()=>setSelectedTime(time)} className={`min-h-11 border px-4 text-xs ${selectedTime===time?"border-[#11110f] bg-[#11110f] text-white":"border-[#cfc8bc]"}`}>{time}</button>)}</div>{selectedTime ? <button type="button" onClick={()=>setScheduleState("details")} className="mt-7 inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white">{isPt?"Continuar":"Continue"}<ArrowRight className="h-4 w-4"/></button>:null}</div>:null}</div>}</div>}
+      </div>
+    </div></section>
+  </main>
 }
