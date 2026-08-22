@@ -19,7 +19,7 @@ const nextConfig = {
   poweredByHeader: false,
   rewrites: async () => ({
     beforeFiles: [
-      { source: "/brand/andre-premium.webp", destination: "/brand/andre-premium.jpg" },
+      { source: "/brand/andre-premium.webp", destination: "/images/andre6.png" },
     ],
     afterFiles: [],
     fallback: [],
