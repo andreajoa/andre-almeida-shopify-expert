@@ -9,10 +9,10 @@ export default function UnsubscribePage() {
   const token = params.get("token") || ""
   const lang = params.get("lang") === "en" ? "en" : "pt-BR"
   const isPt = lang !== "en"
-  const [state, setState] = useState<"working"|"done"|"error">("working")
+  const [state, setState] = useState<"working"|"done"|"error">(token ? "working" : "error")
 
   useEffect(() => {
-    if (!token) { setState("error"); return }
+    if (!token) return
     fetch(`/api/marketing/unsubscribe?token=${encodeURIComponent(token)}`, { method:"POST" })
       .then(r => { if (!r.ok) throw new Error(); setState("done") })
       .catch(() => setState("error"))
