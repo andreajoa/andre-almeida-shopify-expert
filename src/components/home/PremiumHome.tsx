@@ -15,15 +15,15 @@ type Project = { title: string; category: string; description: string; image: st
 const projects: Record<LocaleKey, Project[]> = {
   "pt-BR": [
     { title: "NOVA AI Studio", category: "IA · SAAS · PRODUTO", description: "Uma plataforma de criação com IA transformada em produto digital com identidade, clareza e experiência de uso.", image: "/brand/nova-ai.webp", href: "https://www.novvideos.online/", index: "01", featured: true },
-    { title: "CAA Neuro", category: "APP · ACESSIBILIDADE · IA", description: "Tecnologia assistiva com comunicação alternativa, voz, tradução e recursos terapêuticos em uma experiência acessível.", image: "/brand/caa-neuro.webp", href: "https://www.adhdautism.online/", index: "02" },
-    { title: "Vastara", category: "E-COMMERCE · LUXURY", description: "Uma vitrine premium de relógios construída para elevar percepção de marca, produto e intenção de compra.", image: "/brand/vastara.webp", href: "https://vastara.online/", index: "03" },
-    { title: "Brinqueteando", category: "E-COMMERCE · EDUCAÇÃO", description: "Loja de brinquedos terapêuticos com jornada digital pensada para confiança, clareza e conversão.", image: "/brand/brinqueteando.webp", href: "https://brinqueteando.online/", index: "04" },
+    { title: "CAA Neuro", category: "APP · ACESSIBILIDADE · IA", description: "Tecnologia assistiva com comunicação alternativa, voz, tradução e recursos terapêuticos em uma experiência acessível.", image: "/brand/caa-neuro.webp", href: "https://www.caaneuro.online/", index: "02" },
+    { title: "AMB Boutique", category: "E-COMMERCE · MODA", description: "E-commerce de moda feminina com direção editorial, experiência internacional, merchandising e jornada de compra pensada para conversão.", image: "/brand/amb-boutique.webp", href: "https://www.ambboutique.online/", index: "03" },
+    { title: "Brinqueteando", category: "E-COMMERCE · EDUCAÇÃO", description: "Loja de brinquedos terapêuticos com jornada digital pensada para confiança, clareza e conversão.", image: "/brand/brinqueteando.webp", href: "https://www.brinqueteando.online/", index: "04" },
   ],
   en: [
     { title: "NOVA AI Studio", category: "AI · SAAS · PRODUCT", description: "An AI creation platform shaped into a digital product with clear identity, positioning and user experience.", image: "/brand/nova-ai.webp", href: "https://www.novvideos.online/", index: "01", featured: true },
-    { title: "CAA Neuro", category: "APP · ACCESSIBILITY · AI", description: "Assistive technology combining alternative communication, voice, translation and therapeutic resources.", image: "/brand/caa-neuro.webp", href: "https://www.adhdautism.online/", index: "02" },
-    { title: "Vastara", category: "E-COMMERCE · LUXURY", description: "A premium watch storefront designed to raise brand perception, product desirability and purchase intent.", image: "/brand/vastara.webp", href: "https://vastara.online/", index: "03" },
-    { title: "Brinqueteando", category: "E-COMMERCE · EDUCATION", description: "A therapeutic toy store with a digital journey built around trust, clarity and conversion.", image: "/brand/brinqueteando.webp", href: "https://brinqueteando.online/", index: "04" },
+    { title: "CAA Neuro", category: "APP · ACCESSIBILITY · AI", description: "Assistive technology combining alternative communication, voice, translation and therapeutic resources.", image: "/brand/caa-neuro.webp", href: "https://www.caaneuro.online/", index: "02" },
+    { title: "AMB Boutique", category: "ECOMMERCE · FASHION", description: "A women’s fashion ecommerce experience combining editorial direction, international merchandising and a conversion-focused customer journey.", image: "/brand/amb-boutique.webp", href: "https://www.ambboutique.online/", index: "03" },
+    { title: "Brinqueteando", category: "ECOMMERCE · EDUCATION", description: "A therapeutic toy store with a digital journey built around trust, clarity and conversion.", image: "/brand/brinqueteando.webp", href: "https://www.brinqueteando.online/", index: "04" },
   ],
 }
 
