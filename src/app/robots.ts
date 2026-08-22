@@ -3,21 +3,8 @@ import { MetadataRoute } from "next"
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/api/", "/_next/", "/static/"],
-      },
-      {
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/api/", "/_next/"],
-      },
-      {
-        userAgent: "Bingbot",
-        allow: "/",
-        disallow: ["/api/", "/_next/"],
-      },
+      { userAgent: "*", allow: "/", disallow: ["/api/"] },
+      { userAgent: ["Googlebot", "Bingbot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "ClaudeBot", "Claude-SearchBot", "Google-Extended"], allow: "/", disallow: ["/api/"] },
     ],
     sitemap: "https://andre-almeida.online/sitemap.xml",
     host: "https://andre-almeida.online",
