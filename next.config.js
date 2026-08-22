@@ -17,13 +17,6 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
-  rewrites: async () => ({
-    beforeFiles: [
-      { source: "/brand/andre-premium.webp", destination: "/images/andre6.png" },
-    ],
-    afterFiles: [],
-    fallback: [],
-  }),
   headers: async () => [
     {
       source: "/(.*)",
