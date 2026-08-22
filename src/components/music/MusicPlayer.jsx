@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 export default function MusicPlayer() {
@@ -29,11 +30,13 @@ export default function MusicPlayer() {
       />
 
       <div className="flex flex-col gap-6 md:flex-row md:items-center">
-        <div className="h-36 w-36 shrink-0 overflow-hidden rounded-2xl bg-black/40 shadow-xl md:h-44 md:w-44">
-          <img
-            src="/music/andre-profile-artist.png?v=20"
+        <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-2xl bg-black/40 shadow-xl md:h-44 md:w-44">
+          <Image
+            src="/music/andre-profile-artist.png"
             alt="Andre Almeida artist profile"
-            className="h-full w-full object-cover"
+            fill
+            sizes="(max-width: 768px) 144px, 176px"
+            className="object-cover"
           />
         </div>
 
