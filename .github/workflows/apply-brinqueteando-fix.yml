@@ -1,0 +1,102 @@
+name: Apply Brinqueteando Fix
+
+on:
+  push:
+    branches: [preview/final-redesign]
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/final-redesign
+          fetch-depth: 0
+
+      - name: Apply asset, frame and responsive audit fixes
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          old = '/brand/brinqueteando.webp'
+          new = '/brand/brinqueteando-showcase-v2.webp'
+          for file in [
+              Path('src/components/home/PremiumHome.tsx'),
+              Path('src/app/[locale]/portfolio/page.tsx'),
+              Path('.github/workflows/preview-live-qa.yml'),
+          ]:
+              text = file.read_text()
+              if old in text:
+                  text = text.replace(old, new)
+                  file.write_text(text)
+
+          css_path = Path('src/app/globals.css')
+          css = css_path.read_text()
+          marker = '/* commerce-showcase-frame-v2 */'
+          if marker not in css:
+              css += r'''
+
+/* commerce-showcase-frame-v2 */
+@media (min-width: 1px) {
+  a[href*="ambboutique.online"] > div.relative.overflow-hidden,
+  a[href*="brinqueteando.online"] > div.relative.overflow-hidden {
+    aspect-ratio: 16 / 9 !important;
+    background: #f7f4ed !important;
+    border: 1px solid #cfc8bc;
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 18px 55px rgba(17, 17, 15, 0.08);
+  }
+
+  a[href*="ambboutique.online"] > div.relative.overflow-hidden > img,
+  a[href*="brinqueteando.online"] > div.relative.overflow-hidden > img {
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  a[href*="ambboutique.online"] > div.relative.overflow-hidden > div.absolute.inset-0,
+  a[href*="brinqueteando.online"] > div.relative.overflow-hidden > div.absolute.inset-0 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  a[href*="ambboutique.online"] > div.relative.overflow-hidden,
+  a[href*="brinqueteando.online"] > div.relative.overflow-hidden {
+    border-radius: 12px;
+    padding: 6px;
+  }
+}
+'''
+              css_path.write_text(css)
+
+          qa_path = Path('.github/workflows/preview-live-qa.yml')
+          qa = qa_path.read_text()
+          qa = qa.replace(
+              "const sizes=[{n:'390',w:390,h:844},{n:'768',w:768,h:1024},{n:'1024',w:1024,h:900},{n:'1440',w:1440,h:1000}];",
+              "const sizes=[{n:'320',w:320,h:780},{n:'360',w:360,h:800},{n:'375',w:375,h:812},{n:'390',w:390,h:844},{n:'414',w:414,h:896},{n:'430',w:430,h:932},{n:'768',w:768,h:1024},{n:'1024',w:1024,h:900},{n:'1440',w:1440,h:1000}];"
+          )
+          qa_path.write_text(qa)
+          PY
+
+      - name: Verify changes
+        run: |
+          git diff --check
+          grep -R "/brand/brinqueteando-showcase-v2.webp" src/components/home/PremiumHome.tsx src/app/'[locale]'/portfolio/page.tsx
+
+      - name: Commit fix
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/home/PremiumHome.tsx src/app/'[locale]'/portfolio/page.tsx src/app/globals.css .github/workflows/preview-live-qa.yml
+          git commit -m "fix: make Brinqueteando showcase reliable and responsive"
+          git push origin HEAD:preview/final-redesign
