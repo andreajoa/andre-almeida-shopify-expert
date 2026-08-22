@@ -1,202 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import { useTranslations, useLocale } from "next-intl"
-import { Clock, Calendar, ArrowRight, Search } from "lucide-react"
+import { useLocale } from "next-intl"
 import Link from "next/link"
-import { AnimatedSection } from "@/components/shared/AnimatedSection"
-import { Card } from "@/components/ui/Card"
-import { Badge } from "@/components/ui/Badge"
-import { Button } from "@/components/ui/Button"
+import { ArrowUpRight, Clock, Search } from "lucide-react"
 import { blogPosts } from "@/data/blog"
 
 export default function BlogPage() {
-  const t = useTranslations()
   const locale = useLocale()
-  const [activeCategory, setActiveCategory] = useState("all")
+  const isPt = locale !== "en"
+  const lang = isPt ? "pt-BR" : "en"
+  const posts = blogPosts[lang] || blogPosts.en
+  const categories = ["all", ...Array.from(new Set(posts.map(post => post.category)))]
+  const [active, setActive] = useState("all")
+  const [query, setQuery] = useState("")
+  const filtered = posts.filter(post => (active === "all" || post.category === active) && `${post.title} ${post.excerpt}`.toLowerCase().includes(query.toLowerCase()))
 
-  const posts = blogPosts[locale] || blogPosts["en"]
+  return <main className="bg-[#f2efe8] text-[#11110f]">
+    <section className="border-b border-[#d4cec2] px-5 pb-20 pt-36 sm:px-8 md:pb-28 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1500px]"><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#77736b]">INSIGHTS · COMMERCE · TECHNOLOGY</p><div className="mt-8 grid gap-10 lg:grid-cols-[.7fr_.3fr] lg:items-end"><h1 className="font-editorial text-[clamp(3.5rem,7vw,7.5rem)] leading-[.88] tracking-[-.05em]">{isPt ? "Conteúdo para entender melhor" : "Ideas to better understand"} <span className="italic text-[#5f6559]">{isPt ? "o que realmente move o digital." : "what actually moves digital business."}</span></h1><p className="text-base leading-8 text-[#625e56]">{isPt ? "Artigos sobre e-commerce, tecnologia, performance, marketing, SEO e decisões que afetam crescimento e conversão." : "Articles about ecommerce, technology, performance, marketing, SEO and the decisions that affect growth and conversion."}</p></div></div></section>
 
-  const categories = [
-    { id: "all", label: locale === "pt-BR" ? "Todos" : "All" },
-    { id: "Shopify", label: "Shopify" },
-    { id: "Performance", label: "Performance" },
-    { id: "Marketing", label: "Marketing" },
-    { id: locale === "pt-BR" ? "Desenvolvimento" : "Development", label: locale === "pt-BR" ? "Desenvolvimento" : "Development" },
-    { id: "SEO", label: "SEO" },
-  ]
+    <section className="px-5 py-16 sm:px-8 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1500px]"><div className="flex flex-col gap-6 border-b border-[#d4cec2] pb-8 lg:flex-row lg:items-center lg:justify-between"><div className="flex flex-wrap gap-2">{categories.map(cat=><button key={cat} type="button" onClick={()=>setActive(cat)} className={`min-h-10 rounded-full border px-4 text-[9px] font-semibold uppercase tracking-[.12em] ${active===cat?"border-[#11110f] bg-[#11110f] text-white":"border-[#cfc8bc] text-[#666259]"}`}>{cat === "all" ? (isPt?"Todos":"All") : cat}</button>)}</div><label className="flex min-h-11 items-center gap-3 border-b border-[#cfc8bc] px-1"><Search className="h-4 w-4 text-[#77736b]"/><input value={query} onChange={e=>setQuery(e.target.value)} className="w-64 bg-transparent text-sm outline-none placeholder:text-[#99938a]" placeholder={isPt?"Buscar artigos":"Search articles"}/></label></div>
 
-  const filtered = activeCategory === "all"
-    ? posts
-    : posts.filter((p) => p.category === activeCategory)
-
-  const categoryColors: Record<string, "indigo" | "emerald" | "purple" | "orange" | "rose"> = {
-    "Shopify": "indigo",
-    "Performance": "emerald",
-    "Development": "purple",
-    "Desenvolvimento": "purple",
-    "Desarrollo": "purple",
-    "Marketing": "orange",
-    "SEO": "rose",
-  }
-
-  const featured = posts[0]
-  const rest = filtered.length > 0 && activeCategory === "all" ? filtered.slice(1) : filtered
-
-  return (
-    <div className="pt-24">
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Header */}
-          <AnimatedSection className="text-center mb-16">
-            <Badge variant="indigo" className="mb-4">
-              {locale === "pt-BR" ? "Insights & Dicas" : "Insights & Tips"}
-            </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              {locale === "pt-BR" ? "Blog" : "Blog"}
-            </h1>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              {locale === "pt-BR"
-                ? "Artigos sobre desenvolvimento Shopify, estratégias de e-commerce, marketing digital e otimização de conversão."
-                : "Expert articles on Shopify development, ecommerce strategy, digital marketing, and conversion optimization."}
-            </p>
-          </AnimatedSection>
-
-          {/* Category Filters */}
-          <AnimatedSection className="flex flex-wrap justify-center gap-2 mb-12">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${
-                  activeCategory === cat.id
-                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/25"
-                    : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </AnimatedSection>
-
-          {/* Featured Post */}
-          {activeCategory === "all" && featured && (
-            <AnimatedSection className="mb-16">
-              <Link href={`/${locale}/blog/${featured.slug}`}>
-                <div className="group relative rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/30 transition-all duration-500">
-                  <div className="grid md:grid-cols-2">
-                    <div className="relative h-64 md:h-[400px] overflow-hidden">
-                      <img
-                        src={featured.image}
-                        alt={featured.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-950/50 md:block hidden" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent md:hidden" />
-                    </div>
-                    <div className="p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-slate-900/90 to-slate-950/90">
-                      <Badge variant="orange" className="mb-4 w-fit">
-                        {locale === "pt-BR" ? "✨ Destaque" : "✨ Featured"}
-                      </Badge>
-                      <div className="flex items-center gap-4 text-sm text-slate-500 mb-4">
-                        <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{featured.date}</span>
-                        <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{featured.readTime} {locale === "pt-BR" ? "de leitura" : "read"}</span>
-                      </div>
-                      <Badge variant={categoryColors[featured.category] || "indigo"} className="mb-4 w-fit">
-                        {featured.category}
-                      </Badge>
-                      <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-indigo-400 transition-colors leading-tight">
-                        {featured.title}
-                      </h2>
-                      <p className="text-slate-400 leading-relaxed mb-6 line-clamp-3">
-                        {featured.excerpt}
-                      </p>
-                      <span className="inline-flex items-center gap-2 text-indigo-400 font-medium group-hover:gap-3 transition-all">
-                        {locale === "pt-BR" ? "Ler Artigo" : "Read Article"}
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </AnimatedSection>
-          )}
-
-          {/* Posts Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {rest.map((post, i) => (
-              <AnimatedSection key={post.slug} delay={i * 0.1}>
-                <Link href={`/${locale}/blog/${post.slug}`}>
-                  <Card variant="gradient" className="group cursor-pointer h-full flex flex-col">
-                    <div className="relative h-48 rounded-xl mb-5 overflow-hidden">
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                      <div className="absolute bottom-3 left-3">
-                        <Badge variant={categoryColors[post.category] || "indigo"}>
-                          {post.category}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
-                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
-                    </div>
-
-                    <h3 className="text-lg font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors leading-snug flex-1">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-
-                    <span className="inline-flex items-center gap-2 text-sm text-indigo-400 font-medium group-hover:gap-3 transition-all mt-auto">
-                      {locale === "pt-BR" ? "Ler mais" : "Read more"}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                  </Card>
-                </Link>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="text-center py-16">
-              <Search className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-              <p className="text-slate-400 text-lg">
-                {locale === "pt-BR" ? "Nenhum artigo encontrado nesta categoria." : "No articles found in this category."}
-              </p>
-            </div>
-          )}
-
-          {/* CTA */}
-          <AnimatedSection className="mt-20">
-            <div className="text-center p-10 md:p-16 rounded-2xl bg-gradient-to-br from-indigo-950/80 to-purple-950/80 border border-indigo-500/20">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {locale === "pt-BR"
-                  ? "Quer implementar essas estratégias na sua loja?"
-                  : "Want to implement these strategies in your store?"}
-              </h2>
-              <p className="text-slate-400 mb-8 max-w-lg mx-auto">
-                {locale === "pt-BR"
-                  ? "Agende uma consulta gratuita e descubra como podemos escalar seu e-commerce."
-                  : "Schedule a free consultation and discover how we can scale your ecommerce."}
-              </p>
-              <Link href={`/${locale}/contact`}>
-                <Button variant="primary" size="lg">
-                  {locale === "pt-BR" ? "Agendar Consulta Gratuita" : "Schedule Free Consultation"}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-    </div>
-  )
+      <div className="divide-y divide-[#d4cec2] border-b border-[#d4cec2]">{filtered.map((post,index)=><Link key={post.slug} href={`/${lang}/blog/${post.slug}`} className="group grid gap-6 py-9 md:grid-cols-[.08fr_.22fr_.55fr_.15fr] md:items-start"><span className="font-editorial text-2xl text-[#a08967]">{String(index+1).padStart(2,"0")}</span><div><span className="text-[9px] font-semibold uppercase tracking-[.14em] text-[#77736b]">{post.category}</span><p className="mt-2 flex items-center gap-2 text-xs text-[#8b857b]"><Clock className="h-3.5 w-3.5"/>{post.readTime}</p></div><div><h2 className="font-editorial text-3xl leading-[1] tracking-[-.03em] transition group-hover:text-[#5f6559] sm:text-4xl">{post.title}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#666259]">{post.excerpt}</p></div><div className="flex justify-end"><span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#cfc8bc] transition group-hover:border-[#11110f] group-hover:bg-[#11110f] group-hover:text-white"><ArrowUpRight className="h-4 w-4"/></span></div></Link>)}</div>
+      {filtered.length===0?<p className="py-16 text-center font-editorial text-3xl text-[#77736b]">{isPt?"Nenhum artigo encontrado.":"No articles found."}</p>:null}
+    </div></section>
+  </main>
 }
