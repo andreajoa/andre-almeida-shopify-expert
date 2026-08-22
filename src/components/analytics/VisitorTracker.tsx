@@ -50,15 +50,17 @@ function textOf(el: Element | null) {
 
 export function VisitorTracker() {
   const pathname = usePathname()
-  const startedAt = useRef(Date.now())
+  const startedAt = useRef(0)
   const geo = useRef<Geo>({})
-  const currentPath = useRef(pathname)
+  const currentPath = useRef("")
   const source = useRef({ source:"direct", medium:"none", campaign:"" })
 
   useEffect(() => {
-    if (pathname.startsWith("/dashboard")) return
+    if (window.location.pathname.startsWith("/dashboard")) return
     const sid = sessionId()
     window.__aaSessionId = sid
+    currentPath.current = window.location.pathname
+    startedAt.current = Date.now()
     source.current = acquisition()
     fetch("/api/geo", { cache:"no-store" }).then(r=>r.ok?r.json():{}).then(v=>{ geo.current=v || {} }).catch(()=>{})
 
