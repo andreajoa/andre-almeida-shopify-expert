@@ -37,10 +37,10 @@ jobs:
           node <<'NODE'
           const base=process.env.BASE_URL;
           const routes=['/pt-BR','/pt-BR/services','/pt-BR/portfolio','/pt-BR/about','/pt-BR/contact','/pt-BR/websites-ecommerce','/pt-BR/website-para-empresas','/pt-BR/ecommerce-proprio','/pt-BR/vender-livros-online','/pt-BR/autoridade-online','/en','/en/services','/en/portfolio','/en/about','/en/contact','/en/websites-ecommerce'];
-          const assets=['/brand/andre-premium.webp','/brand/nova-ai.webp','/brand/caa-neuro.webp','/brand/amb-boutique.jpg','/brand/brinqueteando.webp','/favicon.svg'];
+          const assets=['/images/andre6.png','/brand/nova-ai.webp','/brand/caa-neuro.webp','/brand/amb-boutique.jpg','/brand/brinqueteando.webp','/favicon.svg'];
           async function get(p){const r=await fetch(base+p,{redirect:'follow'});if(!r.ok)throw new Error(`${p} HTTP ${r.status}`);return r}
           for(const p of routes){const h=await(await get(p)).text();if(h.length<1000)throw new Error(`${p} short HTML`);if(/Vastara/i.test(h))throw new Error(`${p} Vastara residual`)}
-          for(const p of assets){const r=await get(p);const b=Buffer.from(await r.arrayBuffer());let ok=false;if(p.endsWith('.webp'))ok=b.length>12&&b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP';else if(/\.jpe?g$/.test(p))ok=b.length>3&&b[0]===0xff&&b[1]===0xd8&&b[2]===0xff;else if(p.endsWith('.svg'))ok=b.toString('utf8').includes('<svg');if(!ok)throw new Error(`${p} invalid binary`)}
+          for(const p of assets){const r=await get(p);const b=Buffer.from(await r.arrayBuffer());let ok=false;if(p.endsWith('.webp'))ok=b.length>12&&b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP';else if(/\.jpe?g$/.test(p))ok=b.length>3&&b[0]===0xff&&b[1]===0xd8&&b[2]===0xff;else if(p.endsWith('.png'))ok=b.length>8&&b[0]===0x89&&b.toString('ascii',1,4)==='PNG';else if(p.endsWith('.svg'))ok=b.toString('utf8').includes('<svg');if(!ok)throw new Error(`${p} invalid binary`)}
           const robots=await(await get('/robots.txt')).text();if(!/sitemap/i.test(robots)||!/OAI-SearchBot|GPTBot|PerplexityBot|Google-Extended/i.test(robots))throw new Error('robots incomplete');
           const sitemap=await(await get('/sitemap.xml')).text();for(const x of ['/pt-BR/websites-ecommerce','/en/websites-ecommerce','/pt-BR/vender-livros-online'])if(!sitemap.includes(x))throw new Error(`sitemap missing ${x}`);
           const llms=await(await get('/llms.txt')).text();if(!/e-commerce|ecommerce/i.test(llms)||!/website/i.test(llms))throw new Error('llms incomplete');
