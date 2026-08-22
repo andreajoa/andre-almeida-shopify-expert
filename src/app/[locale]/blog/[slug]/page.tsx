@@ -1,318 +1,69 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useLocale, useTranslations } from "next-intl"
-import { ArrowLeft, Clock, Calendar, Tag, ArrowRight, MessageCircle } from "lucide-react"
+import { useLocale } from "next-intl"
+import { ArrowLeft, ArrowUpRight, Check } from "lucide-react"
 import Link from "next/link"
-import { Badge } from "@/components/ui/Badge"
-import { Button } from "@/components/ui/Button"
-import { Card } from "@/components/ui/Card"
-import { AnimatedSection } from "@/components/shared/AnimatedSection"
 import { blogPosts } from "@/data/blog"
 import { SITE_CONFIG } from "@/lib/constants"
+import { Analytics } from "@/lib/analytics"
 
 export default function BlogPostPage() {
   const params = useParams()
-  const locale = useLocale()
-  const t = useTranslations()
+  const locale = useLocale() as "pt-BR" | "en"
+  const lang = locale === "en" ? "en" : "pt-BR"
   const slug = params.slug as string
-
-  const posts = blogPosts[locale] || blogPosts["en"]
-  const post = posts.find((p) => p.slug === slug)
+  const posts = blogPosts[lang] || blogPosts.en
+  const post = posts.find(item => item.slug === slug)
 
   if (!post) {
-    return (
-      <div className="pt-24 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">404</h1>
-          <p className="text-slate-400 mb-8">
-            {locale === "pt-BR" ? "Artigo não encontrado" : "Article not found"}
-          </p>
-          <Link href={`/${locale}/blog`}>
-            <Button variant="primary">
-              <ArrowLeft className="w-4 h-4" />
-              {locale === "pt-BR" ? "Voltar ao Blog" : "Back to Blog"}
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
+    return <div className="flex min-h-screen items-center justify-center bg-[#f2efe8] px-5 pt-20 text-[#11110f]"><div className="text-center"><p className="font-editorial text-8xl">404</p><p className="mt-4 text-sm text-[#68635b]">{lang === "pt-BR" ? "Artigo não encontrado." : "Article not found."}</p><Link href={`/${locale}/blog`} className="mt-8 inline-flex items-center gap-3 border-b border-[#11110f] pb-2 text-[10px] font-semibold uppercase tracking-[0.14em]"><ArrowLeft className="h-4 w-4" />{lang === "pt-BR" ? "Voltar aos insights" : "Back to insights"}</Link></div></div>
   }
 
-  const relatedPosts = posts.filter((p) => p.slug !== slug).slice(0, 3)
+  const related = posts.filter(item => item.slug !== slug).slice(0, 3)
+  const whatsappText = encodeURIComponent(lang === "pt-BR" ? `Olá André, li seu artigo “${post.title}” e quero conversar sobre meu negócio.` : `Hi Andre, I read “${post.title}” and want to discuss my business.`)
+  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
 
-  const renderContent = (content: string) => {
+  function renderContent(content: string) {
     const lines = content.split("\n")
-    const elements: React.ReactNode[] = []
-    let listItems: string[] = []
-    let listKey = 0
+    const nodes: React.ReactNode[] = []
+    let list: string[] = []
+    let listIndex = 0
 
-    const flushList = () => {
-      if (listItems.length > 0) {
-        elements.push(
-          <ul key={`list-${listKey++}`} className="space-y-3 my-6 ml-2">
-            {listItems.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 text-slate-300 leading-relaxed">
-                <span className="text-insta-neon mt-1.5 flex-shrink-0">✓</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        )
-        listItems = []
-      }
+    const flush = () => {
+      if (!list.length) return
+      nodes.push(<ul key={`list-${listIndex++}`} className="my-8 space-y-3 border-y border-[#d4cec2] py-6">{list.map((item, index) => <li key={index} className="flex items-start gap-3 text-[15px] leading-7 text-[#56524b]"><Check className="mt-1.5 h-3.5 w-3.5 shrink-0 text-[#a88c61]" /><span>{item}</span></li>)}</ul>)
+      list = []
     }
 
-    lines.forEach((line, idx) => {
-      const trimmed = line.trim()
-      if (!trimmed) {
-        flushList()
-        return
-      }
-
-      if (trimmed.startsWith("## ")) {
-        flushList()
-        elements.push(
-          <h2 key={idx} className="text-2xl md:text-3xl font-bold text-white mt-12 mb-6 leading-tight">
-            {trimmed.replace("## ", "")}
-          </h2>
-        )
-      } else if (trimmed.startsWith("### ")) {
-        flushList()
-        elements.push(
-          <h3 key={idx} className="text-xl md:text-2xl font-semibold text-white mt-10 mb-4 leading-tight">
-            {trimmed.replace("### ", "")}
-          </h3>
-        )
-      } else if (trimmed.startsWith("#### ")) {
-        flushList()
-        elements.push(
-          <h4 key={idx} className="text-lg font-semibold text-indigo-300 mt-8 mb-3">
-            {trimmed.replace("#### ", "")}
-          </h4>
-        )
-      } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-        listItems.push(trimmed.replace(/^[-*]\s/, ""))
-      } else if (trimmed.startsWith("[") && trimmed.includes("](")) {
-        flushList()
-        const match = trimmed.match(/\[([^\]]+)\]\(([^)]+)\)/)
-        if (match) {
-          elements.push(
-            <div key={idx} className="my-8 p-6 rounded-2xl bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-500/20">
-              <Link href={`/${locale}${match[2]}`}>
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                  {match[1]}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-          )
-        }
-      } else if (trimmed.startsWith("![")) {
-        flushList()
-        const match = trimmed.match(/!\[([^\]]*)\]\(([^)]+)\)/)
-        if (match) {
-          elements.push(
-            <figure key={idx} className="my-8 rounded-2xl overflow-hidden border border-white/10">
-              <img src={match[2]} alt={match[1]} className="w-full h-auto object-cover" loading="lazy" />
-              {match[1] && (
-                <figcaption className="text-center text-sm text-slate-500 py-3 bg-slate-900/50">{match[1]}</figcaption>
-              )}
-            </figure>
-          )
-        }
-      } else {
-        flushList()
-        const processedLine = trimmed
-          .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
-          .replace(/`([^`]+)`/g, '<code class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 text-sm font-mono">$1</code>')
-        elements.push(
-          <p key={idx} className="text-slate-300 leading-[1.85] mb-4 text-[17px]" dangerouslySetInnerHTML={{ __html: processedLine }} />
-        )
-      }
+    lines.forEach((line, index) => {
+      const value = line.trim()
+      if (!value) { flush(); return }
+      if (value.startsWith("![")) { flush(); return }
+      if (value.startsWith("## ")) { flush(); nodes.push(<h2 key={index} className="mt-14 font-editorial text-4xl leading-[1.02] tracking-[-0.04em] sm:text-5xl">{value.slice(3)}</h2>); return }
+      if (value.startsWith("### ")) { flush(); nodes.push(<h3 key={index} className="mt-11 font-editorial text-3xl tracking-[-0.035em]">{value.slice(4)}</h3>); return }
+      if (value.startsWith("#### ")) { flush(); nodes.push(<h4 key={index} className="mt-9 text-xs font-semibold uppercase tracking-[0.14em] text-[#8a7658]">{value.slice(5)}</h4>); return }
+      if (value.startsWith("- ") || value.startsWith("* ")) { list.push(value.replace(/^[-*]\s/, "")); return }
+      const linkMatch = value.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+      if (linkMatch) { flush(); const href = linkMatch[2].startsWith("http") ? linkMatch[2] : `/${locale}${linkMatch[2]}`; nodes.push(<a key={index} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined} className="my-8 inline-flex min-h-12 items-center gap-3 rounded-full bg-[#11110f] px-6 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">{linkMatch[1]}<ArrowUpRight className="h-4 w-4" /></a>); return }
+      flush()
+      const processed = value.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-[#11110f]">$1</strong>').replace(/`([^`]+)`/g, '<code class="bg-[#e7e2d8] px-1.5 py-0.5 text-[0.9em]">$1</code>')
+      nodes.push(<p key={index} className="mt-5 text-[16px] leading-[1.9] text-[#56524b]" dangerouslySetInnerHTML={{ __html: processed }} />)
     })
-    flushList()
-    return elements
-  }
-
-  const categoryColors: Record<string, "indigo" | "emerald" | "purple" | "orange" | "rose"> = {
-    "Shopify": "indigo",
-    "Performance": "emerald",
-    "Development": "purple",
-    "Desenvolvimento": "purple",
-    "Desarrollo": "purple",
-    "Marketing": "orange",
-    "SEO": "rose",
-    "CRO": "emerald",
+    flush()
+    return nodes
   }
 
   return (
-    <div className="pt-24">
-      {/* Hero */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={post.image} alt={post.title} className="w-full h-full object-cover opacity-15" />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/90 to-slate-950" />
-        </div>
+    <article className="min-h-screen bg-[#f2efe8] pt-20 text-[#11110f]">
+      <header className="border-b border-[#d4cec2] py-16 md:py-24 lg:py-28"><div className="mx-auto max-w-5xl px-5 sm:px-8"><Link href={`/${locale}/blog`} className="inline-flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#817b71]"><ArrowLeft className="h-3.5 w-3.5" />{lang === "pt-BR" ? "Insights" : "Insights"}</Link><p className="mt-12 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#a88c61]">{post.category} · {post.date} · {post.readTime}</p><h1 className="mt-6 font-editorial text-[clamp(3.2rem,6.7vw,6.8rem)] leading-[0.9] tracking-[-0.055em]">{post.title}</h1><p className="mt-8 max-w-3xl text-lg leading-8 text-[#68635b]">{post.excerpt}</p></div></header>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6">
-          <AnimatedSection>
-            <Link href={`/${locale}/blog`} className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group">
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              {locale === "pt-BR" ? "Voltar ao Blog" : "Back to Blog"}
-            </Link>
+      <div className="mx-auto grid max-w-[1180px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.72fr_0.28fr] lg:py-24">
+        <div className="max-w-3xl">{renderContent(post.content)}</div>
+        <aside><div className="sticky top-28 border-l border-[#d4cec2] pl-7"><p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8a7658]">{lang === "pt-BR" ? "APLICAR NO SEU NEGÓCIO" : "APPLY TO YOUR BUSINESS"}</p><p className="mt-5 font-editorial text-3xl leading-[1.02]">{lang === "pt-BR" ? "Conteúdo ajuda a entender. A execução resolve." : "Content helps you understand. Execution solves it."}</p><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("blog_article")} className="mt-7 inline-flex items-center gap-3 border-b border-[#11110f] pb-2 text-[9px] font-semibold uppercase tracking-[0.13em]">{lang === "pt-BR" ? "Falar comigo" : "Talk to me"}<ArrowUpRight className="h-4 w-4" /></a></div></aside>
+      </div>
 
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <Badge variant={categoryColors[post.category] || "indigo"}>{post.category}</Badge>
-              <div className="flex items-center gap-4 text-sm text-slate-500">
-                <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{post.date}</span>
-                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{post.readTime} {locale === "pt-BR" ? "de leitura" : "read"}</span>
-              </div>
-            </div>
-
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
-              {post.title}
-            </h1>
-            <p className="text-lg text-slate-400 leading-relaxed max-w-3xl">
-              {post.excerpt}
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Featured Image */}
-      <section className="max-w-5xl mx-auto px-6 -mt-4 mb-12">
-        <AnimatedSection>
-          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/5">
-            <img src={post.image} alt={post.title} className="w-full h-[300px] md:h-[450px] object-cover" />
-          </div>
-        </AnimatedSection>
-      </section>
-
-      {/* Content */}
-      <section className="max-w-4xl mx-auto px-6 pb-16">
-          <div className="grid lg:grid-cols-[1fr_280px] gap-12">
-            {/* Article */}
-            <article className="min-w-0">
-              {renderContent(post.content)}
-
-              {/* Author Box */}
-              <div className="mt-16 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                    AA
-                  </div>
-                  <div>
-                    <h4 className="text-white font-bold text-lg">Andre Almeida</h4>
-                    <p className="text-indigo-400 text-sm mb-2">Shopify Expert Developer</p>
-                    <p className="text-slate-400 text-sm leading-relaxed">
-                      {locale === "pt-BR"
-                        ? "6+ anos de experiência construindo lojas Shopify de alta performance. Especialista em Headless Commerce, Growth Marketing e soluções de e-commerce escaláveis."
-                        : "6+ years building high-performance Shopify stores. Expert in Headless Commerce, Growth Marketing, and scalable ecommerce solutions."}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div className="mt-12 p-8 rounded-2xl bg-gradient-to-br from-indigo-950/80 to-purple-950/80 border border-indigo-500/20 text-center">
-                <h3 className="text-2xl font-bold text-white mb-3">
-                  {locale === "pt-BR" ? "Precisa de ajuda com isso?" : "Need help with this?"}
-                </h3>
-                <p className="text-slate-400 mb-6 max-w-lg mx-auto">
-                  {locale === "pt-BR"
-                    ? "Vamos discutir como podemos implementar essas estratégias na sua loja."
-                    : "Let's discuss how we can implement these strategies for your store."}
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <Link href={`/${locale}/contact`}>
-                    <Button variant="primary" size="lg">
-                      {locale === "pt-BR" ? "Fale Conosco" : "Get in Touch"}
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <a href={`https://wa.me/${SITE_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="lg">
-                      <MessageCircle className="w-5 h-5" />
-                      WhatsApp
-                    </Button>
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            {/* Sidebar */}
-            <aside className="hidden lg:block space-y-6">
-              {/* Related Service */}
-              <div className="sticky top-28 space-y-6">
-                <Card variant="glass" className="!p-5">
-                  <h4 className="text-white font-bold mb-3 text-sm uppercase tracking-wider">
-                    {locale === "pt-BR" ? "Serviço Relacionado" : "Related Service"}
-                  </h4>
-                  <p className="text-indigo-400 font-medium mb-2">{post.relatedService}</p>
-                  <Link href={`/${locale}/services`}>
-                    <Button variant="primary" size="sm" className="w-full mt-2">
-                      {locale === "pt-BR" ? "Ver Serviço" : "View Service"}
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                </Card>
-
-                <Card variant="glass" className="!p-5">
-                  <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">
-                    {locale === "pt-BR" ? "Outros Artigos" : "More Articles"}
-                  </h4>
-                  <div className="space-y-4">
-                    {relatedPosts.map((rp) => (
-                      <Link key={rp.slug} href={`/${locale}/blog/${rp.slug}`} className="block group">
-                        <div className="flex gap-3">
-                          <img src={rp.image} alt={rp.title} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
-                          <div className="min-w-0">
-                            <p className="text-white text-sm font-medium line-clamp-2 group-hover:text-indigo-400 transition-colors">{rp.title}</p>
-                            <p className="text-slate-500 text-xs mt-1">{rp.readTime}</p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card variant="glass" className="!p-5">
-                  <h4 className="text-white font-bold mb-2 text-sm uppercase tracking-wider">
-                    {locale === "pt-BR" ? "Precisa de ajuda?" : "Need help?"}
-                  </h4>
-                  <p className="text-slate-400 text-sm mb-3">
-                    {locale === "pt-BR" ? "Agende uma consulta gratuita" : "Schedule a free consultation"}
-                  </p>
-                  <Link href={`/${locale}/contact`}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      {locale === "pt-BR" ? "Agendar Call" : "Schedule Call"}
-                    </Button>
-                  </Link>
-                </Card>
-              </div>
-            </aside>
-          </div>
-      </section>
-
-      {/* Related Posts - Mobile */}
-      <section className="lg:hidden max-w-4xl mx-auto px-6 pb-16">
-        <h3 className="text-2xl font-bold text-white mb-8">
-          {locale === "pt-BR" ? "Outros Artigos" : "More Articles"}
-        </h3>
-        <div className="grid sm:grid-cols-2 gap-6">
-          {relatedPosts.slice(0, 2).map((rp) => (
-            <Link key={rp.slug} href={`/${locale}/blog/${rp.slug}`}>
-              <Card variant="gradient" className="group">
-                <img src={rp.image} alt={rp.title} className="w-full h-40 object-cover rounded-xl mb-4" />
-                <Badge variant={categoryColors[rp.category] || "indigo"} className="mb-2">{rp.category}</Badge>
-                <h4 className="text-white font-bold group-hover:text-indigo-400 transition-colors">{rp.title}</h4>
-                <p className="text-slate-500 text-sm mt-2">{rp.readTime} {locale === "pt-BR" ? "de leitura" : "read"}</p>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </section>
-    </div>
+      <section className="border-t border-[#d4cec2] py-20 md:py-24"><div className="mx-auto max-w-[1180px] px-5 sm:px-8"><p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#817b71]">{lang === "pt-BR" ? "CONTINUE LENDO" : "KEEP READING"}</p><div className="mt-8 divide-y divide-[#d4cec2] border-y border-[#d4cec2]">{related.map((item, index) => <Link key={item.slug} href={`/${locale}/blog/${item.slug}`} className="group grid gap-4 py-7 sm:grid-cols-[0.08fr_0.82fr_0.1fr]"><span className="text-[9px] text-[#a88c61]">0{index + 1}</span><div><p className="text-[9px] uppercase tracking-[0.13em] text-[#817b71]">{item.category}</p><h2 className="mt-2 font-editorial text-3xl tracking-[-0.035em]">{item.title}</h2></div><ArrowUpRight className="h-4 w-4 justify-self-end transition group-hover:-translate-y-1 group-hover:translate-x-1" /></Link>)}</div></div></section>
+    </article>
   )
 }
