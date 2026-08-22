@@ -2,12 +2,12 @@
 
 ## Status geral
 
-**Progresso detalhado:** 121 de 135 tarefas concluídas (**90%**).
+**Progresso detalhado:** 122 de 135 tarefas concluídas (**90%**).
 
-- Concluídas: **121**
+- Concluídas: **122**
 - Em andamento: **4**
-- Pendentes: **10**
-- Fase atual: validação final de build/deploy/produção
+- Pendentes: **9**
+- Fase atual: preview tecnicamente aprovado; aguardando deploy do Vercel para validação visual e ponta a ponta
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
 
@@ -49,7 +49,7 @@
 - [x] Trocar referências de imagens na home
 - [x] Trocar referências nas páginas internas principais
 - [x] Criar versões otimizadas WebP para os principais assets
-- [x] Instalar favicon novo em icon.png / apple-icon / favicon
+- [x] Instalar favicon válido em SVG/App Router e remover PNGs corrompidos
 - [x] Preparar asset específico da AMB Boutique
 - [ ] Validar carregamento de todas as imagens em produção
 
@@ -151,7 +151,8 @@
 - [x] Check de qualidade reproduzível adicionado ao GitHub
 - [x] Build/Vercel do primeiro redesign retornou success
 - [x] Main recebeu todo o redesign e páginas reescritas
-- [ ] Rodar/confirmar build e lint após alterações finais
+- [x] Rodar/confirmar lint e build após alterações finais — GitHub Actions aprovado no preview
+- [x] Corrigir erro Turbopack de PNG/CRC removendo icon.png corrompido e usando favicon SVG válido
 - [~] Vercel: último push bloqueado por build-rate-limit, não por erro de código
 - [ ] Confirmar status Vercel success do commit final quando o limite liberar
 - [ ] Conferir home em produção com assets finais
@@ -164,3 +165,10 @@
 - [ ] Verificar 404s e erros de runtime após deploy final
 - [ ] Revisar SEO técnico em produção
 - [ ] Marcar checklist como 100% concluído
+
+## Preview atual
+- Branch: `preview/final-redesign`
+- Lint: **PASS**
+- Build: **PASS**
+- Turbopack/PNG CRC: **corrigido**
+- Produção: promoção manual pelo usuário após validação do preview
