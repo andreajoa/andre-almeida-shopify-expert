@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { MessageCircle, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { ArrowUpRight, MessageCircle, X } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { SITE_CONFIG } from "@/lib/constants"
 import { Analytics } from "@/lib/analytics"
+import { SITE_CONFIG } from "@/lib/constants"
 
 export function WhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,61 +16,67 @@ export function WhatsAppButton() {
   useEffect(() => {
     const el = popupRef.current
     if (!el) return
+
     if (isOpen) {
       el.style.display = "block"
       requestAnimationFrame(() => {
         el.style.opacity = "1"
-        el.style.transform = "scale(1) translateY(0)"
+        el.style.transform = "translateY(0)"
       })
     } else {
       el.style.opacity = "0"
-      el.style.transform = "scale(0.8) translateY(20px)"
-      setTimeout(() => { if (el) el.style.display = "none" }, 250)
+      el.style.transform = "translateY(12px)"
+      const timeout = window.setTimeout(() => {
+        if (el) el.style.display = "none"
+      }, 220)
+      return () => window.clearTimeout(timeout)
     }
   }, [isOpen])
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999]">
+    <div className="fixed bottom-4 right-4 z-[9999] sm:bottom-6 sm:right-6">
       <div
         ref={popupRef}
-        className="absolute bottom-[72px] right-0 w-72 bg-white rounded-2xl shadow-2xl overflow-hidden mb-2"
-        style={{ display: "none", opacity: 0, transform: "scale(0.8) translateY(20px)", transition: "opacity 250ms ease, transform 250ms ease" }}
+        className="absolute bottom-[68px] right-0 mb-2 hidden w-[min(320px,calc(100vw-2rem))] overflow-hidden border border-black/10 bg-[#f2efe8] text-[#11110f] shadow-[0_24px_70px_rgba(0,0,0,0.22)]"
+        style={{ opacity: 0, transform: "translateY(12px)", transition: "opacity 220ms ease, transform 220ms ease" }}
       >
-        <div className="bg-insta-dark p-4 text-white">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">AA</div>
+        <div className="border-b border-black/10 p-5">
+          <p className="text-[8px] font-semibold uppercase tracking-[0.18em] text-[#77736b]">Direct contact</p>
+          <div className="mt-3 flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#11110f] text-[9px] font-semibold tracking-[0.08em] text-white">AA</span>
             <div>
-              <p className="font-semibold">Andre Almeida</p>
-              <p className="text-xs text-white/80">{t("status")}</p>
+              <p className="text-sm font-semibold">Andre Almeida</p>
+              <p className="mt-0.5 text-xs text-[#6d6a63]">{t("status")}</p>
             </div>
           </div>
         </div>
-        <div className="p-4 bg-[#ECE5DD]">
-          <div className="bg-white rounded-lg p-3 shadow-sm max-w-[85%]">
-            <p className="text-sm text-gray-800">{t("greeting")}</p>
-          </div>
-        </div>
-        <div className="p-4">
+
+        <div className="p-5">
+          <p className="font-editorial text-2xl leading-tight">{t("greeting")}</p>
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => Analytics.whatsappClick("popup_button")}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-insta-violet hover:bg-insta-purple text-white rounded-lg font-semibold transition-colors"
-          ><MessageCircle className="w-5 h-5" />{t("startChat")}</a>
+            onClick={() => Analytics.whatsappClick("premium_popup_button")}
+            className="mt-5 flex min-h-12 items-center justify-between rounded-full bg-[#11110f] px-5 text-[9px] font-semibold uppercase tracking-[0.13em] text-white transition hover:bg-[#2a2925]"
+          >
+            {t("startChat")}
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
 
       <button
+        type="button"
         aria-label="Abrir chat WhatsApp"
+        aria-expanded={isOpen}
         onClick={() => {
-          if (!isOpen) Analytics.whatsappClick("floating_button")
-          setIsOpen(!isOpen)
+          if (!isOpen) Analytics.whatsappClick("premium_floating_button")
+          setIsOpen((value) => !value)
         }}
-        className="relative w-14 h-14 rounded-full bg-insta-violet text-white shadow-lg shadow-insta-violet/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+        className="flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-[#11110f] text-white shadow-[0_12px_35px_rgba(0,0,0,0.22)] transition hover:scale-[1.04] hover:border-[#c7b18d] hover:text-[#c7b18d] active:scale-95"
       >
-        <span className="absolute inset-0 rounded-full bg-insta-violet animate-ping opacity-20" />
-        {isOpen ? <X className="w-6 h-6 relative z-10" /> : <MessageCircle className="w-6 h-6 relative z-10" />}
+        {isOpen ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
       </button>
     </div>
   )
