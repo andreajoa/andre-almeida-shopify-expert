@@ -4,53 +4,29 @@ import "./globals.css"
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const editorial = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-editorial",
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-})
+const editorial = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-editorial", weight: ["400", "500", "600"], style: ["normal", "italic"] })
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://andre-almeida.online"),
-  title: "Andre Almeida | Shopify Expert Developer",
-  description: "Shopify Expert with 6+ years building high-performance stores. Headless Hydrogen, migrations, Facebook Ads, and conversion optimization.",
-  keywords: ["shopify expert", "shopify developer", "headless commerce", "hydrogen", "ecommerce"],
+  title: "André Almeida | Websites, E-commerce, Automação & Growth",
+  description: "Websites para empresas, e-commerce, Shopify, CRM, analytics, automação, IA e growth em uma estrutura digital pensada para vender e crescer.",
+  keywords: ["website para empresas", "ecommerce", "shopify expert", "crm", "automação", "inteligência artificial", "growth"],
   authors: [{ name: "Andre Almeida" }],
   alternates: {
-    canonical: "/",
-    languages: {
-      en: "/en",
-      "pt-BR": "/pt-BR",
-      es: "/es",
-      "x-default": "/",
-    },
+    canonical: "/pt-BR",
+    languages: { "pt-BR": "/pt-BR", en: "/en", "x-default": "/pt-BR" },
   },
   openGraph: {
-    title: "Andre Almeida | Shopify Expert Developer",
-    description: "Shopify Expert with 6+ years building high-performance stores.",
+    title: "André Almeida | Websites, E-commerce, Automação & Growth",
+    description: "Estratégia, e-commerce, CRM, automação, IA e growth em uma operação digital coerente.",
     type: "website",
-    url: "https://andre-almeida.online",
-    siteName: "Andre Almeida | Shopify Expert Developer",
+    url: "https://andre-almeida.online/pt-BR",
+    siteName: "Andre Almeida — Strategy · AI · E-commerce",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Andre Almeida | Shopify Expert Developer",
-    description: "Shopify Expert with 6+ years building high-performance stores.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  twitter: { card: "summary_large_image", title: "André Almeida | Websites, E-commerce, Automação & Growth", description: "Estratégia, e-commerce, CRM, automação, IA e growth." },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" className={`${inter.variable} ${editorial.variable}`}>
-      <body className={inter.className}>
-        <GoogleAnalytics />
-        {children}
-      </body>
-    </html>
-  )
+  return <html lang="pt-BR" className={`${inter.variable} ${editorial.variable}`}><body className={inter.className}><GoogleAnalytics />{children}</body></html>
 }
