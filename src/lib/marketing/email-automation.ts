@@ -2,6 +2,7 @@ import "server-only"
 import { Resend } from "resend"
 import { EMAIL_SEQUENCES, MarketingLocale, renderSequenceCopy } from "@/lib/marketing/email-sequences"
 import { marketingRpc } from "@/lib/marketing/neon-data-api"
+import { ensureResendWebhook } from "@/lib/marketing/resend-webhook"
 
 export type NurtureLead = {
   leadId: string
@@ -25,14 +26,15 @@ function emailHtml(lead: NurtureLead, entry: (typeof EMAIL_SEQUENCES)[MarketingL
 
 export async function scheduleNurtureSequence(lead: NurtureLead) {
   const resendKey = process.env.RESEND_API_KEY
-  if (!resendKey) return { scheduled: 0, errors: ["RESEND_API_KEY missing"] }
+  if (!resendKey) return { scheduled:0, errors:["RESEND_API_KEY missing"] }
 
+  const webhook = await ensureResendWebhook()
   const resend = new Resend(resendKey)
   const from = process.env.MARKETING_FROM_EMAIL || process.env.CONTACT_FROM_EMAIL || "Andre Almeida <onboarding@resend.dev>"
   const sequence = EMAIL_SEQUENCES[lead.locale]
   const unsubscribeUrl = `https://andre-almeida.online/api/marketing/unsubscribe?token=${encodeURIComponent(lead.unsubscribeToken)}`
   let scheduled = 0
-  const errors: string[] = []
+  const errors: string[] = webhook.ok ? [] : [`webhook: ${"reason" in webhook ? webhook.reason : "not ready"}`]
 
   for (const entry of sequence) {
     const when = new Date(Date.now() + (entry.index === 1 ? 5 * 60_000 : (entry.index - 1) * 24 * 60 * 60_000)).toISOString()
@@ -40,16 +42,16 @@ export async function scheduleNurtureSequence(lead: NurtureLead) {
     try {
       const { data, error } = await resend.emails.send({
         from,
-        to: [lead.email],
-        subject: entry.subject,
-        html: emailHtml(lead, entry),
-        text: `${copy.text}\n\n${entry.ctaLabel}: ${entry.ctaUrl}\n\nUnsubscribe: ${unsubscribeUrl}`,
-        scheduledAt: when,
-        headers: {
-          "List-Unsubscribe": `<${unsubscribeUrl}>`,
-          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-          "X-AA-Sequence": String(entry.index),
-          "X-AA-Locale": lead.locale,
+        to:[lead.email],
+        subject:entry.subject,
+        html:emailHtml(lead, entry),
+        text:`${copy.text}\n\n${entry.ctaLabel}: ${entry.ctaUrl}\n\nUnsubscribe: ${unsubscribeUrl}`,
+        scheduledAt:when,
+        headers:{
+          "List-Unsubscribe":`<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post":"List-Unsubscribe=One-Click",
+          "X-AA-Sequence":String(entry.index),
+          "X-AA-Locale":lead.locale,
         },
       })
       if (error || !data?.id) {
@@ -57,13 +59,13 @@ export async function scheduleNurtureSequence(lead: NurtureLead) {
         continue
       }
       await marketingRpc("register_marketing_send", {
-        p_lead_id: lead.leadId,
-        p_lead_secret: lead.leadSecret,
-        p_sequence_index: entry.index,
-        p_locale: lead.locale,
-        p_resend_email_id: data.id,
-        p_scheduled_at: when,
-        p_status: "scheduled",
+        p_lead_id:lead.leadId,
+        p_lead_secret:lead.leadSecret,
+        p_sequence_index:entry.index,
+        p_locale:lead.locale,
+        p_resend_email_id:data.id,
+        p_scheduled_at:when,
+        p_status:"scheduled",
       })
       scheduled += 1
     } catch (error) {
