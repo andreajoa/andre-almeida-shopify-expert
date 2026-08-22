@@ -7,7 +7,7 @@
 - Concluídas: **124**
 - Em andamento: **3**
 - Pendentes: **8**
-- Fase atual: preview tecnicamente aprovado e Vercel liberado; produção ainda aguarda promoção/validação visual e ponta a ponta
+- Fase atual: preview tecnicamente aprovado; produção ainda bloqueada no commit atual do `main` por build-rate-limit do Vercel e aguarda promoção/validação visual e ponta a ponta
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
 
@@ -153,8 +153,9 @@
 - [x] Main recebeu todo o redesign e páginas reescritas
 - [x] Rodar/confirmar lint e build após alterações finais — GitHub Actions aprovado no preview
 - [x] Corrigir erro Turbopack de PNG/CRC removendo icon.png corrompido e usando favicon SVG válido
-- [x] Vercel: build-rate-limit liberado no preview; status do commit corrigido retornou success
+- [x] Vercel preview: build-rate-limit liberado e status do commit corrigido retornou success
 - [x] Confirmar status Vercel success do commit final do preview após liberação do limite
+- [~] Produção (`main`): commit atual ainda retorna Vercel failure por `build-rate-limit`; não considerar deploy final concluído
 - [ ] Conferir home em produção com assets finais
 - [ ] Conferir páginas internas em produção
 - [ ] Conferir favicon em produção
@@ -172,4 +173,4 @@
 - Build: **PASS**
 - Turbopack/PNG CRC: **corrigido**
 - Vercel preview: **SUCCESS**
-- Produção: promoção manual pelo usuário após validação do preview
+- Produção (`main`): **BLOCKED — Vercel build-rate-limit no commit atual**
