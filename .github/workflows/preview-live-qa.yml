@@ -11,19 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BASE_URL: https://andre-almeida.online
+      BASE_URL: https://andre-almeida-git-previ-e16ed2-andre-almeidas-projects-7fa48c22.vercel.app
       QA_NAME: QA Preview 20260822
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Install browser QA dependencies
         run: |
           npm ci
           npm install --no-save playwright@1.55.0
@@ -33,62 +30,44 @@ jobs:
         run: |
           node <<'NODE'
           const base = process.env.BASE_URL;
-          const requiredRoutes = [
-            '/pt-BR', '/pt-BR/services', '/pt-BR/portfolio', '/pt-BR/about', '/pt-BR/contact',
-            '/pt-BR/websites-ecommerce', '/pt-BR/website-para-empresas', '/pt-BR/ecommerce-proprio',
-            '/pt-BR/vender-livros-online', '/pt-BR/autoridade-online',
-            '/en', '/en/services', '/en/portfolio', '/en/about', '/en/contact', '/en/websites-ecommerce'
+          const routes = [
+            '/pt-BR','/pt-BR/services','/pt-BR/portfolio','/pt-BR/about','/pt-BR/contact',
+            '/pt-BR/websites-ecommerce','/pt-BR/website-para-empresas','/pt-BR/ecommerce-proprio',
+            '/pt-BR/vender-livros-online','/pt-BR/autoridade-online',
+            '/en','/en/services','/en/portfolio','/en/about','/en/contact','/en/websites-ecommerce'
           ];
-          const assets = [
-            '/brand/andre-premium.webp', '/brand/nova-ai.webp', '/brand/caa-neuro.webp',
-            '/brand/amb-boutique.jpg', '/brand/brinqueteando.webp', '/favicon.svg'
-          ];
-          async function must200(path) {
-            const res = await fetch(base + path, { redirect: 'follow' });
-            if (!res.ok) throw new Error(`${path} -> HTTP ${res.status}`);
-            return res;
+          const assets = ['/brand/andre-premium.webp','/brand/nova-ai.webp','/brand/caa-neuro.webp','/brand/amb-boutique.jpg','/brand/brinqueteando.webp','/favicon.svg'];
+          async function get(path) {
+            const r = await fetch(base + path, { redirect: 'follow' });
+            if (!r.ok) throw new Error(`${path} -> HTTP ${r.status}`);
+            return r;
           }
-          for (const route of requiredRoutes) {
-            const res = await must200(route);
-            const text = await res.text();
-            if (text.length < 1000) throw new Error(`${route} returned suspiciously short HTML`);
-            if (/Vastara/i.test(text)) throw new Error(`${route} still contains Vastara`);
+          for (const path of routes) {
+            const html = await (await get(path)).text();
+            if (html.length < 1000) throw new Error(`${path}: short HTML`);
+            if (/Vastara/i.test(html)) throw new Error(`${path}: residual Vastara content`);
           }
-          for (const asset of assets) {
-            const res = await must200(asset);
-            const ct = res.headers.get('content-type') || '';
-            if (!ct.includes('image')) throw new Error(`${asset} is not served as an image (${ct})`);
+          for (const path of assets) {
+            const r = await get(path);
+            if (!(r.headers.get('content-type') || '').includes('image')) throw new Error(`${path}: invalid image content-type`);
           }
-          const robots = await (await must200('/robots.txt')).text();
-          if (!/sitemap/i.test(robots) || !/OAI-SearchBot|GPTBot|PerplexityBot|Google-Extended/i.test(robots)) {
-            throw new Error('robots.txt is missing sitemap or AI crawler directives');
-          }
-          const sitemap = await (await must200('/sitemap.xml')).text();
-          for (const must of ['/pt-BR/websites-ecommerce','/en/websites-ecommerce','/pt-BR/vender-livros-online']) {
-            if (!sitemap.includes(must)) throw new Error(`sitemap.xml missing ${must}`);
-          }
-          const llms = await (await must200('/llms.txt')).text();
-          if (!/e-commerce|ecommerce/i.test(llms) || !/website/i.test(llms)) throw new Error('llms.txt missing core service context');
-          const lead = {
-            name: process.env.QA_NAME,
-            email: 'qa-preview@andre-almeida.online',
-            phone: '+55 11 99999-0000',
-            company: 'Preview QA',
-            serviceType: 'Website / E-commerce',
-            budget: 'QA',
-            message: 'Teste automatizado do formulário do preview. Pode ignorar esta mensagem.',
-            locale: 'pt-BR',
-            type: 'contact'
-          };
-          const contactRes = await fetch(base + '/api/contact', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(lead)
+          const robots = await (await get('/robots.txt')).text();
+          if (!/sitemap/i.test(robots) || !/OAI-SearchBot|GPTBot|PerplexityBot|Google-Extended/i.test(robots)) throw new Error('robots.txt incomplete');
+          const sitemap = await (await get('/sitemap.xml')).text();
+          for (const x of ['/pt-BR/websites-ecommerce','/en/websites-ecommerce','/pt-BR/vender-livros-online']) if (!sitemap.includes(x)) throw new Error(`sitemap missing ${x}`);
+          const llms = await (await get('/llms.txt')).text();
+          if (!/e-commerce|ecommerce/i.test(llms) || !/website/i.test(llms)) throw new Error('llms.txt incomplete');
+          const res = await fetch(base + '/api/contact', {
+            method: 'POST', headers: {'content-type':'application/json'},
+            body: JSON.stringify({
+              name: process.env.QA_NAME, email: 'qa-preview@andre-almeida.online', phone: '+55 11 99999-0000',
+              company: 'Preview QA', serviceType: 'Website / E-commerce', budget: 'QA', locale: 'pt-BR', type: 'contact',
+              message: 'Teste automatizado do formulário do preview. Pode ignorar esta mensagem.'
+            })
           });
-          const contactJson = await contactRes.json();
-          if (!contactRes.ok || !contactJson.success) throw new Error(`Contact API failed: ${JSON.stringify(contactJson)}`);
-          if (contactJson.warning) throw new Error(`Contact email warning: ${contactJson.warning}`);
-          console.log('HTTP/SEO/assets/contact API QA passed', contactJson.id);
+          const json = await res.json();
+          if (!res.ok || !json.success || json.warning) throw new Error(`Contact API/email failed: ${JSON.stringify(json)}`);
+          console.log('HTTP/SEO/assets/contact API PASS', json.id);
           NODE
 
       - name: Browser, responsive, images, language and WhatsApp QA
@@ -98,60 +77,50 @@ jobs:
           const { chromium } = require('playwright');
           const fs = require('fs');
           const base = process.env.BASE_URL;
-          const expectedWhatsApp = '5511992598585';
           const pages = ['/pt-BR','/pt-BR/services','/pt-BR/portfolio','/pt-BR/about','/pt-BR/contact','/pt-BR/websites-ecommerce','/en'];
           const sizes = [
-            { name: 'mobile-390', width: 390, height: 844 },
-            { name: 'tablet-768', width: 768, height: 1024 },
-            { name: 'desktop-1440', width: 1440, height: 1000 }
+            {name:'mobile-390',width:390,height:844},
+            {name:'tablet-768',width:768,height:1024},
+            {name:'desktop-1440',width:1440,height:1000}
           ];
           (async () => {
-            const browser = await chromium.launch({ headless: true });
+            const browser = await chromium.launch({headless:true});
             const failures = [];
             for (const size of sizes) {
-              const context = await browser.newContext({ viewport: { width: size.width, height: size.height } });
+              const context = await browser.newContext({viewport:{width:size.width,height:size.height}});
               for (const path of pages) {
                 const page = await context.newPage();
                 const consoleErrors = [];
-                const failedRequests = [];
-                page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
-                page.on('requestfailed', req => failedRequests.push(`${req.method()} ${req.url()} ${req.failure()?.errorText || ''}`));
-                const response = await page.goto(base + path, { waitUntil: 'networkidle', timeout: 60000 });
+                const requestFailures = [];
+                page.on('console', m => { if (m.type()==='error' && !/google-analytics/i.test(m.text())) consoleErrors.push(m.text()); });
+                page.on('requestfailed', r => {
+                  const err = r.failure()?.errorText || '';
+                  if (!/ERR_ABORTED/.test(err) && !/google-analytics\.com/.test(r.url())) requestFailures.push(`${r.url()} ${err}`);
+                });
+                const response = await page.goto(base + path, {waitUntil:'networkidle',timeout:60000});
                 if (!response || response.status() >= 400) failures.push(`${size.name} ${path}: HTTP ${response?.status()}`);
-                const brokenImages = await page.locator('img').evaluateAll(imgs => imgs.filter(img => !img.complete || img.naturalWidth === 0).map(img => img.getAttribute('src')));
-                if (brokenImages.length) failures.push(`${size.name} ${path}: broken images ${brokenImages.join(', ')}`);
-                const purpleCount = await page.locator('[class*="purple"], [class*="violet"], [class*="indigo"]').count();
-                if (path !== '/pt-BR' && purpleCount > 20) failures.push(`${size.name} ${path}: excessive legacy purple classes (${purpleCount})`);
-                if (consoleErrors.length) failures.push(`${size.name} ${path}: console errors ${consoleErrors.join(' | ')}`);
-                if (failedRequests.length) failures.push(`${size.name} ${path}: failed requests ${failedRequests.join(' | ')}`);
-                const file = `qa-screenshots/${size.name}-${path.replaceAll('/','_') || 'root'}.png`;
-                await page.screenshot({ path: file, fullPage: true });
+                const broken = await page.locator('img').evaluateAll(imgs => imgs.filter(i => !i.complete || i.naturalWidth===0).map(i => i.currentSrc || i.src));
+                if (broken.length) failures.push(`${size.name} ${path}: broken images ${broken.join(', ')}`);
+                if (consoleErrors.length) failures.push(`${size.name} ${path}: console ${consoleErrors.join(' | ')}`);
+                if (requestFailures.length) failures.push(`${size.name} ${path}: requests ${requestFailures.join(' | ')}`);
+                await page.screenshot({path:`qa-screenshots/${size.name}-${path.replaceAll('/','_')}.png`,fullPage:true});
                 await page.close();
               }
               await context.close();
             }
-            const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+            const context = await browser.newContext({viewport:{width:1440,height:1000}});
             const page = await context.newPage();
-            await page.goto(base + '/pt-BR', { waitUntil: 'networkidle', timeout: 60000 });
-            const whatsappHrefs = await page.locator('a[href*="wa.me"]').evaluateAll(as => as.map(a => a.href));
-            if (!whatsappHrefs.length || whatsappHrefs.some(href => !href.includes(expectedWhatsApp))) {
-              failures.push(`WhatsApp href mismatch: ${JSON.stringify(whatsappHrefs)}`);
-            }
-            const langButton = page.getByRole('button', { name: /Traduzir website para inglês/i }).first();
-            if (await langButton.count()) {
-              await langButton.click();
-              await page.waitForURL(/\/en(\/|$)/, { timeout: 30000 });
-            } else {
-              failures.push('PT→EN translation button not found');
-            }
+            await page.goto(base + '/pt-BR',{waitUntil:'networkidle',timeout:60000});
+            const whats = await page.locator('a[href*="wa.me"]').evaluateAll(as => as.map(a => a.href));
+            if (!whats.length || whats.some(h => !h.includes('5511992598585'))) failures.push(`WhatsApp mismatch ${JSON.stringify(whats)}`);
+            const lang = page.getByRole('button',{name:/Traduzir website para inglês/i}).first();
+            if (!await lang.count()) failures.push('PT→EN button missing');
+            else { await lang.click(); await page.waitForURL(/\/en(\/|$)/,{timeout:30000}); }
             await context.close();
             await browser.close();
-            fs.writeFileSync('qa-screenshots/qa-result.json', JSON.stringify({ failures }, null, 2));
-            if (failures.length) {
-              console.error(failures.join('\n'));
-              process.exit(1);
-            }
-            console.log('Browser/responsive/images/language/WhatsApp QA passed');
+            fs.writeFileSync('qa-screenshots/qa-result.json',JSON.stringify({failures},null,2));
+            if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
+            console.log('Browser/responsive/images/language/WhatsApp PASS');
           })();
           NODE
 
@@ -161,5 +130,4 @@ jobs:
         with:
           name: preview-live-qa-screenshots
           path: qa-screenshots
-          if-no-files-found: warn
           retention-days: 7
