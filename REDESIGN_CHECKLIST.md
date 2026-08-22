@@ -2,12 +2,12 @@
 
 ## Status geral
 
-**Progresso detalhado:** 116 de 135 tarefas concluídas (**86%**).
+**Progresso detalhado:** 120 de 135 tarefas concluídas (**89%**).
 
-- Concluídas: **116**
-- Em andamento: **7**
-- Pendentes: **12**
-- Fase atual: acabamento SEO/schema + asset AMB + validação final de build/deploy/produção
+- Concluídas: **120**
+- Em andamento: **5**
+- Pendentes: **10**
+- Fase atual: asset AMB + validação final de build/deploy/produção
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
 
@@ -116,9 +116,9 @@
 - [x] Schema Person
 - [x] Schema ProfessionalService
 - [x] Schema WebSite
-- [x] Schema Service em página comercial principal
+- [x] Schema Service nas páginas comerciais
 - [x] Schema OfferCatalog
-- [~] Schema BreadcrumbList nas páginas comerciais
+- [x] Schema BreadcrumbList nas páginas comerciais
 - [x] Schema FAQPage nas páginas de intenção/oferta
 - [x] OpenGraph/Twitter principal completo
 - [x] Sitemap somente PT/EN
