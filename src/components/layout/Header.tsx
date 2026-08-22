@@ -111,7 +111,7 @@ export function Header() {
                       type="button"
                       key={code}
                       onClick={() => switchLocale(code)}
-                      className={`block w-full px-4 py-3 text-left text-[10px] uppercase tracking-[0.12em] transition ${locale === code ? "bg-white/8 text-[#c7b18d]" : "text-white/55 hover:bg-white/5 hover:text-white"}`}
+                      className={`block w-full px-4 py-3 text-left text-[10px] uppercase tracking-[0.12em] transition ${locale === code ? "bg-white/[0.08] text-[#c7b18d]" : "text-white/55 hover:bg-white/5 hover:text-white"}`}
                     >
                       {name}
                     </button>
