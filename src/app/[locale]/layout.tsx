@@ -5,45 +5,36 @@ import { routing } from "@/i18n/routing"
 import type { Metadata } from "next"
 import { LocaleChrome } from "@/components/layout/LocaleChrome"
 
-type Props = {
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
-}
+type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
 
 const metaByLocale: Record<string, { title: string; description: string; ogLocale: string }> = {
-  en: {
-    title: "Andre Almeida | Shopify Expert Developer",
-    description: "Shopify Expert with 6+ years building high-performance stores. Headless Hydrogen, migrations, Facebook & TikTok Ads, and conversion optimization.",
-    ogLocale: "en_US",
-  },
   "pt-BR": {
-    title: "Andre Almeida | Shopify Expert Developer",
-    description: "Especialista Shopify com 6+ anos construindo lojas de alta performance. Headless Hydrogen, migrações, Facebook & TikTok Ads e otimização de conversão.",
+    title: "André Almeida | Websites, E-commerce, Automação & Growth",
+    description: "Websites para empresas, e-commerce, Shopify, CRM, analytics, e-mail marketing, automação, IA e growth em uma estrutura digital pensada para vender e crescer.",
     ogLocale: "pt_BR",
   },
-  es: {
-    title: "Andre Almeida | Shopify Expert Developer",
-    description: "Experto Shopify con 6+ años construyendo tiendas de alto rendimiento. Headless Hydrogen, migraciones, Facebook & TikTok Ads y optimización de conversión.",
-    ogLocale: "es_ES",
+  en: {
+    title: "Andre Almeida | Websites, E-commerce, Automation & Growth",
+    description: "Business websites, ecommerce, Shopify, CRM, analytics, email marketing, automation, AI and growth in one commercial digital system.",
+    ogLocale: "en_US",
   },
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const meta = metaByLocale[locale] ?? metaByLocale["en"]
+  const meta = metaByLocale[locale] ?? metaByLocale["pt-BR"]
 
   return {
     title: meta.title,
     description: meta.description,
-    keywords: ["shopify expert", "shopify developer", "headless commerce", "hydrogen", "ecommerce", "shopify brasil"],
+    keywords: ["website para empresas", "ecommerce", "shopify expert", "crm", "email marketing", "automação", "inteligência artificial", "growth", "conversion optimization"],
     authors: [{ name: "Andre Almeida" }],
     alternates: {
       canonical: `https://andre-almeida.online/${locale}`,
       languages: {
         "x-default": "https://andre-almeida.online/pt-BR",
-        "en": "https://andre-almeida.online/en",
         "pt-BR": "https://andre-almeida.online/pt-BR",
-        "es": "https://andre-almeida.online/es",
+        en: "https://andre-almeida.online/en",
       },
     },
     openGraph: {
@@ -52,32 +43,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: "website",
       locale: meta.ogLocale,
       url: `https://andre-almeida.online/${locale}`,
-      siteName: "Andre Almeida - Shopify Expert",
+      siteName: "Andre Almeida — Strategy · AI · E-commerce",
     },
-    twitter: {
-      card: "summary_large_image",
-      title: meta.title,
-      description: meta.description,
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    twitter: { card: "summary_large_image", title: meta.title, description: meta.description },
+    robots: { index: true, follow: true },
   }
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
-
-  if (!routing.locales.includes(locale as any)) {
-    notFound()
-  }
-
+  if (!routing.locales.includes(locale as any)) notFound()
   const messages = await getMessages()
-
-  return (
-    <NextIntlClientProvider messages={messages}>
-      <LocaleChrome>{children}</LocaleChrome>
-    </NextIntlClientProvider>
-  )
+  return <NextIntlClientProvider messages={messages}><LocaleChrome>{children}</LocaleChrome></NextIntlClientProvider>
 }
