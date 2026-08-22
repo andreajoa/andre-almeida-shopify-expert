@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-insta-dark: #0f0c1b;
-  --color-insta-purple: #6d28d9;
-  --color-insta-violet: #7c3aed;
-  --color-insta-accent: #a855f7;
-  --color-insta-neon: #06b6d4;
+  --color-insta-dark: #11110f;
+  --color-insta-purple: #8a7657;
+  --color-insta-violet: #a08967;
+  --color-insta-accent: #b49970;
+  --color-insta-neon: #c7b18d;
   --color-luxury-paper: #f2efe8;
   --color-luxury-ink: #11110f;
   --color-luxury-muted: #6d6a63;
@@ -14,62 +14,32 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    background-color: #11110f;
-    color: #f1f5f9;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  ::selection {
-    background-color: rgba(180, 153, 112, 0.35);
-    color: #11110f;
-  }
-
-  :focus-visible {
-    outline: 2px solid #b49970;
-    outline-offset: 4px;
-  }
-
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: #11110f;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #5b5851;
-    border-radius: 9999px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #77726a;
-  }
+  html { scroll-behavior: smooth; background: #f2efe8; }
+  body { background-color: #f2efe8; color: #11110f; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  ::selection { background-color: rgba(180, 153, 112, 0.35); color: #11110f; }
+  :focus-visible { outline: 2px solid #b49970; outline-offset: 4px; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background-color: #11110f; }
+  ::-webkit-scrollbar-thumb { background-color: #5b5851; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background-color: #77726a; }
 }
 
 @layer utilities {
-  .font-editorial {
-    font-family: var(--font-editorial), "Iowan Old Style", Baskerville, Georgia, serif;
-  }
+  .font-editorial { font-family: var(--font-editorial), "Iowan Old Style", Baskerville, Georgia, serif; }
+
+  /* Compatibility layer for legacy internal routes while they share the new brand system. */
+  .bg-slate-950, .bg-insta-dark { background-color: #11110f !important; }
+  .bg-slate-900 { background-color: #191917 !important; }
+  .bg-slate-50, .bg-white { background-color: #f2efe8 !important; }
+  .bg-indigo-600, .bg-indigo-500, .bg-insta-purple, .bg-insta-violet { background-color: #11110f !important; }
+  .text-insta-purple, .text-insta-violet, .text-insta-accent, .text-insta-neon,
+  .text-indigo-300, .text-indigo-400, .text-indigo-500, .text-indigo-600 { color: #a08967 !important; }
+  .border-indigo-500, .border-indigo-600 { border-color: #b49970 !important; }
+  .from-indigo-600, .from-purple-600, .from-violet-600 { --tw-gradient-from: #5f6559 var(--tw-gradient-from-position) !important; }
+  .to-indigo-600, .to-purple-600, .to-violet-600 { --tw-gradient-to: #b49970 var(--tw-gradient-to-position) !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
