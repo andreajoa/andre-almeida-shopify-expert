@@ -1,494 +1,76 @@
-"use client"
-
+import type { Metadata } from "next"
 import Link from "next/link"
-import { useLocale } from "next-intl"
-import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Cake,
-  CheckCircle2,
-  ChevronRight,
-  Globe,
-  Megaphone,
-  MessageCircle,
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  Sparkles,
-  Store,
-  Truck,
-  Zap,
-} from "lucide-react"
-import { AnimatedSection } from "@/components/shared/AnimatedSection"
-import { Button } from "@/components/ui/Button"
-import { allServices } from "@/data/services"
-import { PRICES, formatPrice, getCurrencyForLocale, SITE_CONFIG } from "@/lib/constants"
-import { Analytics } from "@/lib/analytics"
+import { ArrowUpRight, Bot, ChartNoAxesCombined, Code2, Database, Mail, Search, ShoppingBag, Sparkles, Target, Workflow } from "lucide-react"
+import { SITE_CONFIG } from "@/lib/constants"
 
-export default function ServicesPage() {
-  const locale = useLocale() as "en" | "pt-BR" | "es"
-  const isPt = locale === "pt-BR"
-  const currency = getCurrencyForLocale(locale)
+type Props = { params: Promise<{ locale: string }> }
 
-  const whatsappText = encodeURIComponent(
-    isPt
-      ? "Olá André, vi sua página de serviços e quero entender qual solução faz mais sentido para meu negócio."
-      : "Hi Andre, I saw your services page and want to understand which solution makes sense for my business."
-  )
+const copy = {
+  "pt-BR": {
+    title: "Serviços digitais que funcionam como",
+    italic: "partes do mesmo negócio.",
+    lead: "Website, e-commerce, aquisição, dados, CRM e automação não deveriam disputar atenção entre fornecedores. Eu estruturo a estratégia para que cada camada sustente a próxima.",
+    eyebrow: "SERVIÇOS · ESTRATÉGIA → EXECUÇÃO",
+    primary: "Falar sobre meu projeto",
+    categories: [
+      { n: "01", icon: Code2, title: "Websites & Produto Digital", text: "Sites para empresas, landing pages, portais, produtos digitais e experiências que unem posicionamento, performance e conversão.", items: ["Website institucional", "Landing pages", "Sites para estabelecimentos", "Produtos digitais", "Redesign UX/UI"] },
+      { n: "02", icon: ShoppingBag, title: "E-commerce & Shopify", text: "Lojas virtuais próprias ou Shopify, escolhidas de acordo com operação, catálogo, integrações e necessidade de escala.", items: ["E-commerce próprio", "Shopify", "Headless commerce", "Migração de loja", "Checkout & pagamentos"] },
+      { n: "03", icon: Target, title: "Conversão & Growth", text: "Arquitetura de páginas, CRO, mídia, ofertas e jornadas para reduzir atrito entre atenção, confiança, carrinho e compra.", items: ["CRO", "Mídia paga", "Funil de vendas", "Upsell & cross-sell", "Abandono de carrinho"] },
+      { n: "04", icon: Search, title: "SEO, GEO & Autoridade", text: "Estrutura técnica e editorial para ampliar descoberta em buscadores e tornar sua marca mais clara e citável para sistemas de resposta por IA.", items: ["SEO técnico", "GEO / AI discovery", "Arquitetura temática", "Schema", "Autoridade online"] },
+      { n: "05", icon: Database, title: "CRM, Dados & Analytics", text: "Transforme tráfego em informação comercial: origem, cidade aproximada, páginas, cliques, retornos, leads, carrinho e checkout.", items: ["CRM", "Analytics", "Eventos de conversão", "Dashboards", "Segmentação"] },
+      { n: "06", icon: Mail, title: "E-mail & Relacionamento", text: "Captação, mailing, newsletters e automações para continuar a conversa depois que a pessoa sai do site.", items: ["Pop-ups", "Formulários", "E-mail marketing", "Fluxos automáticos", "Recuperação"] },
+      { n: "07", icon: Bot, title: "Automação & IA", text: "Integrações, agentes e workflows que conectam ferramentas e reduzem tarefas repetitivas na operação.", items: ["n8n", "Agentes de IA", "Integrações API", "WhatsApp", "Automação operacional"] },
+      { n: "08", icon: Workflow, title: "Estratégia Digital", text: "Diagnóstico de presença, arquitetura, tecnologia e crescimento para negócios que precisam organizar o próximo ciclo.", items: ["Diagnóstico", "Roadmap", "Arquitetura de solução", "Auditoria", "Otimização contínua"] },
+    ],
+    pathsTitle: "Algumas necessidades merecem uma página própria.",
+    paths: [["Sites para empresas", "/website-para-empresas"], ["E-commerce próprio", "/ecommerce-proprio"], ["Venda de livros online", "/vender-livros-online"], ["Autoridade online", "/autoridade-online"], ["Estrutura completa de sites & e-commerce", "/websites-ecommerce"]],
+    finalTitle: "A melhor tecnologia é a que resolve o seu problema sem criar outro.",
+    finalText: "O projeto começa entendendo produto, público, operação e objetivo. A partir daí eu defino o que realmente precisa entrar na estrutura.",
+  },
+  en: {
+    title: "Digital services that work as",
+    italic: "parts of the same business.",
+    lead: "Website, ecommerce, acquisition, data, CRM and automation should not compete across disconnected vendors. I structure them so each layer supports the next.",
+    eyebrow: "SERVICES · STRATEGY → EXECUTION",
+    primary: "Talk about my project",
+    categories: [
+      { n: "01", icon: Code2, title: "Websites & Digital Products", text: "Business websites, landing pages, portals and digital products combining positioning, performance and conversion.", items: ["Business websites", "Landing pages", "Local business sites", "Digital products", "UX/UI redesign"] },
+      { n: "02", icon: ShoppingBag, title: "Ecommerce & Shopify", text: "Owned ecommerce or Shopify, selected around operations, catalog, integrations and scale requirements.", items: ["Owned ecommerce", "Shopify", "Headless commerce", "Store migration", "Checkout & payments"] },
+      { n: "03", icon: Target, title: "Conversion & Growth", text: "Pages, CRO, paid acquisition, offers and journeys that reduce friction between attention, trust, cart and purchase.", items: ["CRO", "Paid media", "Sales funnels", "Upsell & cross-sell", "Abandonment recovery"] },
+      { n: "04", icon: Search, title: "SEO, GEO & Authority", text: "Technical and editorial structure for search discovery and clearer, more citable brand signals for AI answer systems.", items: ["Technical SEO", "GEO / AI discovery", "Topical architecture", "Schema", "Online authority"] },
+      { n: "05", icon: Database, title: "CRM, Data & Analytics", text: "Turn traffic into commercial intelligence: sources, approximate city, pages, clicks, returns, leads, cart and checkout.", items: ["CRM", "Analytics", "Conversion events", "Dashboards", "Segmentation"] },
+      { n: "06", icon: Mail, title: "Email & Retention", text: "Capture, mailing lists, newsletters and automation that continue the relationship after a visitor leaves.", items: ["Popups", "Forms", "Email marketing", "Automated flows", "Recovery"] },
+      { n: "07", icon: Bot, title: "Automation & AI", text: "Integrations, agents and workflows connecting tools and reducing repetitive operational work.", items: ["n8n", "AI agents", "API integrations", "WhatsApp", "Operational automation"] },
+      { n: "08", icon: Workflow, title: "Digital Strategy", text: "Presence, architecture, technology and growth diagnosis for businesses planning their next cycle.", items: ["Diagnosis", "Roadmap", "Solution architecture", "Audit", "Continuous optimization"] },
+    ],
+    pathsTitle: "Some needs deserve a dedicated page.",
+    paths: [["Business websites", "/website-para-empresas"], ["Owned ecommerce", "/ecommerce-proprio"], ["Direct book sales", "/vender-livros-online"], ["Online authority", "/autoridade-online"], ["Complete websites & ecommerce infrastructure", "/websites-ecommerce"]],
+    finalTitle: "The best technology solves your problem without creating another one.",
+    finalText: "Every project starts by understanding the product, audience, operation and goal. Then I define what genuinely belongs in the solution.",
+  },
+} as const
 
-  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const lang = locale === "en" ? "en" : "pt-BR"
+  return lang === "pt-BR"
+    ? { title: "Serviços | Websites, E-commerce, SEO, CRM e Automação", description: "Serviços de websites, e-commerce, Shopify, SEO/GEO, CRM, analytics, e-mail marketing, conversão, automação e IA para empresas em todo o Brasil." }
+    : { title: "Services | Websites, Ecommerce, SEO, CRM & Automation", description: "Website, ecommerce, Shopify, SEO/GEO, CRM, analytics, email marketing, conversion, automation and AI services for businesses in Brazil and worldwide." }
+}
 
-  const moments = [
-    {
-      Icon: ShoppingBag,
-      title: isPt ? "Quero começar do zero" : "I want to start from zero",
-      text: isPt ? "Preciso de uma loja profissional e pronta para vender." : "I need a professional store ready to sell.",
-      cta: isPt ? "Começar agora" : "Start now",
-    },
-    {
-      Icon: BarChart3,
-      title: isPt ? "Já tenho loja e quero vender mais" : "I already have a store and want more sales",
-      text: isPt ? "Quero melhorar minha loja, tráfego e conversão." : "I want better store performance and conversion.",
-      cta: isPt ? "Aumentar vendas" : "Increase sales",
-    },
-    {
-      Icon: Truck,
-      title: isPt ? "Negócio local ou delivery" : "Local business or delivery",
-      text: isPt ? "Quero vender online na minha região com entregas." : "I want to sell online locally with delivery.",
-      cta: isPt ? "Ver soluções" : "See solutions",
-    },
-    {
-      Icon: Bot,
-      title: isPt ? "Automação e escala" : "Automation and scale",
-      text: isPt ? "Quero automatizar processos e escalar meu negócio." : "I want to automate and scale my business.",
-      cta: isPt ? "Automatizar" : "Automate",
-    },
-  ]
+export default async function ServicesPage({ params }: Props) {
+  const { locale } = await params
+  const lang = locale === "en" ? "en" : "pt-BR"
+  const c = copy[lang]
+  const whatsapp = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(lang === "pt-BR" ? "Olá André, quero entender qual solução faz mais sentido para o meu negócio." : "Hi Andre, I want to understand which solution best fits my business.")}`
 
-  const categories = [
-    {
-      id: "shopify",
-      title: isPt ? "Shopify & Loja Virtual" : "Shopify & Online Store",
-      icon: ShoppingBag,
-    },
-    {
-      id: "growth",
-      title: isPt ? "Growth & Marketing" : "Growth & Marketing",
-      icon: Megaphone,
-    },
-    {
-      id: "design",
-      title: isPt ? "Design & Criativo" : "Design & Creative",
-      icon: Sparkles,
-    },
-    {
-      id: "automation",
-      title: isPt ? "Automação & IA" : "Automation & AI",
-      icon: Bot,
-    },
-    {
-      id: "digital",
-      title: isPt ? "Digital & Infoprodutos" : "Digital & Infoproducts",
-      icon: Globe,
-    },
-  ]
+  return <main className="bg-[#f2efe8] text-[#11110f]">
+    <section className="border-b border-[#d4cec2] px-5 pb-24 pt-36 sm:px-8 md:pb-32 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1600px]"><p className="text-[10px] font-semibold tracking-[.2em] text-[#77736b]">{c.eyebrow}</p><div className="mt-8 grid gap-12 lg:grid-cols-[.7fr_.3fr] lg:items-end"><h1 className="font-editorial text-[clamp(3.5rem,7vw,7.6rem)] leading-[.88] tracking-[-.05em]">{c.title} <span className="italic text-[#5f6559]">{c.italic}</span></h1><div><p className="text-base leading-8 text-[#625e56] sm:text-lg">{c.lead}</p><a href={whatsapp} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white">{c.primary}<ArrowUpRight className="h-4 w-4"/></a></div></div></div></section>
 
-  const featuredServiceIds = [
-    "shopify-development",
-    "facebook-tiktok-ads",
-    "store-migration",
-    "seo-migration",
-    "email-marketing",
-    "conversion-optimization",
-  ]
+    <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1600px]"><div className="grid border-y border-[#d4cec2] md:grid-cols-2 lg:grid-cols-4">{c.categories.map((service,index)=>{const Icon=service.icon;return <article key={service.n} className={`min-h-[410px] p-7 md:p-8 ${index%4!==0?"lg:border-l lg:border-[#d4cec2]":""} ${index>=4?"border-t border-[#d4cec2]":""} ${index%2===1?"md:border-l md:border-[#d4cec2]":""}`}><div className="flex items-center justify-between"><span className="text-[9px] font-semibold tracking-[.15em] text-[#a08967]">{service.n}</span><Icon className="h-5 w-5 text-[#5f6559]"/></div><h2 className="mt-12 font-editorial text-3xl leading-none tracking-[-.03em] sm:text-4xl">{service.title}</h2><p className="mt-5 text-sm leading-7 text-[#69645c]">{service.text}</p><ul className="mt-7 space-y-2">{service.items.map(item=><li key={item} className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#817c72]">— {item}</li>)}</ul></article>})}</div></div></section>
 
-  const featuredServices = allServices.filter((service: any) =>
-    featuredServiceIds.includes(service.id)
-  )
+    <section className="bg-[#11110f] px-5 py-24 text-white sm:px-8 md:py-32 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1500px]"><Sparkles className="h-6 w-6 text-[#c7b18d]"/><h2 className="mt-8 max-w-5xl font-editorial text-[clamp(2.8rem,5.5vw,5.8rem)] leading-[.93] tracking-[-.045em]">{c.pathsTitle}</h2><div className="mt-14 divide-y divide-white/10 border-y border-white/10">{c.paths.map(([label,path],index)=><Link key={path} href={`/${lang}${path}`} className="group flex items-center justify-between py-6"><div className="flex items-center gap-5"><span className="text-[9px] text-[#c7b18d]">0{index+1}</span><span className="font-editorial text-2xl sm:text-3xl">{label}</span></div><ArrowUpRight className="h-5 w-5 text-white/40 transition group-hover:text-[#c7b18d]"/></Link>)}</div></div></section>
 
-  const fallbackServices = featuredServices.length
-    ? featuredServices
-    : allServices.slice(0, 6)
-
-  const faqs = [
-    {
-      q: isPt ? "Você atende quem ainda não tem loja online?" : "Do you help people who do not have an online store yet?",
-      a: isPt
-        ? "Sim. Eu ajudo desde a estratégia inicial até a loja publicada, com estrutura para vender e receber pedidos."
-        : "Yes. I help from strategy to launch, with a structure ready to sell.",
-    },
-    {
-      q: isPt ? "Você trabalha apenas com Shopify?" : "Do you only work with Shopify?",
-      a: isPt
-        ? "Shopify é minha principal especialidade, mas também trabalho com estratégia, SEO, tráfego, automação, UX e gestão de ecommerce."
-        : "Shopify is my main specialty, but I also work with strategy, SEO, traffic, automation, UX and ecommerce management.",
-    },
-    {
-      q: isPt ? "Você atende mercado, confeitaria e delivery?" : "Do you work with markets, bakeries and delivery businesses?",
-      a: isPt
-        ? "Sim. Posso criar loja virtual, catálogo, pedidos online, integração com WhatsApp e estrutura para entrega local."
-        : "Yes. I can create online stores, catalogs, online orders, WhatsApp integration and local delivery structure.",
-    },
-    {
-      q: isPt ? "Quanto tempo leva para criar uma loja?" : "How long does it take to create a store?",
-      a: isPt
-        ? "Depende do escopo. Projetos simples podem começar em poucas semanas; projetos maiores exigem planejamento, design, conteúdo e integrações."
-        : "It depends on the scope. Simple projects can start in a few weeks; larger projects need planning, design, content and integrations.",
-    },
-  ]
-
-  return (
-    <div className="bg-white text-slate-950 pt-24">
-      <section className="relative overflow-hidden bg-slate-950 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.18),transparent_30%),radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_34%)]" />
-
-        <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid lg:grid-cols-[1.03fr_0.97fr] gap-12 items-center">
-            <AnimatedSection>
-              <div className="inline-flex items-center gap-2 rounded-full bg-insta-violet/10 border border-insta-violet/20 px-4 py-2 text-sm font-medium text-insta-accent mb-6">
-                <Sparkles className="w-4 h-4" />
-                {isPt ? "20+ serviços para vender online" : "20+ services to sell online"}
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-6">
-                {isPt ? (
-                  <>
-                    Tudo que você precisa para{" "}
-                    <span className="text-insta-accent">vender mais</span> na internet.
-                  </>
-                ) : (
-                  <>
-                    Everything you need to{" "}
-                    <span className="text-insta-accent">sell more</span> online.
-                  </>
-                )}
-              </h1>
-
-              <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mb-8">
-                {isPt
-                  ? "Serviços completos para Shopify, lojas virtuais, delivery, marketing, SEO, automação e gestão de ecommerce. Do planejamento à execução."
-                  : "Complete services for Shopify, online stores, delivery, marketing, SEO, automation and ecommerce management."}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => Analytics.whatsappClick("services_clean_hero")}
-                >
-                  <Button variant="primary" size="lg" className="w-full sm:w-auto bg-insta-violet hover:bg-insta-purple text-slate-950">
-                    <MessageCircle className="w-5 h-5" />
-                    {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
-                  </Button>
-                </a>
-
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => Analytics.whatsappClick("services_clean_diagnosis")}
-                >
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-white/20 text-white hover:bg-white/10">
-                    <Search className="w-5 h-5" />
-                    {isPt ? "Solicitar Diagnóstico" : "Request diagnosis"}
-                  </Button>
-                </a>
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-4 text-sm text-slate-300">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-insta-accent" />
-                  {isPt ? "Atendimento para todo o Brasil" : "Remote service"}
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-insta-accent" />
-                  {isPt ? "Projetos personalizados" : "Custom projects"}
-                </div>
-                <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-4 h-4 text-insta-accent" />
-                  {isPt ? "Foco em resultado" : "Results focused"}
-                </div>
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection delay={0.08}>
-              <div className="relative">
-                <div className="absolute -inset-6 rounded-[2rem] bg-insta-purple/20 blur-3xl" />
-                <div className="relative rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur">
-                  <div className="grid sm:grid-cols-[1fr_0.8fr] gap-5 items-end">
-                    <div className="rounded-[1.5rem] overflow-hidden bg-white">
-                      <img
-                        src="/images/andre2-small.jpg"
-                        alt="Andre Almeida, Shopify Expert"
-                        className="w-full h-[380px] object-cover object-top"
-                        onError={(event) => {
-                          event.currentTarget.src = "/images/andre1-small.jpg"
-                        }}
-                      />
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="rounded-2xl bg-white text-slate-950 p-5 shadow-xl">
-                        <p className="text-sm text-slate-500 mb-1">{isPt ? "Perfil" : "Profile"}</p>
-                        <h2 className="font-bold text-lg">Andre Almeida</h2>
-                        <p className="text-sm text-slate-500">Shopify Expert</p>
-                      </div>
-
-                      <div className="rounded-2xl bg-white text-slate-950 p-5 shadow-xl">
-                        <p className="text-sm text-slate-500 mb-2">{isPt ? "Projetos entregues" : "Projects delivered"}</p>
-                        <p className="text-3xl font-bold">100+</p>
-                      </div>
-
-                      <div className="rounded-2xl bg-white text-slate-950 p-5 shadow-xl">
-                        <p className="text-sm text-slate-500 mb-2">{isPt ? "Experiência" : "Experience"}</p>
-                        <p className="text-3xl font-bold">6+ anos</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-10 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-5">
-            {moments.map(({ Icon, title, text, cta }, index) => (
-              <AnimatedSection key={title} delay={index * 0.06}>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => Analytics.whatsappClick("services_moment")}
-                  className="block h-full rounded-3xl bg-white border border-slate-200 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:border-insta-purple/30"
-                >
-                  <Icon className="w-9 h-9 text-insta-violet mb-5" />
-                  <h3 className="font-bold text-lg text-slate-950 mb-2">{title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed mb-5">{text}</p>
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-insta-accent">
-                    {cta}
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </a>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
-              {isPt ? "Todos os serviços" : "All services"}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3 mb-4">
-              {isPt ? "Nossas categorias" : "Our categories"}
-            </h2>
-            <p className="text-slate-500 max-w-2xl mx-auto">
-              {isPt
-                ? "Escolha por onde começar. Eu posso cuidar da estrutura, crescimento, automação e gestão do seu ecommerce."
-                : "Choose where to start. I can help with structure, growth, automation and management."}
-            </p>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {categories.map(({ icon: Icon, title }, index) => (
-              <AnimatedSection key={title} delay={index * 0.05}>
-                <div className="rounded-3xl bg-white border border-slate-200 p-6 text-center shadow-sm h-full">
-                  <Icon className="mx-auto w-8 h-8 text-insta-violet mb-4" />
-                  <h3 className="font-bold text-slate-950">{title}</h3>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
-              {isPt ? "Serviços em destaque" : "Featured services"}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3 mb-4">
-              {isPt ? "Soluções que geram resultados" : "Solutions that generate results"}
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {fallbackServices.map((svc: any, index: number) => {
-              const localized = svc[locale] || svc.en
-              const price = PRICES[svc.priceKey]?.[currency]
-
-              return (
-                <AnimatedSection key={svc.id} delay={index * 0.06}>
-                  <div className="h-full rounded-3xl bg-white border border-slate-200 p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                    <div className="text-4xl mb-5">{svc.icon}</div>
-                    <h3 className="text-xl font-bold text-slate-950 mb-3">{localized.t}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed mb-5">{localized.d}</p>
-
-                    <ul className="space-y-2 mb-7">
-                      {localized.features.slice(0, 4).map((feature: string) => (
-                        <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
-                          <CheckCircle2 className="w-4 h-4 text-insta-violet mt-0.5 shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="flex items-end justify-between border-t border-slate-100 pt-5">
-                      <div>
-                        <p className="text-xs text-slate-400 mb-1">
-                          {isPt ? "A partir de" : "Starting at"}
-                        </p>
-                        <p className="text-xl font-bold text-slate-950">
-                          {price ? formatPrice(price.min, currency) : isPt ? "Sob consulta" : "On request"}
-                        </p>
-                      </div>
-
-                      <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Analytics.whatsappClick(`service_clean_${svc.id}`)}
-                        className="inline-flex items-center gap-1 text-sm font-bold text-insta-accent hover:text-insta-purple"
-                      >
-                        {isPt ? "Ver detalhes" : "Details"}
-                        <ChevronRight className="w-4 h-4" />
-                      </a>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="rounded-[2rem] bg-insta-dark border border-insta-purple/20 p-8 md:p-10 overflow-hidden">
-            <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
-              <div>
-                <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mb-4">
-                  {isPt ? "Vamos conversar sobre o seu negócio?" : "Let's talk about your business?"}
-                </h2>
-                <p className="text-slate-600 text-lg leading-relaxed mb-7">
-                  {isPt
-                    ? "Receba um diagnóstico inicial e descubra como podemos fazer sua operação vender mais."
-                    : "Get an initial diagnosis and discover how we can make your operation sell more."}
-                </p>
-
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => Analytics.whatsappClick("services_green_cta")}
-                >
-                  <Button variant="primary" size="lg" className="bg-insta-violet hover:bg-insta-purple text-slate-950">
-                    <MessageCircle className="w-5 h-5" />
-                    {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
-                  </Button>
-                </a>
-              </div>
-
-              <div className="grid sm:grid-cols-[0.8fr_1fr] gap-5 items-end">
-                <img
-                  src="/images/andre1-small.jpg"
-                  alt="Andre Almeida"
-                  className="rounded-[2rem] w-full h-[320px] object-cover object-top bg-white"
-                  onError={(event) => {
-                    event.currentTarget.src = "/images/andre1-small.jpg"
-                  }}
-                />
-
-                <div className="rounded-[2rem] bg-white p-6 shadow-sm">
-                  <h3 className="font-bold text-slate-950 text-xl">Andre Almeida</h3>
-                  <p className="text-slate-500 mb-5">Shopify Expert</p>
-
-                  {[
-                    isPt ? "+100 projetos entregues" : "+100 projects delivered",
-                    isPt ? "6+ anos de experiência" : "6+ years of experience",
-                    isPt ? "Atendimento para todo o Brasil" : "Remote service",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-2 text-sm text-slate-600 mb-3">
-                      <CheckCircle2 className="w-4 h-4 text-insta-violet" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="text-center mb-10">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold text-insta-accent">
-              {isPt ? "Dúvidas frequentes" : "FAQ"}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-950 mt-3">
-              {isPt ? "Perguntas comuns" : "Common questions"}
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {faqs.map((faq, index) => (
-              <AnimatedSection key={faq.q} delay={index * 0.05}>
-                <div className="rounded-3xl border border-slate-200 p-6 bg-white shadow-sm h-full">
-                  <h3 className="font-bold text-slate-950 mb-2">{faq.q}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{faq.a}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection className="rounded-[2rem] bg-slate-950 text-white p-8 md:p-10 flex flex-col lg:flex-row gap-6 items-center justify-between">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                {isPt ? "Pronto para vender online com mais estrutura?" : "Ready to sell online with more structure?"}
-              </h2>
-              <p className="text-slate-300">
-                {isPt
-                  ? "Me chame agora e eu te ajudo a entender o melhor caminho."
-                  : "Message me now and I will help you understand the best path."}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => Analytics.whatsappClick("services_final_clean_cta")}
-              >
-                <Button variant="primary" size="lg" className="bg-insta-violet hover:bg-insta-purple text-slate-950">
-                  <MessageCircle className="w-5 h-5" />
-                  {isPt ? "Falar no WhatsApp" : "Talk on WhatsApp"}
-                </Button>
-              </a>
-
-              <Link href={`/${locale}/contact`}>
-                <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
-                  {isPt ? "Ir para contato" : "Go to contact"}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-    </div>
-  )
+    <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-10 xl:px-14"><div className="mx-auto max-w-[1400px]"><ChartNoAxesCombined className="h-6 w-6 text-[#a08967]"/><h2 className="mt-8 max-w-5xl font-editorial text-[clamp(3rem,6vw,6rem)] leading-[.92] tracking-[-.045em]">{c.finalTitle}</h2><div className="mt-10 flex flex-col gap-8 border-t border-[#d4cec2] pt-8 md:flex-row md:items-center md:justify-between"><p className="max-w-2xl text-base leading-7 text-[#625e56]">{c.finalText}</p><a href={whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[.14em] text-white">{c.primary}<ArrowUpRight className="h-4 w-4"/></a></div></div></section>
+  </main>
 }
