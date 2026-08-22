@@ -30,6 +30,12 @@ export function AnimatedSection({
     const el = ref.current
     if (!el) return
 
+    // Project/editorial images should never remain blank while a visitor scrolls quickly.
+    el.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
+      img.loading = "eager"
+      img.decoding = "async"
+    })
+
     const reveal = () => {
       el.style.opacity = "1"
       el.style.transform = "translate(0,0)"
