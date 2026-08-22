@@ -39,7 +39,10 @@ const nextConfig = {
     },
     {
       source: "/brand/:path*",
-      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      headers: [
+        { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        { key: "CDN-Cache-Control", value: "public, s-maxage=3600, stale-while-revalidate=86400" },
+      ],
     },
   ],
 }
