@@ -1,0 +1,48 @@
+name: Rebuild Brinqueteando Asset
+
+on:
+  push:
+    branches: [preview/final-redesign]
+    paths:
+      - '.tmp/brinqueteando/**'
+      - '.github/workflows/rebuild-brinqueteando.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preview
+        uses: actions/checkout@v4
+        with:
+          ref: preview/final-redesign
+          fetch-depth: 0
+
+      - name: Rebuild exact horizontal Brinqueteando screenshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .tmp/brinqueteando/*.b64 > /tmp/brinqueteando.b64
+          base64 -d /tmp/brinqueteando.b64 > public/brand/brinqueteando.webp
+          node <<'NODE'
+          const fs=require('fs');
+          const b=fs.readFileSync('public/brand/brinqueteando.webp');
+          if (b.length < 30000 || b.toString('ascii',0,4)!=='RIFF' || b.toString('ascii',8,12)!=='WEBP') {
+            throw new Error(`invalid reconstructed WEBP: ${b.length} bytes`)
+          }
+          console.log(`Brinqueteando WEBP valid: ${b.length} bytes`)
+          NODE
+
+      - name: Commit corrected asset and remove temporary chunks
+        shell: bash
+        run: |
+          git config user.name 'andreajoa'
+          git config user.email '100246160+andreajoa@users.noreply.github.com'
+          git add public/brand/brinqueteando.webp
+          git rm -r .tmp/brinqueteando
+          git rm .github/workflows/rebuild-brinqueteando.yml
+          git commit -m 'fix: install exact horizontal Brinqueteando homepage image'
+          git push origin HEAD:preview/final-redesign
