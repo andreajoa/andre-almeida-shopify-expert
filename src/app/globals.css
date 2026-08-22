@@ -39,6 +39,59 @@
   .to-indigo-600, .to-purple-600, .to-violet-600 { --tw-gradient-to: #b49970 var(--tw-gradient-to-position) !important; }
 }
 
+/* Premium commerce frames: preserve full ecommerce screenshots and make them feel like real browser showcases. */
+:where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"]) {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 15, 0.12);
+  border-radius: 18px;
+  background: #e8e3d9 !important;
+  box-shadow: 0 24px 60px rgba(17, 17, 15, 0.10), 0 2px 8px rgba(17, 17, 15, 0.05);
+}
+
+:where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"])::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0 0 auto 0;
+  height: 30px;
+  border-bottom: 1px solid rgba(17, 17, 15, 0.09);
+  background:
+    radial-gradient(circle at 16px 15px, #c7b18d 0 3px, transparent 3.5px),
+    radial-gradient(circle at 28px 15px, #8b887f 0 3px, transparent 3.5px),
+    radial-gradient(circle at 40px 15px, #5f6559 0 3px, transparent 3.5px),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(244,241,234,.96));
+}
+
+:where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"]) > img {
+  top: 30px !important;
+  height: calc(100% - 30px) !important;
+  padding: 14px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #f8f5ef;
+  transform: none !important;
+}
+
+:where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"]) > .absolute.inset-0 {
+  display: none;
+}
+
+:where(a.group:hover) :where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"]) {
+  box-shadow: 0 30px 76px rgba(17, 17, 15, 0.15), 0 3px 10px rgba(17, 17, 15, 0.06);
+  transform: translateY(-2px);
+  transition: transform 320ms ease, box-shadow 320ms ease;
+}
+
+@media (max-width: 767px) {
+  :where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"])::before { height: 26px; }
+  :where(div):has(> img[src*="amb-boutique"], > img[src*="brinqueteando"]) > img {
+    top: 26px !important;
+    height: calc(100% - 26px) !important;
+    padding: 8px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
