@@ -2,12 +2,20 @@ export const MARKETING_DATA_API_URL = "https://ep-weathered-frog-a6q20598.apires
 
 export type RpcPayload = Record<string, unknown>
 
-export async function marketingRpc<T = unknown>(fn: string, payload: RpcPayload): Promise<T> {
+export function vercelDataToken(headers: Headers) {
+  return headers.get("x-vercel-oidc-token") || process.env.VERCEL_OIDC_TOKEN || ""
+}
+
+export async function marketingRpc<T = unknown>(fn: string, payload: RpcPayload, bearerToken?: string | null): Promise<T> {
+  const token = bearerToken || process.env.VERCEL_OIDC_TOKEN || ""
+  if (!token) throw new Error(`Marketing data API ${fn} missing server OIDC token`)
+
   const response = await fetch(`${MARKETING_DATA_API_URL}/rpc/${fn}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
     cache: "no-store",
