@@ -1,16 +1,17 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, BookOpen, Bot, BriefcaseBusiness, Globe2, MessageCircle, ShoppingBag, Sparkles } from "lucide-react"
+import { ArrowUpRight, BookOpen, Bot, BriefcaseBusiness, Globe2, MessageCircle, ShoppingBag, Sparkles, type LucideIcon } from "lucide-react"
 import { SITE_CONFIG } from "@/lib/constants"
 
 type Props = { params: Promise<{ locale: string }> }
+type ContentLink = readonly [title: string, description: string, href: string, icon: LucideIcon]
 
 export default async function ConteudoPage({ params }: Props) {
   const { locale } = await params
   const isPt = locale !== "en"
   const lang = isPt ? "pt-BR" : "en"
   const whatsapp = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(isPt ? "Olá André, vim pelo seu conteúdo e quero saber mais sobre seus serviços." : "Hi Andre, I came through your content hub and want to know more about your services.")}`
-  const links = isPt ? [
+  const links: readonly ContentLink[] = isPt ? [
     ["Sites & E-commerce", "Estrutura digital completa para empresas e lojas", `/${lang}/websites-ecommerce`, ShoppingBag],
     ["Website para empresas", "Presença, captação, SEO e dados", `/${lang}/website-para-empresas`, Globe2],
     ["E-commerce próprio", "Venda online com maior controle da infraestrutura", `/${lang}/ecommerce-proprio`, ShoppingBag],
@@ -28,7 +29,7 @@ export default async function ConteudoPage({ params }: Props) {
     ["Portfolio", "Selected projects", `/${lang}/portfolio`, BriefcaseBusiness],
     ["NOVA AI", "AI product for video creation", "https://www.novvideos.online/", Bot],
     ["Talk to me", "Direct contact through WhatsApp", whatsapp, MessageCircle],
-  ] as const
+  ]
 
   return <main className="min-h-screen bg-[#f2efe8] px-5 py-10 text-[#11110f] sm:px-8">
     <div className="mx-auto max-w-2xl">
