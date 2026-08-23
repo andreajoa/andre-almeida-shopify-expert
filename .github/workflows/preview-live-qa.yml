@@ -47,7 +47,7 @@ jobs:
             '/ecommerce-proprio','/vender-livros-online','/autoridade-online','/blog','/conteudo',
             '/cookie-policy','/material-gratuito','/music','/privacy-policy','/terms-of-service'
           ];
-          const routes=['/conteudo','/music',...['/pt-BR','/en'].flatMap(l=>localized.map(p=>l+p))];
+          const routes=['/conteudo','/music','/dashboard','/unsubscribe',...['/pt-BR','/en'].flatMap(l=>localized.map(p=>l+p))];
           const assets=[
             '/brand/andre-premium.webp','/brand/nova-ai.webp','/brand/caa-neuro.webp',
             '/brand/amb-boutique.jpg','/brand/brinqueteando-showcase-v2.webp','/favicon.svg'
@@ -69,7 +69,8 @@ jobs:
           const llms=await(await get('/llms.txt')).text();
           if(!/e-commerce|ecommerce/i.test(llms)||!/website/i.test(llms))throw new Error('llms incomplete');
           const nf=await fetch(base+'/pt-BR/__qa-not-found__');if(nf.status!==404)throw new Error(`404 route returned ${nf.status}`);
-          const res=await fetch(base+'/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:'QA Local Preview',email:'qa-preview@andre-almeida.online',phone:'+55 11 99999-0000',company:'Preview QA',serviceType:'Website / E-commerce',budget:'QA',locale:'pt-BR',type:'contact',message:'Teste automatizado local do formulário.'})});
+          const dash=await fetch(base+'/api/dashboard');if(dash.status!==401)throw new Error(`dashboard API without session returned ${dash.status}`);
+          const res=await fetch(base+'/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:'QA Local Preview',email:'qa-preview@andre-almeida.online',phone:'+55 11 99999-0000',company:'Preview QA',serviceType:'Website / E-commerce',budget:'QA',locale:'pt-BR',type:'contact',privacy:true,marketingConsent:false,message:'Teste automatizado local do formulário.'})});
           const j=await res.json();if(!res.ok||!j.success)throw new Error(`contact API failed ${JSON.stringify(j)}`);
           console.log('HTTP/SEO/assets/routes/API PASS');
           NODE
@@ -79,9 +80,9 @@ jobs:
           mkdir -p qa-screenshots
           node <<'NODE'
           const {chromium}=require('playwright');const fs=require('fs');const base=process.env.BASE_URL;
-          const core=['/pt-BR','/pt-BR/services','/pt-BR/portfolio','/pt-BR/about','/pt-BR/contact','/pt-BR/websites-ecommerce','/en'];
+          const core=['/pt-BR','/pt-BR/services','/pt-BR/portfolio','/pt-BR/about','/pt-BR/contact','/pt-BR/websites-ecommerce','/en','/dashboard'];
           const localized=['','/services','/portfolio','/about','/contact','/websites-ecommerce','/website-para-empresas','/ecommerce-proprio','/vender-livros-online','/autoridade-online','/blog','/conteudo','/cookie-policy','/material-gratuito','/music','/privacy-policy','/terms-of-service'];
-          const allPages=[...['/pt-BR','/en'].flatMap(l=>localized.map(p=>l+p)),'/conteudo','/music'];
+          const allPages=[...['/pt-BR','/en'].flatMap(l=>localized.map(p=>l+p)),'/conteudo','/music','/unsubscribe'];
           const visualSizes=[{n:'320',w:320,h:780},{n:'360',w:360,h:800},{n:'375',w:375,h:812},{n:'390',w:390,h:844},{n:'414',w:414,h:896},{n:'430',w:430,h:932},{n:'768',w:768,h:1024},{n:'1024',w:1024,h:900},{n:'1440',w:1440,h:1000}];
           const smokeSizes=[{n:'320',w:320,h:780},{n:'375',w:375,h:812},{n:'430',w:430,h:932},{n:'768',w:768,h:1024},{n:'1024',w:1024,h:900},{n:'1440',w:1440,h:1000}];
           const scrollAll=async page=>{await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=700){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,25))}window.scrollTo(0,0)});await page.waitForTimeout(200)};
@@ -105,6 +106,7 @@ jobs:
                 const r=await page.goto(base+p,{waitUntil:'networkidle',timeout:60000});if(!r||r.status()>=400)fail.push(`${s.n} ${p} HTTP ${r?.status()}`);
                 await scrollAll(page);
                 const bi=await page.locator('img').evaluateAll(a=>a.filter(i=>!i.complete||i.naturalWidth===0).map(i=>i.currentSrc||i.src));if(bi.length)fail.push(`${s.n} ${p} broken ${bi.join(',')}`);
+                if(p==='/dashboard'){const login=await page.getByRole('button',{name:/Entrar no dashboard/i}).count();if(!login)fail.push(`${s.n} dashboard login missing`);}
                 await assertBrinq(page,s.n,p,fail);await overflow(page,s.n,p,fail);
                 if(ce.length)fail.push(`${s.n} ${p} console ${ce.join('|')}`);if(rf.length)fail.push(`${s.n} ${p} requests ${rf.join('|')}`);
                 await page.screenshot({path:`qa-screenshots/${s.n}-${p.replaceAll('/','_')}.png`,fullPage:true});await page.close();
