@@ -4,6 +4,15 @@ import { marketingRpc, safeMarketingLocale, vercelDataToken } from "@/lib/market
 import { scheduleNurtureSequence } from "@/lib/marketing/email-automation"
 import type { MarketingLocale } from "@/lib/marketing/email-sequences"
 
+type CapturedLead = {
+  ok: boolean
+  lead_id: string
+  lead_secret: string
+  unsubscribe_token: string
+  locale: MarketingLocale
+  should_schedule: boolean
+}
+
 function decodeHeader(value: string | null) {
   if (!value) return ""
   try { return decodeURIComponent(value) } catch { return value }
@@ -15,6 +24,11 @@ function validEmail(value: string) {
 
 function esc(value: string) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+}
+
+function isSessionCollision(error: unknown) {
+  if (!(error instanceof Error)) return false
+  return /marketing_leads_session_id_key|duplicate key.*session_id|session_id.*already exists/i.test(error.message)
 }
 
 async function preserveLeadFallback(input: { name:string; email:string; locale:MarketingLocale; source:string; path:string; city:string }) {
@@ -89,14 +103,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const captured = await marketingRpc<{
-      ok: boolean
-      lead_id: string
-      lead_secret: string
-      unsubscribe_token: string
-      locale: MarketingLocale
-      should_schedule: boolean
-    }>("capture_marketing_lead", {
+    const capturePayload = {
       p_session_id: sessionId,
       p_email: email,
       p_name: name || null,
@@ -109,7 +116,18 @@ export async function POST(req: NextRequest) {
       p_source: source,
       p_first_path: path,
       p_consent: true,
-    }, dataToken)
+    }
+
+    let captured: CapturedLead
+    try {
+      captured = await marketingRpc<CapturedLead>("capture_marketing_lead", capturePayload, dataToken)
+    } catch (error) {
+      // A browser session can legitimately submit a different address later.
+      // Do not lose the new lead just because session_id is already linked.
+      if (!sessionId || !isSessionCollision(error)) throw error
+      console.warn("Marketing lead session already linked; retrying capture without session binding")
+      captured = await marketingRpc<CapturedLead>("capture_marketing_lead", { ...capturePayload, p_session_id:null }, dataToken)
+    }
 
     if (!captured.ok || !captured.lead_id) throw new Error("lead capture did not return a valid lead")
 
