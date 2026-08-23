@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { marketingRpc } from "@/lib/marketing/neon-data-api"
+import { marketingRpc, vercelDataToken } from "@/lib/marketing/neon-data-api"
 
 function decodeHeader(value: string | null) {
   if (!value) return ""
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       p_campaign: String(data.campaign || "").slice(0, 300) || null,
       p_user_agent: req.headers.get("user-agent")?.slice(0, 1000) || null,
       p_metadata: typeof data.metadata === "object" && data.metadata ? data.metadata : {},
-    })
+    }, vercelDataToken(req.headers))
 
     return NextResponse.json({ ok: true })
   } catch (error) {
