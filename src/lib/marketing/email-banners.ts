@@ -11,6 +11,12 @@ export const EMAIL_BANNERS = [
   EMAIL_BANNER_06,
 ] as const
 
+export const EMAIL_BANNER_COUNT = EMAIL_BANNERS.length
+
+export function emailBannerIndexForSequence(index: number) {
+  return (Math.max(1, index) - 1) % EMAIL_BANNER_COUNT
+}
+
 export function emailBannerForSequence(index: number) {
-  return EMAIL_BANNERS[(Math.max(1, index) - 1) % EMAIL_BANNERS.length]
+  return EMAIL_BANNERS[emailBannerIndexForSequence(index)]
 }
