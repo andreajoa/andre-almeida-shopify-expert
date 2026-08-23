@@ -21,6 +21,15 @@ export type ScheduledNurtureEmail = {
   scheduledAt: string
 }
 
+type ResendEmailSummary = {
+  id: string
+  to?: string[]
+  from?: string
+  subject?: string
+  last_event?: string
+  scheduled_at?: string | null
+}
+
 function esc(value: string) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;")
 }
@@ -39,6 +48,13 @@ function senderName() {
 
 function unsubscribeApiUrl(lead: Pick<NurtureLead, "unsubscribeToken">) {
   return `https://andre-almeida.online/api/marketing/unsubscribe?token=${encodeURIComponent(lead.unsubscribeToken)}`
+}
+
+function sameScheduledTime(a?: string | null, b?: string | null) {
+  if (!a || !b) return false
+  const aa = Date.parse(a)
+  const bb = Date.parse(b)
+  return Number.isFinite(aa) && Number.isFinite(bb) && Math.abs(aa - bb) < 2_000
 }
 
 function emailHtml(lead: Pick<NurtureLead, "email" | "name" | "locale" | "unsubscribeToken">, entry: (typeof EMAIL_SEQUENCES)[MarketingLocale][number]) {
@@ -101,7 +117,7 @@ export async function scheduleNurtureSequence(lead: NurtureLead, dataToken?: str
         from:senderName(), to:[lead.email], replyTo:SITE_CONFIG.email, subject:entry.subject,
         html:emailHtml(lead, entry), text:nurtureText(lead, entry), scheduledAt:when,
         headers:{"List-Unsubscribe":`<${unsubscribeUrl}>`,"List-Unsubscribe-Post":"List-Unsubscribe=One-Click","X-AA-Sequence":String(entry.index),"X-AA-Locale":lead.locale},
-      })
+      }, { idempotencyKey:`aa-nurture-v2/${lead.leadId}/${entry.index}` })
       if (error || !data?.id) { errors.push(`#${entry.index}: ${error?.message || "missing Resend id"}`); continue }
       await marketingRpc("register_marketing_send", {p_lead_id:lead.leadId,p_lead_secret:lead.leadSecret,p_sequence_index:entry.index,p_locale:lead.locale,p_resend_email_id:data.id,p_scheduled_at:when,p_status:"scheduled"}, dataToken)
       scheduled += 1
@@ -109,6 +125,33 @@ export async function scheduleNurtureSequence(lead: NurtureLead, dataToken?: str
   }
 
   return { scheduled, errors }
+}
+
+async function recentScheduledEmails(resend: Resend) {
+  try {
+    const { data, error } = await resend.emails.list({ limit:100 })
+    if (error || !data?.data) return [] as ResendEmailSummary[]
+    return data.data as ResendEmailSummary[]
+  } catch {
+    return [] as ResendEmailSummary[]
+  }
+}
+
+function findReplacement(
+  recent: ResendEmailSummary[],
+  lead: Pick<NurtureLead, "email">,
+  item: ScheduledNurtureEmail,
+  entry: (typeof EMAIL_SEQUENCES)[MarketingLocale][number],
+) {
+  const expectedFrom = senderName()
+  return recent.find(candidate =>
+    candidate.id !== item.resendEmailId &&
+    candidate.last_event === "scheduled" &&
+    candidate.subject === entry.subject &&
+    candidate.from === expectedFrom &&
+    Array.isArray(candidate.to) && candidate.to.includes(lead.email) &&
+    sameScheduledTime(candidate.scheduled_at, item.scheduledAt)
+  )
 }
 
 export async function replaceScheduledNurtureSequence(
@@ -127,29 +170,58 @@ export async function replaceScheduledNurtureSequence(
     .filter(item=>item.resendEmailId && item.sequenceIndex >= 1 && item.sequenceIndex <= sequence.length && new Date(item.scheduledAt).getTime() > Date.now())
     .sort((a,b)=>a.sequenceIndex-b.sequenceIndex)
 
-  for (const item of future) {
-    try {
-      const { error } = await resend.emails.cancel(item.resendEmailId)
-      if (error) { errors.push(`cancel #${item.sequenceIndex}: ${error.message}`); continue }
-      cancelled += 1
-    } catch (error) {
-      errors.push(`cancel #${item.sequenceIndex}: ${error instanceof Error ? error.message : "unknown error"}`)
-    }
-  }
-
-  if (errors.length) return { cancelled, scheduled:[], errors }
-
+  const recent = await recentScheduledEmails(resend)
   const scheduled: { sequenceIndex:number; resendEmailId:string; scheduledAt:string }[] = []
   const unsubscribeUrl = unsubscribeApiUrl(lead)
+
   for (const item of future) {
     const entry = sequence[item.sequenceIndex - 1]
+    const recovered = findReplacement(recent, lead, item, entry)
+    if (recovered) {
+      scheduled.push({ sequenceIndex:entry.index, resendEmailId:recovered.id, scheduledAt:item.scheduledAt })
+      continue
+    }
+
+    let oldState = "unknown"
+    try {
+      const { data:oldEmail, error:getError } = await resend.emails.get(item.resendEmailId)
+      if (getError || !oldEmail) {
+        errors.push(`inspect #${item.sequenceIndex}: ${getError?.message || "email not found"}`)
+        continue
+      }
+      oldState = String(oldEmail.last_event || "unknown")
+    } catch (error) {
+      errors.push(`inspect #${item.sequenceIndex}: ${error instanceof Error ? error.message : "unknown error"}`)
+      continue
+    }
+
+    if (oldState === "scheduled") {
+      try {
+        const { error } = await resend.emails.cancel(item.resendEmailId)
+        if (error) {
+          errors.push(`cancel #${item.sequenceIndex}: ${error.message}`)
+          continue
+        }
+        cancelled += 1
+      } catch (error) {
+        errors.push(`cancel #${item.sequenceIndex}: ${error instanceof Error ? error.message : "unknown error"}`)
+        continue
+      }
+    } else if (oldState !== "canceled") {
+      errors.push(`skip #${item.sequenceIndex}: old email state is ${oldState}`)
+      continue
+    }
+
     try {
       const { data, error } = await resend.emails.send({
         from:senderName(), to:[lead.email], replyTo:SITE_CONFIG.email, subject:entry.subject,
         html:emailHtml(lead, entry), text:nurtureText(lead, entry), scheduledAt:item.scheduledAt,
-        headers:{"List-Unsubscribe":`<${unsubscribeUrl}>`,"List-Unsubscribe-Post":"List-Unsubscribe=One-Click","X-AA-Sequence":String(entry.index),"X-AA-Locale":lead.locale},
-      })
-      if (error || !data?.id) { errors.push(`schedule #${entry.index}: ${error?.message || "missing Resend id"}`); continue }
+        headers:{"List-Unsubscribe":`<${unsubscribeUrl}>`,"List-Unsubscribe-Post":"List-Unsubscribe=One-Click","X-AA-Sequence":String(entry.index),"X-AA-Locale":lead.locale,"X-AA-Refresh":"v2"},
+      }, { idempotencyKey:`aa-nurture-refresh-v2/${item.resendEmailId}/${entry.index}` })
+      if (error || !data?.id) {
+        errors.push(`schedule #${entry.index}: ${error?.message || "missing Resend id"}`)
+        continue
+      }
       scheduled.push({ sequenceIndex:entry.index, resendEmailId:data.id, scheduledAt:item.scheduledAt })
     } catch (error) {
       errors.push(`schedule #${entry.index}: ${error instanceof Error ? error.message : "unknown error"}`)
