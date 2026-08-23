@@ -101,7 +101,7 @@ jobs:
               const c=await browser.newContext({viewport:{width:s.w,height:s.h}});
               for(const p of core){
                 const page=await c.newPage(),ce=[],rf=[];
-                page.on('console',m=>{if(m.type()==='error'&&!/google-analytics|ERR_ABORTED/i.test(m.text()))ce.push(m.text())});
+                page.on('console',m=>{const text=m.text();const expectedDashboard401=p==='/dashboard'&&/401.*Unauthorized/i.test(text);if(m.type()==='error'&&!/google-analytics|ERR_ABORTED/i.test(text)&&!expectedDashboard401)ce.push(text)});
                 page.on('requestfailed',r=>{const e=r.failure()?.errorText||'';if(!/ERR_ABORTED/.test(e)&&!/google-analytics\.com/.test(r.url()))rf.push(`${r.url()} ${e}`)});
                 const r=await page.goto(base+p,{waitUntil:'networkidle',timeout:60000});if(!r||r.status()>=400)fail.push(`${s.n} ${p} HTTP ${r?.status()}`);
                 await scrollAll(page);
