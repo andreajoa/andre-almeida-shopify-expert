@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { marketingRpc } from "@/lib/marketing/neon-data-api"
+import { marketingRpc, vercelDataToken } from "@/lib/marketing/neon-data-api"
 import { verifyResendWebhook } from "@/lib/marketing/resend-webhook"
 
 type ResendEvent = {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         p_event_type:eventType,
         p_payload:JSON.parse(payload) as Record<string,unknown>,
         p_occurred_at:occurredAt,
-      })
+      }, vercelDataToken(req.headers))
     }
     return NextResponse.json({ ok:true })
   } catch (error) {
