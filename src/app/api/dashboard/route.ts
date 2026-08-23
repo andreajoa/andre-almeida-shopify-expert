@@ -1,4 +1,6 @@
+import { randomBytes } from "node:crypto"
 import { NextRequest, NextResponse } from "next/server"
+import { Resend } from "resend"
 import { marketingRpc, vercelDataToken } from "@/lib/marketing/neon-data-api"
 
 const COOKIE = "aa_dashboard_session"
@@ -21,6 +23,48 @@ export async function POST(req: NextRequest) {
   const data = await req.json().catch(()=>({}))
   const action = String(data.action || "login")
   const dataToken = vercelDataToken(req.headers)
+
+  if (action === "request_reset") {
+    const resendKey = process.env.RESEND_API_KEY
+    const adminEmail = process.env.CONTACT_TO_EMAIL
+    if (!resendKey || !adminEmail || !dataToken) return NextResponse.json({ error:"reset service unavailable" }, { status:503 })
+    try {
+      const resetToken = randomBytes(32).toString("hex")
+      const result = await marketingRpc<{ok:boolean}>("dashboard_issue_password_reset", { p_token:resetToken }, dataToken)
+      if (!result.ok) throw new Error("reset token rejected")
+      const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://andre-almeida.online").replace(/\/$/,"")
+      const resetUrl = `${base}/dashboard/reset?token=${encodeURIComponent(resetToken)}`
+      const resend = new Resend(resendKey)
+      const from = process.env.CONTACT_FROM_EMAIL || "Andre Almeida <onboarding@resend.dev>"
+      const { error } = await resend.emails.send({
+        from,
+        to:[adminEmail],
+        subject:"Redefinir senha do dashboard · André Almeida",
+        html:`<div style="font-family:Arial,sans-serif;background:#f2efe8;padding:30px"><div style="max-width:620px;margin:auto;background:#fffdf8;border:1px solid #d4cec2;padding:32px"><p style="font-size:11px;letter-spacing:2px;color:#77736b">ANDRÉ ALMEIDA · PRIVATE COMMAND CENTER</p><h1 style="font-family:Georgia,serif;font-size:38px;font-weight:400">Redefinição de senha</h1><p style="line-height:1.7;color:#5f5b54">Use o botão abaixo para definir uma nova senha. O link expira em 20 minutos e só pode ser utilizado uma vez.</p><p style="margin:28px 0"><a href="${resetUrl}" style="display:inline-block;background:#11110f;color:white;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:bold">Redefinir senha</a></p><p style="font-size:12px;color:#77736b">Se você não solicitou isso, ignore esta mensagem.</p></div></div>`,
+        text:`Redefina a senha do dashboard: ${resetUrl}\n\nO link expira em 20 minutos e só pode ser usado uma vez.`,
+      })
+      if (error) throw new Error(error.message)
+      return NextResponse.json({ ok:true })
+    } catch (error) {
+      console.error("Dashboard reset request error", error)
+      return NextResponse.json({ error:"reset service unavailable" }, { status:503 })
+    }
+  }
+
+  if (action === "reset_password") {
+    const resetToken = String(data.token || "")
+    const next = String(data.password || "")
+    if (resetToken.length < 32 || next.length < 12) return NextResponse.json({ error:"invalid reset request" }, { status:400 })
+    try {
+      const result = await marketingRpc<{ok:boolean;reason?:string}>("dashboard_reset_password", { p_token:resetToken, p_new_password:next }, dataToken)
+      const response = NextResponse.json(result, { status:result.ok?200:400 })
+      if (result.ok) response.cookies.delete(COOKIE)
+      return response
+    } catch (error) {
+      console.error("Dashboard password reset error", error)
+      return NextResponse.json({ error:"reset service unavailable" }, { status:503 })
+    }
+  }
 
   if (action === "login") {
     try {
