@@ -28,6 +28,7 @@ export function Header() {
   const whatsappText = encodeURIComponent(isPt ? "Olá André, vi seu site e quero conversar sobre um projeto digital." : "Hi Andre, I saw your website and want to talk about a digital project.")
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${whatsappText}`
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMobileOpen(false), [pathname])
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : ""
