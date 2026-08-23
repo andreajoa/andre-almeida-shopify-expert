@@ -23,6 +23,15 @@ type ContactMessage = {
   marketingConsent: boolean
 }
 
+type CapturedLead = {
+  ok:boolean
+  lead_id:string
+  lead_secret:string
+  unsubscribe_token:string
+  locale:MarketingLocale
+  should_schedule:boolean
+}
+
 function escapeHtml(value: string) {
   return String(value || "")
     .replaceAll("&", "&amp;")
@@ -71,46 +80,56 @@ export async function POST(req: NextRequest) {
     const marketingConsent = data.marketingConsent === true
     const source = String(data.source || "direct").slice(0,200)
 
-    const captured = await marketingRpc<{ok:boolean;lead_id:string;lead_secret:string;unsubscribe_token:string;locale:MarketingLocale;should_schedule:boolean}>("capture_marketing_lead", {
-      p_session_id: sessionId || null,
-      p_email: email,
-      p_name: name,
-      p_phone: String(data.phone || "").slice(0,80) || null,
-      p_company: String(data.company || "").slice(0,200) || null,
-      p_locale: locale,
-      p_country: country.slice(0,8) || null,
-      p_region: region.slice(0,120) || null,
-      p_city: city.slice(0,160) || null,
-      p_source: source,
-      p_first_path: String(data.path || "/contact").slice(0,500),
-      p_consent: marketingConsent,
-    })
-
-    await marketingRpc("mark_lead_conversion", { p_lead_id:captured.lead_id, p_lead_secret:captured.lead_secret, p_kind:"form_submit" })
-
-    if (sessionId.length >= 10) {
-      await marketingRpc("track_visitor_event", {
-        p_session_id:sessionId, p_event_type:"form_submit", p_path:String(data.path || "/contact").slice(0,500),
-        p_element:String(data.type || "contact"), p_href:null, p_duration_seconds:0, p_locale:locale,
-        p_country:country || null, p_region:region || null, p_city:city || null,
-        p_referrer:String(data.referrer || "").slice(0,1000) || null, p_source:source,
-        p_medium:String(data.medium || "").slice(0,200) || null, p_campaign:String(data.campaign || "").slice(0,300) || null,
-        p_user_agent:req.headers.get("user-agent")?.slice(0,1000) || null,
-        p_metadata:{ serviceType:String(data.serviceType || ""), budget:String(data.budget || ""), marketingConsent },
-      })
-    }
-
+    let captured: CapturedLead | null = null
     let scheduled = 0
-    if (marketingConsent && captured.should_schedule) {
-      const automation = await scheduleNurtureSequence({
-        leadId:captured.lead_id, leadSecret:captured.lead_secret, email, name,
-        locale:captured.locale || locale, unsubscribeToken:captured.unsubscribe_token,
+    const warnings: string[] = []
+
+    try {
+      captured = await marketingRpc<CapturedLead>("capture_marketing_lead", {
+        p_session_id: sessionId || null,
+        p_email: email,
+        p_name: name,
+        p_phone: String(data.phone || "").slice(0,80) || null,
+        p_company: String(data.company || "").slice(0,200) || null,
+        p_locale: locale,
+        p_country: country.slice(0,8) || null,
+        p_region: region.slice(0,120) || null,
+        p_city: city.slice(0,160) || null,
+        p_source: source,
+        p_first_path: String(data.path || "/contact").slice(0,500),
+        p_consent: marketingConsent,
       })
-      scheduled = automation.scheduled
+
+      await marketingRpc("mark_lead_conversion", { p_lead_id:captured.lead_id, p_lead_secret:captured.lead_secret, p_kind:"form_submit" })
+
+      if (sessionId.length >= 10) {
+        await marketingRpc("track_visitor_event", {
+          p_session_id:sessionId, p_event_type:"form_submit", p_path:String(data.path || "/contact").slice(0,500),
+          p_element:String(data.type || "contact"), p_href:null, p_duration_seconds:0, p_locale:locale,
+          p_country:country || null, p_region:region || null, p_city:city || null,
+          p_referrer:String(data.referrer || "").slice(0,1000) || null, p_source:source,
+          p_medium:String(data.medium || "").slice(0,200) || null, p_campaign:String(data.campaign || "").slice(0,300) || null,
+          p_user_agent:req.headers.get("user-agent")?.slice(0,1000) || null,
+          p_metadata:{ serviceType:String(data.serviceType || ""), budget:String(data.budget || ""), marketingConsent },
+        })
+      }
+
+      if (marketingConsent && captured.should_schedule) {
+        const automation = await scheduleNurtureSequence({
+          leadId:captured.lead_id, leadSecret:captured.lead_secret, email, name,
+          locale:captured.locale || locale, unsubscribeToken:captured.unsubscribe_token,
+        })
+        scheduled = automation.scheduled
+        if (automation.errors.length) warnings.push("Alguns e-mails de nutrição não puderam ser agendados.")
+      }
+    } catch (crmError) {
+      console.error("Contact CRM persistence warning", crmError)
+      warnings.push("Contato recebido, mas o CRM ficou temporariamente indisponível.")
     }
 
     const msg: ContactMessage = {
-      id:`lead_${captured.lead_id}`, name, email,
+      id:captured ? `lead_${captured.lead_id}` : `contact_${Date.now()}`,
+      name, email,
       phone:String(data.phone || "").slice(0,80), company:String(data.company || "").slice(0,200),
       serviceType:String(data.serviceType || "").slice(0,240), budget:String(data.budget || "").slice(0,120), message,
       locale, date:String(data.selectedDate || "").slice(0,40), time:String(data.selectedTime || "").slice(0,40),
@@ -120,19 +139,30 @@ export async function POST(req: NextRequest) {
     const resendApiKey = process.env.RESEND_API_KEY
     const toEmail = process.env.CONTACT_TO_EMAIL
     const fromEmail = process.env.CONTACT_FROM_EMAIL || "Andre Almeida <onboarding@resend.dev>"
-    let warning: string | undefined
     if (resendApiKey && toEmail) {
-      const resend = new Resend(resendApiKey)
-      const subject = msg.type === "scheduled-call" ? `Nova call solicitada: ${msg.name}` : `Novo lead pelo site: ${msg.name}`
-      const { error } = await resend.emails.send({
-        from:fromEmail, to:[toEmail], replyTo:msg.email, subject,
-        html:formatLeadHtml(msg),
-        text:`Novo lead pelo site\n\nNome: ${msg.name}\nEmail: ${msg.email}\nTelefone: ${msg.phone}\nEmpresa: ${msg.company}\nServiço: ${msg.serviceType}\nOrçamento: ${msg.budget}\nCidade: ${msg.city}\nOrigem: ${msg.source}\nMarketing opt-in: ${msg.marketingConsent ? "Sim" : "Não"}\n\nMensagem:\n${msg.message}`,
-      })
-      if (error) warning = "Lead salvo no CRM, mas o aviso por e-mail falhou."
-    } else warning = "Lead salvo no CRM; e-mail administrativo não configurado."
+      try {
+        const resend = new Resend(resendApiKey)
+        const subject = msg.type === "scheduled-call" ? `Nova call solicitada: ${msg.name}` : `Novo lead pelo site: ${msg.name}`
+        const { error } = await resend.emails.send({
+          from:fromEmail, to:[toEmail], replyTo:msg.email, subject,
+          html:formatLeadHtml(msg),
+          text:`Novo lead pelo site\n\nNome: ${msg.name}\nEmail: ${msg.email}\nTelefone: ${msg.phone}\nEmpresa: ${msg.company}\nServiço: ${msg.serviceType}\nOrçamento: ${msg.budget}\nCidade: ${msg.city}\nOrigem: ${msg.source}\nMarketing opt-in: ${msg.marketingConsent ? "Sim" : "Não"}\n\nMensagem:\n${msg.message}`,
+        })
+        if (error) warnings.push("O aviso administrativo por e-mail falhou.")
+      } catch (emailError) {
+        console.error("Contact notification warning", emailError)
+        warnings.push("O aviso administrativo por e-mail ficou temporariamente indisponível.")
+      }
+    } else {
+      warnings.push("E-mail administrativo não configurado neste ambiente.")
+    }
 
-    return NextResponse.json({ success:true, id:captured.lead_id, scheduled, warning })
+    return NextResponse.json({
+      success:true,
+      id:captured?.lead_id || msg.id,
+      scheduled,
+      warning:warnings.length ? warnings.join(" ") : undefined,
+    })
   } catch (error) {
     console.error("Contact error", error)
     return NextResponse.json({ error:"Server error" }, { status:500 })
