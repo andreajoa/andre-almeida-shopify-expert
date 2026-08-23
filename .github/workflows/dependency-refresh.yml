@@ -1,0 +1,42 @@
+name: Dependency Refresh
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: github.head_ref == 'preview/final-redesign'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Refresh security-patched dependency graph
+        run: |
+          CURRENT=$(node -p "require('./package.json').dependencies.next")
+          if [ "$CURRENT" = "16.3.2" ]; then
+            echo "Patched dependency graph already committed."
+            exit 0
+          fi
+          npm install next@16.3.2 eslint-config-next@16.3.2
+          npm audit fix || true
+          npm audit --omit=dev --audit-level=high
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: refresh security-patched dependencies"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
