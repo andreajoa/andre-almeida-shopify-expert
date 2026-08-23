@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { after, NextRequest, NextResponse } from "next/server"
 import { marketingRpc, safeMarketingLocale } from "@/lib/marketing/neon-data-api"
 import { scheduleNurtureSequence } from "@/lib/marketing/email-automation"
 import type { MarketingLocale } from "@/lib/marketing/email-sequences"
@@ -28,6 +28,37 @@ export async function POST(req: NextRequest) {
       ? "pt-BR"
       : safeMarketingLocale(String(data.locale || ""))
 
+    const rawSessionId = String(data.sessionId || "").slice(0, 120)
+    let sessionId: string | null = rawSessionId.length >= 10 ? rawSessionId : null
+
+    // Guarantee the analytics session exists before attaching the lead to it.
+    // If analytics is temporarily unavailable, lead capture must still continue.
+    if (sessionId) {
+      try {
+        await marketingRpc("track_visitor_event", {
+          p_session_id: sessionId,
+          p_event_type: "email_capture",
+          p_path: String(data.path || "") || null,
+          p_element: "lead_capture",
+          p_href: null,
+          p_duration_seconds: 0,
+          p_locale: locale,
+          p_country: country || null,
+          p_region: region || null,
+          p_city: city || null,
+          p_referrer: String(data.referrer || "") || null,
+          p_source: String(data.source || "") || null,
+          p_medium: String(data.medium || "") || null,
+          p_campaign: String(data.campaign || "") || null,
+          p_user_agent: req.headers.get("user-agent") || null,
+          p_metadata: { stage: "capture" },
+        })
+      } catch (error) {
+        console.warn("Marketing analytics session unavailable during capture", error)
+        sessionId = null
+      }
+    }
+
     const captured = await marketingRpc<{
       ok: boolean
       lead_id: string
@@ -36,7 +67,7 @@ export async function POST(req: NextRequest) {
       locale: MarketingLocale
       should_schedule: boolean
     }>("capture_marketing_lead", {
-      p_session_id: String(data.sessionId || "").slice(0, 120) || null,
+      p_session_id: sessionId,
       p_email: email,
       p_name: String(data.name || "").slice(0, 160) || null,
       p_phone: String(data.phone || "").slice(0, 80) || null,
@@ -50,41 +81,30 @@ export async function POST(req: NextRequest) {
       p_consent: true,
     })
 
-    let automation = { scheduled: 0, errors: [] as string[] }
+    if (!captured.ok || !captured.lead_id) {
+      throw new Error("lead capture did not return a valid lead")
+    }
+
+    // Respond to the visitor immediately. The 30-message sequence is scheduled
+    // after the response so network latency at the email provider never breaks UX.
     if (captured.should_schedule) {
-      automation = await scheduleNurtureSequence({
-        leadId: captured.lead_id,
-        leadSecret: captured.lead_secret,
-        email,
-        name: String(data.name || "") || null,
-        locale: captured.locale || locale,
-        unsubscribeToken: captured.unsubscribe_token,
+      after(async () => {
+        try {
+          await scheduleNurtureSequence({
+            leadId: captured.lead_id,
+            leadSecret: captured.lead_secret,
+            email,
+            name: String(data.name || "") || null,
+            locale: captured.locale || locale,
+            unsubscribeToken: captured.unsubscribe_token,
+          })
+        } catch (error) {
+          console.error("Marketing nurture scheduling failed after capture", error)
+        }
       })
     }
 
-    const sessionId = String(data.sessionId || "")
-    if (sessionId.length >= 10) {
-      await marketingRpc("track_visitor_event", {
-        p_session_id: sessionId,
-        p_event_type: "email_capture",
-        p_path: String(data.path || "") || null,
-        p_element: "lead_capture",
-        p_href: null,
-        p_duration_seconds: 0,
-        p_locale: locale,
-        p_country: country || null,
-        p_region: region || null,
-        p_city: city || null,
-        p_referrer: String(data.referrer || "") || null,
-        p_source: String(data.source || "") || null,
-        p_medium: String(data.medium || "") || null,
-        p_campaign: String(data.campaign || "") || null,
-        p_user_agent: req.headers.get("user-agent") || null,
-        p_metadata: { scheduled: automation.scheduled },
-      })
-    }
-
-    return NextResponse.json({ ok: true, leadId: captured.lead_id, scheduled: automation.scheduled, automationWarnings: automation.errors.length })
+    return NextResponse.json({ ok: true, leadId: captured.lead_id, sequenceQueued: captured.should_schedule })
   } catch (error) {
     console.error("Marketing subscribe error", error)
     return NextResponse.json({ error: "subscribe failed" }, { status: 500 })
