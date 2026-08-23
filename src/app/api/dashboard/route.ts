@@ -5,6 +5,7 @@ import { replaceScheduledNurtureSequence, ScheduledNurtureEmail } from "@/lib/ma
 import { marketingRpc, vercelDataToken } from "@/lib/marketing/neon-data-api"
 
 const COOKIE = "aa_dashboard_session"
+export const maxDuration = 60
 
 type NurtureRefreshPayload = {
   lead?: {
@@ -102,8 +103,14 @@ export async function POST(req: NextRequest) {
     try {
       let payload: NurtureRefreshPayload = {}
       const leadId = String(data.leadId || "").trim()
+      const requestedIndexes = Array.isArray(data.sequenceIndexes)
+        ? [...new Set(data.sequenceIndexes.map((value:unknown)=>Number(value)).filter((value:number)=>Number.isInteger(value) && value > 0 && value <= 30))].slice(0,3)
+        : []
 
       if (leadId) {
+        if (!requestedIndexes.length) {
+          return NextResponse.json({ ok:false, error:"sequenceIndexes required", hint:"send 1 to 3 sequence indexes per request" }, { status:400 })
+        }
         payload = await marketingRpc<NurtureRefreshPayload>("dashboard_nurture_refresh_payload", { p_token:token, p_lead_id:leadId }, dataToken)
       } else {
         payload = {
@@ -119,25 +126,24 @@ export async function POST(req: NextRequest) {
       const locale = rawLead.locale === "en-US" ? "en-US" : "pt-BR"
       const name = typeof rawLead.name === "string" ? rawLead.name : null
       if (!email.includes("@") || unsubscribeToken.length < 16 || rawExisting.length === 0) {
-        return NextResponse.json({ error:"invalid nurture replacement payload" }, { status:400 })
+        return NextResponse.json({ ok:false, error:"invalid nurture replacement payload" }, { status:400 })
       }
 
+      const requested = requestedIndexes.length ? new Set(requestedIndexes) : null
       const existing: ScheduledNurtureEmail[] = rawExisting.map((item:Record<string,unknown>)=>({
         sequenceIndex:Number(item.sequenceIndex),
         resendEmailId:String(item.resendEmailId || ""),
         scheduledAt:String(item.scheduledAt || ""),
-      })).filter((item:ScheduledNurtureEmail)=>Number.isInteger(item.sequenceIndex) && item.sequenceIndex > 0 && item.resendEmailId.length > 5 && !Number.isNaN(new Date(item.scheduledAt).getTime()))
-      if (!existing.length) return NextResponse.json({ error:"no valid scheduled emails" }, { status:400 })
+      })).filter((item:ScheduledNurtureEmail)=>
+        Number.isInteger(item.sequenceIndex) && item.sequenceIndex > 0 && item.resendEmailId.length > 5 &&
+        !Number.isNaN(new Date(item.scheduledAt).getTime()) && (!requested || requested.has(item.sequenceIndex))
+      ).sort((a,b)=>a.sequenceIndex-b.sequenceIndex).slice(0,3)
+      if (!existing.length) return NextResponse.json({ ok:false, error:"no valid scheduled emails" }, { status:400 })
 
       const result = await replaceScheduledNurtureSequence({ email, name, locale, unsubscribeToken }, existing)
-      const reconciliationErrors: string[] = []
-
-      for (const replacement of result.scheduled) {
+      const reconciliation = await Promise.all(result.scheduled.map(async replacement=>{
         const previous = existing.find(item=>item.sequenceIndex===replacement.sequenceIndex)
-        if (!previous) {
-          reconciliationErrors.push(`db #${replacement.sequenceIndex}: previous send not found`)
-          continue
-        }
+        if (!previous) return `db #${replacement.sequenceIndex}: previous send not found`
         try {
           const updated = await marketingRpc<{ok:boolean;updated:number}>("dashboard_replace_scheduled_send", {
             p_token:token,
@@ -145,17 +151,23 @@ export async function POST(req: NextRequest) {
             p_new_resend_id:replacement.resendEmailId,
             p_scheduled_at:replacement.scheduledAt,
           }, dataToken)
-          if (!updated.ok || updated.updated !== 1) reconciliationErrors.push(`db #${replacement.sequenceIndex}: send row not updated`)
+          return !updated.ok || updated.updated !== 1 ? `db #${replacement.sequenceIndex}: send row not updated` : ""
         } catch (error) {
-          reconciliationErrors.push(`db #${replacement.sequenceIndex}: ${error instanceof Error ? error.message : "unknown error"}`)
+          return `db #${replacement.sequenceIndex}: ${error instanceof Error ? error.message : "unknown error"}`
         }
-      }
+      }))
 
-      const errors = [...result.errors, ...reconciliationErrors]
-      return NextResponse.json({ ...result, errors }, { status:errors.length ? 502 : 200 })
+      const errors = [...result.errors, ...reconciliation.filter(Boolean)]
+      return NextResponse.json({
+        ok:errors.length===0,
+        cancelled:result.cancelled,
+        scheduled:result.scheduled,
+        processed:existing.map(item=>item.sequenceIndex),
+        errors,
+      }, { status:200, headers:{"Cache-Control":"private, no-store"} })
     } catch (error) {
       console.error("Dashboard nurture replacement error", error)
-      return NextResponse.json({ error:"nurture replacement unavailable" }, { status:503 })
+      return NextResponse.json({ ok:false, error:"nurture replacement unavailable" }, { status:503 })
     }
   }
 
