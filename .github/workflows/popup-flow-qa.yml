@@ -42,3 +42,6 @@ jobs:
           if(!res.ok||body.ok!==true||!body.leadId) throw new Error('Popup subscribe flow failed');
           console.log('POPUP SUBSCRIBE PASS');
           NODE
+      - name: Print app log on failure
+        if: failure()
+        run: cat /tmp/app.log || true
