@@ -1,7 +1,7 @@
 import "server-only"
 import { Resend } from "resend"
 import { SITE_CONFIG } from "@/lib/constants"
-import { emailBannerForSequence } from "@/lib/marketing/email-banners"
+import { EMAIL_BANNER_COUNT } from "@/lib/marketing/email-banners"
 import { EMAIL_SEQUENCES, MarketingLocale, renderSequenceCopy } from "@/lib/marketing/email-sequences"
 import { marketingRpc } from "@/lib/marketing/neon-data-api"
 import { ensureResendWebhook } from "@/lib/marketing/resend-webhook"
@@ -14,8 +14,6 @@ export type NurtureLead = {
   locale: MarketingLocale
   unsubscribeToken: string
 }
-
-const BANNER_CONTENT_ID = "seu-negocio-banner"
 
 function esc(value: string) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;")
@@ -33,6 +31,8 @@ function emailHtml(lead: NurtureLead, entry: (typeof EMAIL_SEQUENCES)[MarketingL
   const unsubscribeUrl = `https://andre-almeida.online/unsubscribe?token=${encodeURIComponent(lead.unsubscribeToken)}&lang=${lead.locale === "pt-BR" ? "pt" : "en"}`
   const isPt = lead.locale === "pt-BR"
   const [hello, preheader, angle, insight, close] = paragraphs
+  const bannerNumber = ((entry.index - 1) % EMAIL_BANNER_COUNT) + 1
+  const bannerUrl = `${SITE_CONFIG.url}/api/marketing/banner/${bannerNumber}`
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(isPt ? "Olá André, recebi seu e-mail e quero conversar sobre meu negócio." : "Hi Andre, I received your email and want to talk about my business.")}`
   const websiteUrl = SITE_CONFIG.url
   const footerPermission = isPt
@@ -54,7 +54,7 @@ function emailHtml(lead: NurtureLead, entry: (typeof EMAIL_SEQUENCES)[MarketingL
 <tr><td align="center" style="padding:28px 12px">
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:640px;background:#fffdf8;border:1px solid #d8d0c2;border-collapse:separate">
 <tr><td style="padding:0;line-height:0">
-<a href="${entry.ctaUrl}" style="display:block;text-decoration:none" target="_blank"><img src="cid:${BANNER_CONTENT_ID}" alt="${esc(entry.subject)}" width="640" style="display:block;width:100%;max-width:640px;height:auto;border:0;outline:none;text-decoration:none"></a>
+<a href="${entry.ctaUrl}" style="display:block;text-decoration:none" target="_blank"><img src="${bannerUrl}" alt="${esc(entry.subject)}" width="640" style="display:block;width:100%;max-width:640px;height:auto;border:0;outline:none;text-decoration:none"></a>
 </td></tr>
 <tr><td style="padding:27px 34px 8px;color:#8b7547;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase">SEU NEGÓCIO <span style="color:#a7a198;font-weight:400">· por André Almeida</span></td></tr>
 <tr><td style="padding:8px 34px 2px;font-family:Georgia,'Times New Roman',serif;font-size:35px;line-height:1.12;letter-spacing:-.6px;color:#171714">${esc(entry.subject)}</td></tr>
@@ -94,7 +94,6 @@ export async function scheduleNurtureSequence(lead: NurtureLead, dataToken?: str
   for (const entry of sequence) {
     const when = new Date(Date.now() + (entry.index === 1 ? 5 * 60_000 : (entry.index - 1) * 24 * 60 * 60_000)).toISOString()
     const copy = renderSequenceCopy(lead.locale, entry, lead.name)
-    const banner = emailBannerForSequence(entry.index)
     try {
       const { data, error } = await resend.emails.send({
         from,
@@ -103,11 +102,6 @@ export async function scheduleNurtureSequence(lead: NurtureLead, dataToken?: str
         subject:entry.subject,
         html:emailHtml(lead, entry),
         text:`${copy.text}\n\n${entry.ctaLabel}: ${entry.ctaUrl}\n\nWhatsApp: +55 11 99259-8585\nE-mail: ${SITE_CONFIG.email}\nSite: ${SITE_CONFIG.url}\n\nUnsubscribe: ${unsubscribeUrl}`,
-        attachments:[{
-          content:banner,
-          filename:`seu-negocio-${String(entry.index).padStart(2,"0")}.jpg`,
-          contentId:BANNER_CONTENT_ID,
-        }],
         scheduledAt:when,
         headers:{
           "List-Unsubscribe":`<${unsubscribeUrl}>`,
