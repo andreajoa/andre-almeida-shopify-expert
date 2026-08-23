@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto"
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
+import { replaceScheduledNurtureSequence, ScheduledNurtureEmail } from "@/lib/marketing/email-automation"
 import { marketingRpc, vercelDataToken } from "@/lib/marketing/neon-data-api"
 
 const COOKIE = "aa_dashboard_session"
@@ -81,6 +82,32 @@ export async function POST(req: NextRequest) {
 
   const token = req.cookies.get(COOKIE)?.value || ""
   if (!token) return NextResponse.json({ error:"unauthorized" }, { status:401 })
+
+  if (action === "replace_scheduled_nurture") {
+    try {
+      await marketingRpc("dashboard_snapshot", { p_token:token, p_days:1 }, dataToken)
+      const rawLead = data.lead && typeof data.lead === "object" ? data.lead : {}
+      const rawExisting = Array.isArray(data.existing) ? data.existing : []
+      const email = String(rawLead.email || "").trim()
+      const unsubscribeToken = String(rawLead.unsubscribeToken || "").trim()
+      const locale = rawLead.locale === "en-US" ? "en-US" : "pt-BR"
+      const name = typeof rawLead.name === "string" ? rawLead.name : null
+      if (!email.includes("@") || unsubscribeToken.length < 16 || rawExisting.length === 0) {
+        return NextResponse.json({ error:"invalid nurture replacement payload" }, { status:400 })
+      }
+      const existing: ScheduledNurtureEmail[] = rawExisting.map((item:Record<string,unknown>)=>({
+        sequenceIndex:Number(item.sequenceIndex),
+        resendEmailId:String(item.resendEmailId || ""),
+        scheduledAt:String(item.scheduledAt || ""),
+      })).filter((item:ScheduledNurtureEmail)=>Number.isInteger(item.sequenceIndex) && item.sequenceIndex > 0 && item.resendEmailId.length > 5 && !Number.isNaN(new Date(item.scheduledAt).getTime()))
+      if (!existing.length) return NextResponse.json({ error:"no valid scheduled emails" }, { status:400 })
+      const result = await replaceScheduledNurtureSequence({ email, name, locale, unsubscribeToken }, existing)
+      return NextResponse.json(result, { status:result.errors.length ? 502 : 200 })
+    } catch (error) {
+      console.error("Dashboard nurture replacement error", error)
+      return NextResponse.json({ error:"nurture replacement unavailable" }, { status:503 })
+    }
+  }
 
   if (action === "logout") {
     await marketingRpc("dashboard_logout", { p_token:token }, dataToken).catch(()=>{})
