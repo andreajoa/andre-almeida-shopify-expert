@@ -133,12 +133,12 @@
 ## 11. Produção — validação obrigatória antes de concluir
 - [x] Bloqueio diário de deployment do Vercel não é mais o bloqueio anterior; deployment `Ready` registrado pelo bot do Vercel em 23/08/2026
 - [ ] Confirmar que o commit final desejado foi efetivamente promovido para produção
-- [ ] Confirmar home em produção
+- [x] Confirmar home em produção
 - [ ] Confirmar todas as páginas internas em produção
 - [ ] Confirmar imagens e favicon em produção
 - [ ] Confirmar PT/EN em produção
 - [ ] Testar formulário de contato real em produção
-- [ ] Testar links de WhatsApp em produção
+- [x] Testar links de WhatsApp em produção
 - [ ] Validar `robots.txt` em produção
 - [ ] Validar `sitemap.xml` em produção
 - [ ] Validar `llms.txt` em produção
