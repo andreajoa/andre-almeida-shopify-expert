@@ -1,3 +1,21 @@
+type GtagEventParams = {
+  event_category: string
+  event_label?: string
+  value?: number
+}
+
+type GtagFunction = (
+  command: "event",
+  action: string,
+  params: GtagEventParams
+) => void
+
+declare global {
+  interface Window {
+    gtag?: GtagFunction
+  }
+}
+
 export function trackEvent(
   action: string,
   category: string,
@@ -5,12 +23,12 @@ export function trackEvent(
   value?: number
 ) {
   if (typeof window === "undefined") return
-  if (!(window as any).gtag) return
+  if (!window.gtag) return
 
-  ;(window as any).gtag("event", action, {
+  window.gtag("event", action, {
     event_category: category,
     event_label: label,
-    value: value,
+    value,
   })
 }
 

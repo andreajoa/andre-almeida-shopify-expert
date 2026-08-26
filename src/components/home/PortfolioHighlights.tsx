@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 import { useTranslations, useLocale } from "next-intl"
 import { Card } from "@/components/ui/Card"
@@ -24,7 +25,7 @@ export function PortfolioHighlights() {
             <AnimatedSection key={p.id} delay={i * 0.1}>
               <Card variant="gradient" className="group overflow-hidden">
                 <div className="relative h-48 rounded-xl mb-6 overflow-hidden">
-                  <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <Image src={p.image} alt={p.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
                 </div>
                 <Badge variant="indigo" className="mb-3">{p.nicheKey}</Badge>

@@ -10,20 +10,91 @@ import { Analytics } from "@/lib/analytics"
 import { SITE_CONFIG } from "@/lib/constants"
 
 type LocaleKey = "pt-BR" | "en"
-type Project = { title: string; category: string; description: string; image: string; href: string; index: string; featured?: boolean }
+type Project = {
+  title: string
+  category: string
+  description: string
+  image: string
+  href: string
+  index: string
+  featured?: boolean
+  commerce?: boolean
+}
 
 const projects: Record<LocaleKey, Project[]> = {
   "pt-BR": [
-    { title: "NOVA AI Studio", category: "IA · SAAS · PRODUTO", description: "Uma plataforma de criação com IA transformada em produto digital com identidade, clareza e experiência de uso.", image: "/brand/nova-ai.webp", href: "https://www.novvideos.online/", index: "01", featured: true },
-    { title: "CAA Neuro", category: "APP · ACESSIBILIDADE · IA", description: "Tecnologia assistiva com comunicação alternativa, voz, tradução e recursos terapêuticos em uma experiência acessível.", image: "/brand/caa-neuro.webp", href: "https://www.caaneuro.online/", index: "02" },
-    { title: "AMB Boutique", category: "E-COMMERCE · MODA", description: "E-commerce de moda feminina com direção editorial, experiência internacional, merchandising e jornada de compra pensada para conversão.", image: "/brand/amb-boutique.jpg", href: "https://www.ambboutique.online/", index: "03" },
-    { title: "Brinqueteando", category: "E-COMMERCE · EDUCAÇÃO", description: "Loja de brinquedos terapêuticos com jornada digital pensada para confiança, clareza e conversão.", image: "/brand/brinqueteando.webp", href: "https://www.brinqueteando.online/", index: "04" },
+    {
+      title: "NOVA AI Studio",
+      category: "IA · SAAS · PRODUTO",
+      description: "Uma plataforma de criação com IA transformada em produto digital com identidade, clareza e experiência de uso.",
+      image: "/brand/nova-ai.webp",
+      href: "https://www.novvideos.online/",
+      index: "01",
+      featured: true,
+    },
+    {
+      title: "CAA Neuro",
+      category: "APP · ACESSIBILIDADE · IA",
+      description: "Tecnologia assistiva com comunicação alternativa, voz, tradução e recursos terapêuticos em uma experiência acessível.",
+      image: "/brand/caa-neuro.webp",
+      href: "https://www.caaneuro.online/",
+      index: "02",
+    },
+    {
+      title: "AMB Boutique",
+      category: "E-COMMERCE · MODA",
+      description: "E-commerce de moda feminina com direção editorial, experiência internacional, merchandising e jornada de compra pensada para conversão.",
+      image: "/brand/amb-boutique.jpg",
+      href: "https://www.ambboutique.online/",
+      index: "03",
+      commerce: true,
+    },
+    {
+      title: "Brinqueteando",
+      category: "E-COMMERCE · EDUCAÇÃO",
+      description: "Loja de brinquedos terapêuticos com jornada digital pensada para confiança, clareza e conversão.",
+      image: "/brand/brinqueteando-showcase-v2.webp",
+      href: "https://www.brinqueteando.online/",
+      index: "04",
+      commerce: true,
+    },
   ],
   en: [
-    { title: "NOVA AI Studio", category: "AI · SAAS · PRODUCT", description: "An AI creation platform shaped into a digital product with clear identity, positioning and user experience.", image: "/brand/nova-ai.webp", href: "https://www.novvideos.online/", index: "01", featured: true },
-    { title: "CAA Neuro", category: "APP · ACCESSIBILITY · AI", description: "Assistive technology combining alternative communication, voice, translation and therapeutic resources.", image: "/brand/caa-neuro.webp", href: "https://www.caaneuro.online/", index: "02" },
-    { title: "AMB Boutique", category: "ECOMMERCE · FASHION", description: "A women’s fashion ecommerce experience combining editorial direction, international merchandising and a conversion-focused customer journey.", image: "/brand/amb-boutique.jpg", href: "https://www.ambboutique.online/", index: "03" },
-    { title: "Brinqueteando", category: "ECOMMERCE · EDUCATION", description: "A therapeutic toy store with a digital journey built around trust, clarity and conversion.", image: "/brand/brinqueteando.webp", href: "https://www.brinqueteando.online/", index: "04" },
+    {
+      title: "NOVA AI Studio",
+      category: "AI · SAAS · PRODUCT",
+      description: "An AI creation platform shaped into a digital product with clear identity, positioning and user experience.",
+      image: "/brand/nova-ai.webp",
+      href: "https://www.novvideos.online/",
+      index: "01",
+      featured: true,
+    },
+    {
+      title: "CAA Neuro",
+      category: "APP · ACCESSIBILITY · AI",
+      description: "Assistive technology combining alternative communication, voice, translation and therapeutic resources.",
+      image: "/brand/caa-neuro.webp",
+      href: "https://www.caaneuro.online/",
+      index: "02",
+    },
+    {
+      title: "AMB Boutique",
+      category: "ECOMMERCE · FASHION",
+      description: "A women’s fashion ecommerce experience combining editorial direction, international merchandising and a conversion-focused customer journey.",
+      image: "/brand/amb-boutique.jpg",
+      href: "https://www.ambboutique.online/",
+      index: "03",
+      commerce: true,
+    },
+    {
+      title: "Brinqueteando",
+      category: "ECOMMERCE · EDUCATION",
+      description: "A therapeutic toy store with a digital journey built around trust, clarity and conversion.",
+      image: "/brand/brinqueteando-showcase-v2.webp",
+      href: "https://www.brinqueteando.online/",
+      index: "04",
+      commerce: true,
+    },
   ],
 }
 
@@ -133,45 +204,161 @@ export function PremiumHome() {
           <div className="flex flex-col justify-center py-8 lg:py-12">
             <p className="mb-8 text-[10px] font-semibold tracking-[0.22em] text-[#5f6559] sm:text-xs">— {c.eyebrow}</p>
             <h1 className="max-w-[780px] font-editorial text-[clamp(3.3rem,8vw,7.7rem)] leading-[0.86] tracking-[-0.05em]">
-              <span className="block">{c.heroA}</span><span className="block">{c.heroB}</span><span className="block italic text-[#5f6559]">{c.heroItalic}</span>
+              <span className="block">{c.heroA}</span>
+              <span className="block">{c.heroB}</span>
+              <span className="block italic text-[#5f6559]">{c.heroItalic}</span>
             </h1>
             <p className="mt-9 max-w-2xl text-base leading-7 text-[#5c5952] sm:text-lg sm:leading-8 lg:max-w-xl">{c.lead}</p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href="#selected-work" onClick={() => Analytics.ctaClick("premium_hero_projects")} className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#11110f] px-7 text-[11px] font-semibold tracking-[0.12em] text-white transition hover:bg-[#2a2925] sm:min-h-14">{c.projectsCta.toUpperCase()}<ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" /></a>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("premium_hero_direct")} className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-[#2b2a27]/30 px-7 text-[11px] font-semibold tracking-[0.12em] transition hover:bg-white/50 sm:min-h-14">{c.talkCta.toUpperCase()}<ArrowUpRight className="h-4 w-4" /></a>
+              <a href="#selected-work" onClick={() => Analytics.ctaClick("premium_hero_projects")} className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#11110f] px-7 text-[11px] font-semibold tracking-[0.12em] text-white transition hover:bg-[#2a2925] sm:min-h-14">
+                {c.projectsCta.toUpperCase()}<ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
+              </a>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("premium_hero_direct")} className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-[#2b2a27]/30 px-7 text-[11px] font-semibold tracking-[0.12em] transition hover:bg-white/50 sm:min-h-14">
+                {c.talkCta.toUpperCase()}<ArrowUpRight className="h-4 w-4" />
+              </a>
             </div>
             <p className="mt-5 text-[9px] font-medium uppercase tracking-[0.18em] text-[#77736b]">{c.availability}</p>
             <div className="mt-12 grid max-w-2xl grid-cols-3 border-y border-[#d4cec2] py-5 sm:py-6">
-              {c.stats.map(([value, label], index) => <div key={label} className={`px-3 first:pl-0 sm:px-6 ${index > 0 ? "border-l border-[#d4cec2]" : ""}`}><p className="font-editorial text-2xl leading-none sm:text-4xl">{value}</p><p className="mt-2 text-[8px] uppercase tracking-[0.12em] text-[#77736b] sm:text-[9px]">{label}</p></div>)}
+              {c.stats.map(([value, label], index) => (
+                <div key={label} className={`px-2 first:pl-0 sm:px-6 ${index > 0 ? "border-l border-[#d4cec2]" : ""}`}>
+                  <p className="font-editorial text-2xl leading-none sm:text-4xl">{value}</p>
+                  <p className="mt-2 text-[8px] uppercase tracking-[0.1em] text-[#77736b] sm:text-[9px] sm:tracking-[0.12em]">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="relative min-h-[68svh] overflow-hidden bg-[#11110f] lg:min-h-[calc(100svh-9rem)]">
+          <div className="relative min-h-[58svh] overflow-hidden rounded-[2px] bg-[#11110f] sm:min-h-[68svh] lg:min-h-[calc(100svh-9rem)]">
             <Image src="/brand/andre-premium.webp" alt="André Almeida, especialista em websites, e-commerce e automação" fill priority className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 56vw" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,15,0.02)_0%,rgba(17,17,15,0.08)_55%,rgba(17,17,15,0.82)_100%)]" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8 lg:p-10"><p className="text-[9px] font-semibold tracking-[0.2em] text-white/55">{c.heroImageLabel}</p><div className="mt-3 border-t border-white/20 pt-5"><h2 className="max-w-lg font-editorial text-3xl leading-none tracking-[-0.03em] sm:text-5xl">{c.heroImageTitle}</h2><p className="mt-3 max-w-md text-sm leading-6 text-white/65">{c.heroImageCopy}</p></div></div>
+            <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-8 lg:p-10">
+              <p className="text-[9px] font-semibold tracking-[0.2em] text-white/55">{c.heroImageLabel}</p>
+              <div className="mt-3 border-t border-white/20 pt-5">
+                <h2 className="max-w-lg font-editorial text-3xl leading-none tracking-[-0.03em] sm:text-5xl">{c.heroImageTitle}</h2>
+                <p className="mt-3 max-w-md text-sm leading-6 text-white/65">{c.heroImageCopy}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="selected-work" className="border-t border-[#d4cec2] py-24 md:py-32 lg:py-40">
+      <section id="selected-work" className="border-t border-[#d4cec2] py-20 sm:py-24 md:py-32 lg:py-40">
         <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14">
-          <div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16"><p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.projectsEyebrow}</p><div><h2 className="max-w-5xl font-editorial text-[clamp(2.8rem,6vw,6rem)] leading-[0.94] tracking-[-0.045em]">{c.projectsTitle}</h2><p className="mt-7 max-w-2xl text-base leading-7 text-[#666259] sm:text-lg sm:leading-8">{c.projectsIntro}</p></div></div>
-          <div className="mt-16 grid gap-5 lg:mt-24 lg:grid-cols-12">
-            {selectedProjects.map((project, index) => <AnimatedSection key={project.title} delay={index * 0.04} className={project.featured ? "lg:col-span-7" : index === 1 ? "lg:col-span-5" : "lg:col-span-6"}><a href={project.href} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.ctaClick(`premium_project_${project.title}`)} className="group block h-full border-t border-[#cfc8bc] pt-4"><div className={`relative overflow-hidden bg-[#dad4c9] ${project.featured ? "aspect-[1.16/1]" : "aspect-[1.1/1]"}`}><Image src={project.image} alt={`Projeto ${project.title}`} fill className="object-cover transition duration-700 ease-out group-hover:scale-[1.025]" sizes={project.featured ? "(max-width: 1024px) 100vw, 58vw" : "(max-width: 1024px) 100vw, 42vw"}/><div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" /></div><div className="grid grid-cols-[1fr_auto] gap-5 py-5 sm:py-6"><div><p className="text-[9px] font-semibold tracking-[0.16em] text-[#807b71]">{project.category}</p><h3 className="mt-3 font-editorial text-3xl leading-none tracking-[-0.03em] sm:text-4xl">{project.title}</h3><p className="mt-3 max-w-xl text-sm leading-6 text-[#6c675e]">{project.description}</p></div><div className="text-right"><span className="text-[10px] font-semibold tracking-[0.15em] text-[#807b71]">{project.index}</span><span className="mt-8 hidden items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] sm:flex">{c.viewProject}<ArrowUpRight className="h-3.5 w-3.5" /></span></div></div></a></AnimatedSection>)}
+          <div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16">
+            <p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.projectsEyebrow}</p>
+            <div>
+              <h2 className="max-w-5xl font-editorial text-[clamp(2.8rem,6vw,6rem)] leading-[0.94] tracking-[-0.045em]">{c.projectsTitle}</h2>
+              <p className="mt-7 max-w-2xl text-base leading-7 text-[#666259] sm:text-lg sm:leading-8">{c.projectsIntro}</p>
+            </div>
           </div>
-          <div className="mt-12 flex justify-end"><Link href={`/${lang}/portfolio`} onClick={() => Analytics.ctaClick("premium_all_projects")} className="group inline-flex items-center gap-3 border-b border-[#11110f] pb-2 text-[10px] font-semibold uppercase tracking-[0.14em]">{c.allProjects}<ArrowUpRight className="h-4 w-4" /></Link></div>
+
+          <div className="mt-14 grid grid-cols-1 gap-x-5 gap-y-12 sm:mt-16 lg:mt-24 lg:grid-cols-12">
+            {selectedProjects.map((project, index) => (
+              <div key={project.title} className={project.featured ? "lg:col-span-7" : index === 1 ? "lg:col-span-5" : "lg:col-span-6"}>
+                <a href={project.href} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.ctaClick(`premium_project_${project.title}`)} className="group block h-full border-t border-[#cfc8bc] pt-4">
+                  {project.commerce ? (
+                    <div className="overflow-hidden rounded-[14px] border border-[#cfc8bc] bg-[#f7f4ed] shadow-[0_18px_55px_rgba(17,17,15,0.08)] transition duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_24px_70px_rgba(17,17,15,0.12)] sm:rounded-[18px]">
+                      <div className="flex h-8 items-center gap-1.5 border-b border-[#d8d2c7] bg-[#f2efe8] px-3 sm:h-9 sm:px-4" aria-hidden="true">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#9b9589]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#b8b1a4]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c9c2b5]" />
+                      </div>
+                      <div className="bg-[#f7f4ed] p-1.5 sm:p-3">
+                        <div className="relative aspect-[1.62/1] w-full overflow-hidden bg-[#f7f4ed] sm:aspect-[2.15/1]">
+                          <Image src={project.image} alt={`Projeto ${project.title}`} fill priority={project.title === "Brinqueteando"} loading={project.title === "Brinqueteando" ? undefined : "eager"} unoptimized className="object-contain object-center transition duration-700 ease-out group-hover:scale-[1.008]" sizes="(max-width: 1024px) 100vw, 50vw" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={`relative overflow-hidden bg-[#dad4c9] ${project.featured ? "aspect-[1.16/1]" : "aspect-[1.1/1]"}`}>
+                      <Image src={project.image} alt={`Projeto ${project.title}`} fill loading="eager" unoptimized className="object-cover transition duration-700 ease-out group-hover:scale-[1.025]" sizes={project.featured ? "(max-width: 1024px) 100vw, 58vw" : "(max-width: 1024px) 100vw, 42vw"} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+                    </div>
+                  )}
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-5 sm:gap-5 sm:py-6">
+                    <div className="min-w-0">
+                      <p className="text-[9px] font-semibold tracking-[0.16em] text-[#807b71]">{project.category}</p>
+                      <h3 className="mt-3 break-words font-editorial text-3xl leading-none tracking-[-0.03em] sm:text-4xl">{project.title}</h3>
+                      <p className="mt-3 max-w-xl text-sm leading-6 text-[#6c675e]">{project.description}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-semibold tracking-[0.15em] text-[#807b71]">{project.index}</span>
+                      <span className="mt-8 hidden items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] sm:flex">{c.viewProject}<ArrowUpRight className="h-3.5 w-3.5" /></span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 flex justify-end">
+            <Link href={`/${lang}/portfolio`} onClick={() => Analytics.ctaClick("premium_all_projects")} className="group inline-flex items-center gap-3 border-b border-[#11110f] pb-2 text-[10px] font-semibold uppercase tracking-[0.14em]">
+              {c.allProjects}<ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-[#d4cec2] py-24 md:py-32 lg:py-40"><div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14"><div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16"><p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.expertiseEyebrow}</p><h2 className="max-w-5xl font-editorial text-[clamp(2.8rem,5vw,5.6rem)] leading-[0.95] tracking-[-0.045em]">{c.expertiseTitle}</h2></div><div className="mt-16 grid border-y border-[#d4cec2] md:grid-cols-3 lg:mt-24">{c.pillars.map((pillar,index)=><AnimatedSection key={pillar.number} delay={index*.06} className={index>0?"md:border-l md:border-[#d4cec2]":""}><div className={`h-full py-9 md:min-h-[330px] md:px-8 md:py-10 ${index>0?"border-t border-[#d4cec2] md:border-t-0":""}`}><p className="text-[9px] font-semibold tracking-[0.15em] text-[#a08967]">{pillar.number}</p><h3 className="mt-12 font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">{pillar.title}</h3><p className="mt-5 max-w-md text-sm leading-7 text-[#6a665e]">{pillar.text}</p><div className="mt-10 flex gap-2 text-[#5f6559]"><Check className="h-4 w-4"/><span className="text-[9px] font-semibold uppercase tracking-[0.14em]">Strategy to execution</span></div></div></AnimatedSection>)}</div></div></section>
+      <section className="border-t border-[#d4cec2] py-20 sm:py-24 md:py-32 lg:py-40">
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14">
+          <div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16">
+            <p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.expertiseEyebrow}</p>
+            <h2 className="max-w-5xl font-editorial text-[clamp(2.8rem,5vw,5.6rem)] leading-[0.95] tracking-[-0.045em]">{c.expertiseTitle}</h2>
+          </div>
+          <div className="mt-16 grid border-y border-[#d4cec2] md:grid-cols-3 lg:mt-24">
+            {c.pillars.map((pillar, index) => (
+              <AnimatedSection key={pillar.number} delay={index * 0.06} className={index > 0 ? "md:border-l md:border-[#d4cec2]" : ""}>
+                <div className={`h-full py-9 md:min-h-[330px] md:px-8 md:py-10 ${index > 0 ? "border-t border-[#d4cec2] md:border-t-0" : ""}`}>
+                  <p className="text-[9px] font-semibold tracking-[0.15em] text-[#a08967]">{pillar.number}</p>
+                  <h3 className="mt-12 font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">{pillar.title}</h3>
+                  <p className="mt-5 max-w-md text-sm leading-7 text-[#6a665e]">{pillar.text}</p>
+                  <div className="mt-10 flex gap-2 text-[#5f6559]"><Check className="h-4 w-4" /><span className="text-[9px] font-semibold uppercase tracking-[0.14em]">Strategy to execution</span></div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <CommercialInfrastructureSection />
 
-      <section className="bg-[#11110f] py-24 text-white md:py-32 lg:py-40"><div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14"><p className="text-[10px] font-semibold tracking-[0.2em] text-[#c7b18d]">{c.manifestoEyebrow}</p><div className="mt-10 grid gap-12 lg:grid-cols-[0.7fr_0.3fr] lg:gap-20"><div><h2 className="max-w-5xl font-editorial text-[clamp(3rem,7vw,7rem)] leading-[0.9] tracking-[-0.05em]">{c.manifestoA} <span className="italic text-[#c7b18d]">{c.manifestoItalic}</span> {c.manifestoB}</h2></div><div className="flex flex-col justify-end"><p className="font-editorial text-2xl italic text-white/90">“{c.manifestoQuote}”</p><p className="mt-7 text-sm leading-7 text-white/55">{c.manifestoCopy}</p></div></div></div></section>
+      <section className="bg-[#11110f] py-20 text-white sm:py-24 md:py-32 lg:py-40">
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14">
+          <p className="text-[10px] font-semibold tracking-[0.2em] text-[#c7b18d]">{c.manifestoEyebrow}</p>
+          <div className="mt-10 grid gap-12 lg:grid-cols-[0.7fr_0.3fr] lg:gap-20">
+            <h2 className="max-w-5xl font-editorial text-[clamp(3rem,7vw,7rem)] leading-[0.9] tracking-[-0.05em]">{c.manifestoA} <span className="italic text-[#c7b18d]">{c.manifestoItalic}</span> {c.manifestoB}</h2>
+            <div className="flex flex-col justify-end"><p className="font-editorial text-2xl italic text-white/90">“{c.manifestoQuote}”</p><p className="mt-7 text-sm leading-7 text-white/55">{c.manifestoCopy}</p></div>
+          </div>
+        </div>
+      </section>
 
-      <section className="border-t border-[#d4cec2] py-24 md:py-32 lg:py-40"><div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14"><div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16"><p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.processEyebrow}</p><h2 className="max-w-4xl font-editorial text-[clamp(2.8rem,5vw,5.6rem)] leading-[0.95] tracking-[-0.045em]">{c.processTitle}</h2></div><div className="mt-16 divide-y divide-[#d4cec2] border-y border-[#d4cec2] lg:mt-24">{c.process.map(([number,title,text])=><div key={number} className="grid gap-5 py-8 md:grid-cols-[0.12fr_0.3fr_0.58fr] md:items-start md:py-10"><span className="text-[9px] font-semibold tracking-[0.16em] text-[#a08967]">{number}</span><h3 className="font-editorial text-3xl tracking-[-0.03em]">{title}</h3><p className="max-w-2xl text-sm leading-7 text-[#6a665e]">{text}</p></div>)}</div></div></section>
+      <section className="border-t border-[#d4cec2] py-20 sm:py-24 md:py-32 lg:py-40">
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14">
+          <div className="grid gap-8 lg:grid-cols-[0.35fr_0.65fr] lg:gap-16">
+            <p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.processEyebrow}</p>
+            <h2 className="max-w-4xl font-editorial text-[clamp(2.8rem,5vw,5.6rem)] leading-[0.95] tracking-[-0.045em]">{c.processTitle}</h2>
+          </div>
+          <div className="mt-16 divide-y divide-[#d4cec2] border-y border-[#d4cec2] lg:mt-24">
+            {c.process.map(([number, title, text]) => (
+              <div key={number} className="grid gap-5 py-8 md:grid-cols-[0.12fr_0.3fr_0.58fr] md:items-start md:py-10">
+                <span className="text-[9px] font-semibold tracking-[0.16em] text-[#a08967]">{number}</span>
+                <h3 className="font-editorial text-3xl tracking-[-0.03em]">{title}</h3>
+                <p className="max-w-2xl text-sm leading-7 text-[#6a665e]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section className="border-t border-[#d4cec2] bg-[#e7e2d8] py-24 md:py-32"><div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14"><p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.finalEyebrow}</p><h2 className="mt-8 max-w-5xl font-editorial text-[clamp(3rem,7vw,7rem)] leading-[0.9] tracking-[-0.05em]">{c.finalTitle}</h2><div className="mt-10 flex flex-col items-start justify-between gap-8 border-t border-[#cfc8bc] pt-8 md:flex-row md:items-center"><p className="max-w-2xl text-base leading-7 text-[#666259]">{c.finalCopy}</p><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={()=>Analytics.whatsappClick("premium_final")} className="inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">{c.finalCta}<ArrowUpRight className="h-4 w-4"/></a></div></div></section>
+      <section className="border-t border-[#d4cec2] bg-[#e7e2d8] py-20 sm:py-24 md:py-32">
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10 xl:px-14">
+          <p className="text-[10px] font-semibold tracking-[0.2em] text-[#77736b]">{c.finalEyebrow}</p>
+          <h2 className="mt-8 max-w-5xl font-editorial text-[clamp(3rem,7vw,7rem)] leading-[0.9] tracking-[-0.05em]">{c.finalTitle}</h2>
+          <div className="mt-10 flex flex-col items-start justify-between gap-8 border-t border-[#cfc8bc] pt-8 md:flex-row md:items-center">
+            <p className="max-w-2xl text-base leading-7 text-[#666259]">{c.finalCopy}</p>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => Analytics.whatsappClick("premium_final")} className="inline-flex min-h-14 items-center gap-3 rounded-full bg-[#11110f] px-7 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">{c.finalCta}<ArrowUpRight className="h-4 w-4" /></a>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

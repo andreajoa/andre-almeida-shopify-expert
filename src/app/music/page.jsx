@@ -30,7 +30,7 @@ export default function MusicPage() {
       <section className="border-b border-white/10 px-5 py-14 sm:px-8 md:py-20 lg:px-10">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
           <div className="relative aspect-square overflow-hidden bg-[#191917]">
-            <Image src="/music/andre-profile-artist.png?v=20" alt="Andre Almeida artist portrait" fill priority className="object-cover" sizes="(max-width:1024px) 100vw, 42vw" />
+            <Image src="/music/andre-profile-artist.png" alt="Andre Almeida artist portrait" fill priority className="object-cover" sizes="(max-width:1024px) 100vw, 42vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
           </div>
           <div>
@@ -44,7 +44,7 @@ export default function MusicPage() {
 
       <section className="px-5 py-20 sm:px-8 md:py-28 lg:px-10">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center">
-          <div className="relative aspect-square overflow-hidden border border-white/10 bg-black"><Image src="/music/deixa-ela-ir.png?v=20" alt="DEIXA ELA IR cover art by Andre Almeida" fill className="object-contain" sizes="(max-width:1024px) 100vw, 40vw" /></div>
+          <div className="relative aspect-square overflow-hidden border border-white/10 bg-black"><Image src="/music/deixa-ela-ir.png" alt="DEIXA ELA IR cover art by Andre Almeida" fill className="object-contain" sizes="(max-width:1024px) 100vw, 40vw" /></div>
           <div><p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#c7b18d]">LATEST RELEASE</p><h2 className="mt-6 font-editorial text-[clamp(3.2rem,6vw,6rem)] leading-[0.9] tracking-[-0.045em]">DEIXA ELA IR</h2><p className="mt-5 text-sm leading-7 text-white/55">Official release by Andre Almeida.</p><a href={soundOnReleaseUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex min-h-12 items-center rounded-full border border-[#c7b18d]/45 px-6 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#c7b18d]">View official release</a><div className="mt-10 border-t border-white/10 pt-8"><p className="mb-5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/35">LISTEN ON WEBSITE</p><MusicPlayer /></div></div>
         </div>
       </section>

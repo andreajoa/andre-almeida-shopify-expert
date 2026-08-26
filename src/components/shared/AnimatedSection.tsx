@@ -30,18 +30,29 @@ export function AnimatedSection({
     const el = ref.current
     if (!el) return
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reducedMotion) {
+    // Project/editorial images should never remain blank while a visitor scrolls quickly.
+    el.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
+      img.loading = "eager"
+      img.decoding = "async"
+    })
+
+    const reveal = () => {
       el.style.opacity = "1"
       el.style.transform = "translate(0,0)"
+    }
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      reveal()
       return
     }
 
+    const fallback = window.setTimeout(reveal, 1400 + delay * 1000)
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.style.opacity = "1"
-          el.style.transform = "translate(0,0)"
+          reveal()
+          window.clearTimeout(fallback)
           observer.unobserve(el)
         }
       },
@@ -49,8 +60,11 @@ export function AnimatedSection({
     )
 
     observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+    return () => {
+      window.clearTimeout(fallback)
+      observer.disconnect()
+    }
+  }, [delay])
 
   return (
     <div
