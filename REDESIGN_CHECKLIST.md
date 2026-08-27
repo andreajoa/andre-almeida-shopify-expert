@@ -2,11 +2,11 @@
 
 ## Status geral
 
-**Progresso detalhado:** 123 de 135 tarefas concluídas (**91%**).
+**Progresso detalhado:** 124 de 135 tarefas concluídas (**92%**).
 
-- Concluídas: **123**
+- Concluídas: **124**
 - Em andamento: **3**
-- Pendentes: **9**
+- Pendentes: **8**
 - Fase atual: validação final de produção
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
@@ -151,9 +151,9 @@
 - [x] Check de qualidade reproduzível adicionado ao GitHub
 - [x] Build/Vercel do primeiro redesign retornou success
 - [x] Main recebeu todo o redesign e páginas reescritas
-- [ ] Rodar/confirmar build e lint após alterações finais
+- [x] Rodar/confirmar build e lint após alterações finais — GitHub Actions Quality Check #206 concluído com sucesso no commit 4546b79 em 27/08/2026
 - [x] Vercel: build-rate-limit liberado; push mais recente voltou a publicar
-- [x] Confirmar status Vercel success do commit final quando o limite liberar — commit 71d293c validado com Vercel success em 27/08/2026
+- [x] Confirmar status Vercel success do commit final quando o limite liberar — commit 4546b79 validado com Vercel success em 27/08/2026
 - [ ] Conferir home em produção com assets finais
 - [ ] Conferir páginas internas em produção
 - [ ] Conferir favicon em produção
