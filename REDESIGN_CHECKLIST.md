@@ -2,12 +2,12 @@
 
 ## Status geral
 
-**Progresso detalhado:** 121 de 135 tarefas concluídas (**90%**).
+**Progresso detalhado:** 123 de 135 tarefas concluídas (**91%**).
 
-- Concluídas: **121**
-- Em andamento: **4**
-- Pendentes: **10**
-- Fase atual: validação final de build/deploy/produção
+- Concluídas: **123**
+- Em andamento: **3**
+- Pendentes: **9**
+- Fase atual: validação final de produção
 
 > Regra para encerrar o projeto: só considerar 100% quando todas as páginas estiverem no mesmo sistema visual da home, as imagens estiverem servindo, PT/EN estiver consistente, formulário/WhatsApp estiverem preservados, SEO/GEO/AEO estiver completo e o commit final estiver pronto para produção.
 
@@ -152,8 +152,8 @@
 - [x] Build/Vercel do primeiro redesign retornou success
 - [x] Main recebeu todo o redesign e páginas reescritas
 - [ ] Rodar/confirmar build e lint após alterações finais
-- [~] Vercel: último push bloqueado por build-rate-limit, não por erro de código
-- [ ] Confirmar status Vercel success do commit final quando o limite liberar
+- [x] Vercel: build-rate-limit liberado; push mais recente voltou a publicar
+- [x] Confirmar status Vercel success do commit final quando o limite liberar — commit 71d293c validado com Vercel success em 27/08/2026
 - [ ] Conferir home em produção com assets finais
 - [ ] Conferir páginas internas em produção
 - [ ] Conferir favicon em produção
