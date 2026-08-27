@@ -151,9 +151,9 @@
 - [x] Check de qualidade reproduzível adicionado ao GitHub
 - [x] Build/Vercel do primeiro redesign retornou success
 - [x] Main recebeu todo o redesign e páginas reescritas
-- [x] Rodar/confirmar build e lint após alterações finais — GitHub Actions Quality Check #206 concluído com sucesso no commit 4546b79 em 27/08/2026
+- [x] Rodar/confirmar build e lint após alterações finais — GitHub Actions Quality Check #207 concluído com sucesso no commit 75b1d29 em 27/08/2026
 - [x] Vercel: build-rate-limit liberado; push mais recente voltou a publicar
-- [x] Confirmar status Vercel success do commit final quando o limite liberar — commit 4546b79 validado com Vercel success em 27/08/2026
+- [x] Confirmar status Vercel success do commit final quando o limite liberar — commit 75b1d29 validado com Vercel success em 27/08/2026
 - [ ] Conferir home em produção com assets finais
 - [ ] Conferir páginas internas em produção
 - [ ] Conferir favicon em produção
