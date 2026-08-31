@@ -146,7 +146,7 @@ export function PremiumHome() {
             </div>
           </div>
           <div className="relative min-h-[68svh] overflow-hidden bg-[#11110f] lg:min-h-[calc(100svh-9rem)]">
-            <Image src="/images/andre3-small.jpg" alt="André Almeida, especialista em websites, e-commerce e automação" fill priority quality={80} className="object-cover object-[center_32%]" sizes="(max-width: 1024px) 100vw, 56vw" />
+            <Image src="/images/andre.png" alt="André Almeida, especialista em websites, e-commerce e automação" fill priority quality={80} className="object-cover object-[center_32%]" sizes="(max-width: 1024px) 100vw, 56vw" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,15,0.02)_0%,rgba(17,17,15,0.08)_55%,rgba(17,17,15,0.82)_100%)]" />
             <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8 lg:p-10"><p className="text-[9px] font-semibold tracking-[0.2em] text-white/55">{c.heroImageLabel}</p><div className="mt-3 border-t border-white/20 pt-5"><h2 className="max-w-lg font-editorial text-3xl leading-none tracking-[-0.03em] sm:text-5xl">{c.heroImageTitle}</h2><p className="mt-3 max-w-md text-sm leading-6 text-white/65">{c.heroImageCopy}</p></div></div>
           </div>
