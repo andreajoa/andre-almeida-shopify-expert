@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   creator: "Andre Almeida",
   publisher: "Andre Almeida",
   alternates: { canonical: "/pt-BR", languages: { "pt-BR": "/pt-BR", en: "/en", "x-default": "/pt-BR" } },
-  openGraph: { title: "André Almeida | Estratégia e Infraestrutura Digital", description: "Websites, e-commerce, automação, dados, CRM e autoridade online para negócios que querem crescer com controle.", type: "website", url: "https://andre-almeida.online/pt-BR", locale: "pt_BR", siteName: "André Almeida — Estratégia Digital", images: [{ url: "/brand/andre-premium.webp", width: 900, height: 1125, alt: "André Almeida" }] },
-  twitter: { card: "summary_large_image", title: "André Almeida | Websites, E-commerce e Automação", description: "Estratégia e infraestrutura digital para empresas, e-commerce, autores e profissionais.", images: ["/brand/andre-premium.webp"] },
+  openGraph: { title: "André Almeida | Estratégia e Infraestrutura Digital", description: "Websites, e-commerce, automação, dados, CRM e autoridade online para negócios que querem crescer com controle.", type: "website", url: "https://andre-almeida.online/pt-BR", locale: "pt_BR", siteName: "André Almeida — Estratégia Digital", images: [{ url: "/images/andre3-small.jpg", width: 900, height: 1200, alt: "André Almeida" }] },
+  twitter: { card: "summary_large_image", title: "André Almeida | Websites, E-commerce e Automação", description: "Estratégia e infraestrutura digital para empresas, e-commerce, autores e profissionais.", images: ["/images/andre3-small.jpg"] },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],
     apple: [{ url: "/apple-icon.png", type: "image/png" }],

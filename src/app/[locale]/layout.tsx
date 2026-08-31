@@ -32,8 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: [...meta.keywords],
     authors: [{ name: "Andre Almeida", url: `https://andre-almeida.online/${lang}/about` }],
     alternates: { canonical: `https://andre-almeida.online/${lang}`, languages: { "x-default": "https://andre-almeida.online/pt-BR", "pt-BR": "https://andre-almeida.online/pt-BR", en: "https://andre-almeida.online/en" } },
-    openGraph: { title: meta.title, description: meta.description, type: "website", locale: meta.ogLocale, url: `https://andre-almeida.online/${lang}`, siteName: "Andre Almeida — Digital Strategy", images: [{ url: "https://andre-almeida.online/brand/andre-premium.webp", width: 900, height: 1125, alt: "Andre Almeida" }] },
-    twitter: { card: "summary_large_image", title: meta.title, description: meta.description, images: ["https://andre-almeida.online/brand/andre-premium.webp"] },
+    openGraph: { title: meta.title, description: meta.description, type: "website", locale: meta.ogLocale, url: `https://andre-almeida.online/${lang}`, siteName: "Andre Almeida — Digital Strategy", images: [{ url: "https://andre-almeida.online/images/andre3-small.jpg", width: 900, height: 1200, alt: "Andre Almeida" }] },
+    twitter: { card: "summary_large_image", title: meta.title, description: meta.description, images: ["https://andre-almeida.online/images/andre3-small.jpg"] },
     robots: { index: true, follow: true },
   }
 }
@@ -46,7 +46,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const entityGraph = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Person", "@id": "https://andre-almeida.online/#andre", name: "Andre Almeida", url: "https://andre-almeida.online", image: "https://andre-almeida.online/brand/andre-premium.webp", jobTitle: lang === "pt-BR" ? "Especialista em Websites, E-commerce e Automação" : "Websites, Ecommerce & Automation Specialist", knowsAbout: ["Website development", "Ecommerce", "Shopify", "CRM", "Email marketing", "Automation", "SEO", "GEO", "Conversion optimization", "Online authority"] },
+      { "@type": "Person", "@id": "https://andre-almeida.online/#andre", name: "Andre Almeida", url: "https://andre-almeida.online", image: "https://andre-almeida.online/images/andre3-small.jpg", jobTitle: lang === "pt-BR" ? "Especialista em Websites, E-commerce e Automação" : "Websites, Ecommerce & Automation Specialist", knowsAbout: ["Website development", "Ecommerce", "Shopify", "CRM", "Email marketing", "Automation", "SEO", "GEO", "Conversion optimization", "Online authority"] },
       { "@type": "ProfessionalService", "@id": "https://andre-almeida.online/#business", name: "Andre Almeida Digital Strategy", url: "https://andre-almeida.online", founder: { "@id": "https://andre-almeida.online/#andre" }, areaServed: [{ "@type": "Country", name: "Brazil" }, { "@type": "AdministrativeArea", name: "Worldwide" }], serviceType: ["Website development", "Ecommerce development", "Shopify", "CRM integration", "Email marketing", "Automation", "SEO and GEO", "Online authority", "Book sales websites"] },
       { "@type": "WebSite", "@id": "https://andre-almeida.online/#website", url: "https://andre-almeida.online", name: "Andre Almeida", inLanguage: ["pt-BR", "en"], publisher: { "@id": "https://andre-almeida.online/#business" } },
       { "@type": "OfferCatalog", "@id": "https://andre-almeida.online/#services", name: lang === "pt-BR" ? "Serviços digitais" : "Digital services", itemListElement: ["Websites para empresas", "E-commerce próprio", "Shopify", "CRM e e-mail marketing", "Automação e IA", "SEO e GEO", "Autoridade online", "Estrutura para vender livros online"].map(name => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })) },

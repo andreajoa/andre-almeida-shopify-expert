@@ -17,6 +17,13 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  redirects: async () => [
+    {
+      source: "/brand/andre-premium.webp",
+      destination: "/images/andre3-small.jpg",
+      permanent: true,
+    },
+  ],
   headers: async () => [
     {
       source: "/(.*)",
