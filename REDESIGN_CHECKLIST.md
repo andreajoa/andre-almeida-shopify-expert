@@ -153,7 +153,7 @@
 - [x] Main recebeu todo o redesign e páginas reescritas
 - [x] Rodar/confirmar build e lint após alterações finais — GitHub Actions Quality Check #207 concluído com sucesso no commit 75b1d29 em 27/08/2026
 - [x] Vercel: build-rate-limit liberado; pushes recentes voltaram a publicar
-- [x] Confirmar status Vercel success do commit mais recente — commit 0127641 validado com Vercel success em 31/08/2026
+- [x] Confirmar status Vercel success do commit mais recente — commit ac3133c validado com Vercel success em 01/09/2026
 - [ ] Conferir home em produção com assets finais
 - [ ] Conferir páginas internas em produção
 - [ ] Conferir favicon em produção
