@@ -47,7 +47,7 @@ function emailHtml(lead: Pick<NurtureLead, "email" | "name" | "locale" | "unsubs
   const isPt = lead.locale === "pt-BR"
   const [hello, preheader, angle, insight, close] = paragraphs
   const bannerNumber = ((entry.index - 1) % EMAIL_BANNER_COUNT) + 1
-  const bannerUrl = `${SITE_CONFIG.url}/api/marketing/banner/${bannerNumber}`
+  const bannerUrl = `${SITE_CONFIG.url}/email/banners/v3/banner-${String(bannerNumber).padStart(2, "0")}.jpg`
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(isPt ? "Olá André, recebi seu e-mail e quero conversar sobre meu negócio." : "Hi Andre, I received your email and want to talk about my business.")}`
   const websiteUrl = SITE_CONFIG.url
   const footerPermission = isPt
