@@ -29,6 +29,13 @@ function escapeHtml(value: string) {
 }
 
 function formatLeadHtml(msg: ContactMessage) {
+  const heading =
+    msg.type === "scheduled-call" ? "Nova call agendada" : "Novo lead pelo site"
+  const receivedAt = new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "long",
+    timeStyle: "short",
+    timeZone: "America/Sao_Paulo",
+  }).format(new Date(msg.createdAt))
   const cleanPhone = msg.phone.replace(/\D/g, "")
   const whatsappReply = cleanPhone
     ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
@@ -47,16 +54,42 @@ function formatLeadHtml(msg: ContactMessage) {
     ["Data da call", msg.date],
     ["Horário da call", msg.time],
     ["Idioma", msg.locale],
-    ["Criado em", msg.createdAt],
+    ["Criado em", receivedAt],
   ]
 
   return `
     <div style="font-family: Arial, sans-serif; background:#f8fafc; padding:24px;">
       <div style="max-width:720px; margin:0 auto; background:white; border-radius:18px; overflow:hidden; border:1px solid #e2e8f0;">
-        <div style="background:#0f172a; color:white; padding:26px;">
-          <h1 style="margin:0; font-size:24px;">Novo lead pelo site</h1>
-          <p style="margin:8px 0 0; color:#cbd5e1;">Andre Almeida Shopify Expert</p>
-        </div>
+        <!--
+          Cabecalho sem imagem de proposito: nenhum asset externo e nenhum
+          data URI. Clientes de email bloqueiam imagem por padrao e descartam
+          data URI, entao o topo e montado so com tabela, cor solida e texto -
+          renderiza igual no Gmail, Outlook e Apple Mail, sem nenhuma requisicao.
+        -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0f172a" style="background-color:#0f172a;">
+          <tr>
+            <td style="padding:30px 26px 26px 26px; font-family:Arial,Helvetica,sans-serif;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="44" height="44" align="center" valign="middle" bgcolor="#4f46e5" style="background-color:#4f46e5; width:44px; height:44px; border-radius:10px; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:17px; font-weight:bold; line-height:44px; letter-spacing:1px;">AA</td>
+                  <td style="padding-left:12px; font-family:Arial,Helvetica,sans-serif;">
+                    <div style="color:#ffffff; font-size:15px; font-weight:bold; letter-spacing:0.3px;">Andre Almeida</div>
+                    <div style="color:#94a3b8; font-size:11px; letter-spacing:1.6px; text-transform:uppercase;">Shopify Expert</div>
+                  </td>
+                </tr>
+              </table>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+                <tr>
+                  <td width="52" height="3" bgcolor="#4f46e5" style="background-color:#4f46e5; width:52px; height:3px; line-height:3px; font-size:0;">&nbsp;</td>
+                </tr>
+              </table>
+
+              <h1 style="margin:14px 0 0; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:24px; line-height:1.25; font-weight:bold;">${escapeHtml(heading)}</h1>
+              <p style="margin:7px 0 0; color:#cbd5e1; font-family:Arial,Helvetica,sans-serif; font-size:13px;">${escapeHtml(receivedAt)}</p>
+            </td>
+          </tr>
+        </table>
 
         <div style="padding:26px;">
           <table style="width:100%; border-collapse:collapse;">
