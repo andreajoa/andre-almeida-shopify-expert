@@ -17,6 +17,9 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  outputFileTracingIncludes: {
+    "/api/marketing/banner/[index]": ["./public/email/banners/v3/*.jpg"],
+  },
   redirects: async () => [
     {
       source: "/brand/andre-premium.webp",

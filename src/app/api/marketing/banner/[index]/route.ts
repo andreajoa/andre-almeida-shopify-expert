@@ -1,3 +1,8 @@
+import { readFile } from "node:fs/promises"
+import path from "node:path"
+
+export const runtime = "nodejs"
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ index: string }> },
@@ -9,8 +14,30 @@ export async function GET(
     return new Response("Not found", { status: 404 })
   }
 
+  // parsed is a validated integer in 1..6, so the path cannot be traversed.
   const filename = `banner-${String(parsed).padStart(2, "0")}.jpg`
-  const target = new URL(`/email/banners/v3/${filename}`, request.url)
+  const filePath = path.join(
+    process.cwd(),
+    "public",
+    "email",
+    "banners",
+    "v3",
+    filename,
+  )
 
-  return Response.redirect(target, 307)
+  try {
+    const file = await readFile(filePath)
+
+    // Mail clients (Gmail image proxy, Outlook) fetch <img> without following
+    // redirects reliably, so the bytes are returned inline instead of a 3xx.
+    return new Response(new Uint8Array(file), {
+      headers: {
+        "Content-Type": "image/jpeg",
+        "Content-Length": String(file.byteLength),
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    })
+  } catch {
+    return new Response("Not found", { status: 404 })
+  }
 }
